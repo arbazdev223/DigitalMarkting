@@ -1,6 +1,12 @@
-
 import { FaCheckCircle } from "react-icons/fa";
-import { images12,features12 } from "../../data";
+import { features12, images12 } from "../../data";
+
+const whyChooseData = {
+  heading: "Why Students Choose",
+  highlight: "DG Royals?",
+  paragraph:
+    "Thousands of students making Right Choice by joining Professional Courses For Highly Rewarding Career",
+};
 
 const WhyChooseUs = () => {
   return (
@@ -8,11 +14,11 @@ const WhyChooseUs = () => {
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
         <div>
           <h2 className="text-3xl md:text-5xl font-bold font-opens text-[#444444] mb-4">
-            Why Students Choose <span className="text-[#0e3477]">DG Royals?</span>
+            {whyChooseData.heading}{" "}
+            <span className="text-[#0e3477]">{whyChooseData.highlight}</span>
           </h2>
           <p className="text-gray-700 mb-6 font-nunito">
-            Thousands of students making Right Choice by joining Professional
-            Courses For Highly Rewarding Career
+            {whyChooseData.paragraph}
           </p>
           <ul className="space-y-3">
             {features12.map((item, index) => (
@@ -37,5 +43,4 @@ const WhyChooseUs = () => {
     </section>
   );
 };
-
 export default WhyChooseUs;

@@ -11,7 +11,7 @@ import CertificatesSection from "../components/CertificatesSection";
 import HeroMain from "../components/HeroMain";
 import TopCompanies from "../components/TopCompanies";
 import FeatureSummary from "../components/FeatureSummary";
-import { blogData } from "../../data";
+import { accordionItems, blogData } from "../../data";
 
 const Home = () => {
   return (
@@ -19,9 +19,9 @@ const Home = () => {
       <HeroMain />
       <FeatureSummary />
       <TopCompanies />
-      <CourseTabs />
+      <CourseTabs to={"/enroll"} label={'Enroll Now'}  />
       <MiniCard />
-      <FAQSection />
+      <FAQSection faqs={accordionItems} />
       <Upskills />
       <TestimonialSlider />
       <CourseRoadmap />

@@ -15,6 +15,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import TopBar from "./components/TopBar";
 import BlogDetails from "./pages/BlogDetails";
 import CourseDetails from "./pages/CourseDetails";
+import ServiceDetailPage from "./pages/ServiceDetailPage";
+import CartPage from "./pages/CartPage";
 
 const App = () => {
   return (
@@ -31,6 +33,8 @@ const App = () => {
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/course/:id" element={<CourseDetails />} />
+        <Route path="/service/:id" element={<ServiceDetailPage />} />
+         <Route path="/cart" element={<CartPage />} />
         <Route path="/auth" element={<AuthTabs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminDashboard />} />

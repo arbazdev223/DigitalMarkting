@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
@@ -6,29 +6,35 @@ import { FaUserCircle } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { MdShoppingCart } from "react-icons/md";
 import { logout } from "../store/authSlice";
+import CartPopup from "../components/CartPopup";
+import { getDataFromLocalStorage } from "../store/cartSlice";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
+  const [cartPopupOpen, setCartPopupOpen] = useState(false);
   const dropdownTimeout = useRef(null);
+  const cartPopupRef = useRef(null);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-const cartItems = useSelector((state) => state.cart?.cart || []);
-const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartCount = useSelector((state) => state.count);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const handleLogout = () => {
-  dispatch(logout());
-  navigate("/");
-};
- 
+    dispatch(logout());
+    navigate("/");
+  };
+
   const handleProfileClick = () => navigate("/profile");
 
   const handleProfileEnter = () => {
     clearTimeout(dropdownTimeout.current);
     setProfileDropdown(true);
   };
+useEffect(() => {
+  dispatch(getDataFromLocalStorage());
+}, [dispatch]);
 
   const handleProfileLeave = () => {
     dropdownTimeout.current = setTimeout(() => {
@@ -37,7 +43,11 @@ const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   };
 
   const toggleDropdownClick = () => {
-    setProfileDropdown(prev => !prev);
+    setProfileDropdown((prev) => !prev);
+  };
+
+  const toggleCartPopup = () => {
+    setCartPopupOpen((prev) => !prev);
   };
 
   return (
@@ -48,28 +58,70 @@ const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
             <img src={Logo} alt="Logo" className="h-12 w-auto" />
           </Link>
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="hover:text-gray-600 font-semibold text-[#0e3477]">Home</Link>
-            <Link to="/services" className="hover:text-gray-600 font-semibold text-[#0e3477]">Services</Link>
-            <Link to="/about" className="hover:text-gray-600 font-semibold text-[#0e3477]">About</Link>
-            <Link to="/contact" className="hover:text-gray-600 font-semibold text-[#0e3477]">Contact</Link>
-            <Link to="/blog" className="hover:text-gray-600 font-semibold text-[#0e3477]">Blog</Link>
+            <Link
+              to="/"
+              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+            >
+              Home
+            </Link>
+            <Link
+              to="/services"
+              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+            >
+              Services
+            </Link>
+            <Link
+              to="/about"
+              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+            >
+              Contact
+            </Link>
+            <Link
+              to="/blog"
+              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+            >
+              Blog
+            </Link>
           </nav>
           <div className="hidden md:flex items-center space-x-4">
-     <Link to="/cart" className="relative flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]">
-  <MdShoppingCart className="text-2xl" />
-  {cartCount > 0 && (
-    <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] px-1.5 py-[1px] rounded-full">
-      {cartCount}
-    </span>
-  )}
-</Link>
-
+            <div className="relative" ref={cartPopupRef}>
+              <button
+                type="button"
+                className="relative flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
+                onClick={toggleCartPopup}
+              >
+                <MdShoppingCart className="text-2xl" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] px-1.5 py-[1px] rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+              <CartPopup
+                isOpen={cartPopupOpen}
+                onClose={() => setCartPopupOpen(false)}
+              />
+            </div>
             {!isLoggedIn ? (
-              <Link to="/auth" className="text-gray-600 font-semibold hover:text-[#0e3477]">Login/Signup</Link>
+              <Link
+                to="/auth"
+                className="text-gray-600 font-semibold hover:text-[#0e3477]"
+              >
+                Login/Signup
+              </Link>
             ) : (
               <>
                 {user?.role === "admin" ? (
-                  <Link to="/admin" className="text-gray-600 font-semibold hover:text-[#0e3477]">
+                  <Link
+                    to="/admin"
+                    className="text-gray-600 font-semibold hover:text-[#0e3477]"
+                  >
                     Admin Dashboard
                   </Link>
                 ) : (
@@ -105,41 +157,79 @@ const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
               onClick={toggleMenu}
               className="text-gray-600 hover:text-[#0e3477] focus:outline-none"
             >
-              {isOpen ? <HiX className="w-6 h-6" /> : <HiOutlineMenu className="w-6 h-6" />}
+              {isOpen ? (
+                <HiX className="w-6 h-6" />
+              ) : (
+                <HiOutlineMenu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
         {isOpen && (
-          <div className="md:hidden mt-2 space-y-2 pb-4 border-t pt-4  ">
-            <Link to="/" className="block text-gray-600 font-semibold hover:text-[#0e3477]">Home</Link>
-            <Link to="/services" className="block text-gray-600 font-semibold hover:text-[#0e3477]">Services</Link>
-            <Link to="/about" className="block text-gray-600 font-semibold hover:text-[#0e3477]">About</Link>
-            <Link to="/contact" className="block text-gray-600 font-semibold hover:text-[#0e3477]">Contact</Link>
-            <Link to="/blog" className="block text-gray-600 font-semibold hover:text-[#0e3477]">Blog</Link>
+          <div className="md:hidden mt-2 space-y-2 pb-4 border-t pt-4">
+            <Link
+              to="/"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+            >
+              Home
+            </Link>
+            <Link
+              to="/services"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+            >
+              Services
+            </Link>
+            <Link
+              to="/about"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+            >
+              Contact
+            </Link>
+            <Link
+              to="/blog"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+            >
+              Blog
+            </Link>
             <div className="pt-2 space-y-1">
-              <Link
-  to="/cart"
-  className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]"
->
- <Link to="/cart" className="relative flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]">
-  <MdShoppingCart className="text-2xl" />
-  {cartCount > 0 && (
-    <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] px-1.5 py-[1px] rounded-full">
-      {cartCount}
-    </span>
-  )}
-</Link>
-
-
-</Link>
+              <div className="relative" ref={cartPopupRef}>
+                <button
+                  type="button"
+                  className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
+                  onClick={toggleCartPopup}
+                >
+                  <MdShoppingCart className="text-2xl" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] px-1.5 py-[1px] rounded-full">
+                      {cartCount}
+                    </span>
+                  )}
+                </button>
+                <CartPopup
+                  isOpen={cartPopupOpen}
+                  onClose={() => setCartPopupOpen(false)}
+                />
+              </div>
               {!isLoggedIn ? (
-                <Link to="/auth" className="block text-gray-600 font-semibold hover:text-[#0e3477]">
+                <Link
+                  to="/auth"
+                  className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+                >
                   Login/Signup
                 </Link>
               ) : (
                 <>
                   {user?.role === "admin" ? (
-                    <Link to="/admin" className="block text-gray-600 font-semibold hover:text-[#0e3477]">
+                    <Link
+                      to="/admin"
+                      className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+                    >
                       Admin Dashboard
                     </Link>
                   ) : (

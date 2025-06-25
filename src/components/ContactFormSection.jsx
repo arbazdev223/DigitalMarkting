@@ -1,6 +1,7 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
 import Logo from "../assets/logo.png"
+import FormControl from "./FormControl";
 const contactPoints = [
   {
     text: `Enroll in our <span class='text-[#0e3477] hover:text-[#0e3477]/60 transition'>digital marketing course curriculum</span> and learn through our LMS with dedicated mentorship and expert career guidance.`,
@@ -63,57 +64,14 @@ const ContactFormSection = () => {
               <img
                 src={Logo}
                 alt="Logo"
-                className="mx-auto mb-3"
+                className="mx-auto h-10 mb-3"
               />
               <h4 className="text-xl sm:text-2xl font-bold">Take a free session today!!</h4>
               <p className="text-sm text-red-100">
                 Go Digital | Go Global<br/>Speak To Our Specialist - +91 - 8800505151
               </p>
             </div>
-        <form className="space-y-3">
-  <input
-    type="text"
-    placeholder="Full Name"
-    className="w-full px-3 py-1.5 rounded text-black text-sm focus:outline-none"
-    required
-  />
-  <input
-    type="email"
-    placeholder="Email"
-    className="w-full px-3 py-1.5 rounded text-black text-sm focus:outline-none"
-    required
-  />
-  <input
-    type="tel"
-    placeholder="Phone"
-    className="w-full px-3 py-1.5 rounded text-black text-sm focus:outline-none"
-  />
-  <input
-    type="text"
-    placeholder="Subject"
-    className="w-full px-3 py-1.5 rounded text-black text-sm focus:outline-none"
-  />
-  <textarea
-    placeholder="Message"
-    rows={4}
-    className="w-full px-3 py-1.5 rounded text-black text-sm focus:outline-none"
-    required
-  ></textarea>
-
-  <div className="flex items-start gap-2">
-    <input type="checkbox" id="policy" className="accent-white mt-1" required />
-    <label htmlFor="policy" className="text-sm">
-       I agree to the <a href="#" className="underline">DIDM Terms of Use</a> and <a href="#" className="underline">privacy policy</a>.
-    </label>
-  </div>
-
-  <button
-    type="submit"
-    className="w-full bg-white text-[#0e3477] font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
-  >
-    Submit
-  </button>
-</form>
+<FormControl />
 
           </div>
         </div>

@@ -1030,45 +1030,425 @@ export const almunies = [
 ];
 export const services = [
   {
+    id: 1,
     title: "Search Engine Optimization",
     description:
       "50,000+ websites ranked on top of search results across multiple countries",
     icon: "https://cdn-icons-png.flaticon.com/512/979/979585.png",
   },
   {
+    id: 2,
     title: "Blogging",
     description:
       "5,000+ blogs published across various platforms and websites",
     icon: "https://cdn-icons-png.flaticon.com/512/3524/3524388.png",
   },
   {
+    id: 3,
     title: "Paid Advertising",
     description:
       "400% average ROI for 4,000+ successful campaigns",
     icon: "https://cdn-icons-png.flaticon.com/512/5968/5968527.png",
   },
   {
+    id: 4,
     title: "Email Marketing",
     description:
       "15% email open rate & high CTR for 10,000+ successful campaigns",
     icon: "https://cdn-icons-png.flaticon.com/512/5611/5611180.png",
   },
   {
+    id: 5,
     title: "Social Media Marketing",
     description:
       "Complete social media management across all major platforms",
     icon: "https://cdn-icons-png.flaticon.com/512/145/145802.png",
   },
   {
+    id: 6,
     title: "Website Development",
     description:
       "200+ websites developed with modern technologies and responsive design",
     icon: "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
   },
   {
+    id: 7,
     title: "Content Marketing",
     description:
       "High-quality content creation for websites, blogs, and social media",
     icon: "https://cdn-icons-png.flaticon.com/512/942/942748.png",
   },
 ];
+
+export const digitalMarketingPoints = [
+  {
+    type: "benefit",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Reach the Right Audience",
+    para: "Target users who are most likely to convert.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "It reduces ad spend waste by eliminating unqualified impressions.",
+    content3: "Targeted campaigns improve click-through and conversion rates significantly.",
+  },
+  {
+    type: "benefit",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Improve Brand Awareness",
+    para: "Make your brand more visible and memorable.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "Strategic messaging increases familiarity and trust among audiences.",
+    content3: "More visibility leads to higher recall and brand preference."
+  },
+  {
+    type: "benefit",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Optimize Marketing Budget",
+    para: "Get more results with less spend.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "Analytics tools help eliminate underperforming spend areas.",
+    content3: "Optimization enables higher ROI from each marketing dollar."
+  },
+  {
+    type: "consequence",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Reach Your Target Audience",
+    para: "Marketing efforts become too generic.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "Resources are wasted on users with no purchase intent.",
+    content3: "Unfocused messaging fails to connect with key segments."
+  },
+  {
+    type: "consequence",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Stand Out From Competitors",
+    para: "Your brand gets lost in the crowd.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "Poor differentiation weakens your competitive edge.",
+    content3: "Without strategic positioning, your brand is forgettable."
+  },
+  {
+    type: "consequence",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Stand Out From Competitors",
+    para: "Your brand gets lost in the crowd.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "Poor differentiation weakens your competitive edge.",
+    content3: "Without strategic positioning, your brand is forgettable."
+  },
+  {
+    type: "consequence",
+    image: BannerC1,
+    feature: blog3,
+    heading: "Stand Out From Competitors",
+    para: "Your brand gets lost in the crowd.Your brand gets lost in the crowd.",
+    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2: "Poor differentiation weakens your competitive edge.",
+    content3: "Without strategic positioning, your brand is forgettable."
+  }
+
+];
+
+export const strategyData = {
+  withStrategy: {
+    title: "A Concrete Digital Marketing Strategy Allows You To:",
+    points: [
+      "Discover new opportunities",
+      "Expand your market reach",
+      "Improve audience targeting",
+      "Align content with audience needs",
+      "Generate leads, traffic, and conversions",
+      "Gain visibility on search engines & social media",
+      "Make data-backed decisions",
+      "Track performance in real-time",
+      "Build brand recognition",
+      "Increase customer loyalty",
+      "Achieve measurable goals",
+      "Accomplish financial goals",
+    ],
+  },
+  withoutStrategy: {
+    title: "Without a Well-Defined Online Marketing Strategy, You Fail To:",
+    points: [
+      "Define clear goals",
+      "Select the right marketing channels",
+      "Keep your website optimized",
+      "Deliver consistent messaging",
+      "Manage resources and advertising budget wisely",
+      "Collaborate effectively",
+      "Evaluate campaign performance",
+      "Measure cost and conversions",
+      "Know your real audience",
+      "Track and analyze results",
+      "Adapt with market shifts and audience preferences",
+      "Shape your competitive advantage",
+    ],
+  },
+};
+export const allFaqs = {
+  "DIGITAL MARKETING": [
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+    {
+      title: "What is digital marketing?",
+      content:
+        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+    },
+  ],
+  DEVELOPMENT: [
+    {
+      title: "What is web development?",
+      content:
+        "Web development involves building and maintaining websites and web applications using technologies like HTML, CSS, JavaScript, and backend frameworks.",
+    },
+  ],
+  DESIGN: [
+    {
+      title: "What is UI/UX design?",
+      content:
+        "UI stands for User Interface, and UX stands for User Experience. It focuses on the look, feel, and usability of digital products.",
+    },
+  ],
+  BRANDING: [
+    {
+      title: "Why is branding important for a business?",
+      content:
+        "Branding helps create a unique identity and builds trust with customers, making your business more memorable and recognizable.",
+    },
+  ],
+};
+
+export const seoPlans = [
+  {
+    name: "Silver",
+    features: [
+      "Business Analysis",
+      "Keyword Research",
+      "Targeted Keywords - Up to 40 keywords (Home + Blog)",
+      "Content Creation",
+      "Content Optimization",
+      "Website Presence Structurization",
+      "Blogs - 10–15 / Month",
+      "PPT/PDFs - 1–8 / Month",
+      "Image Submission",
+      "For Videos - Contact us",
+      "Monthly Reports",
+    ],
+  },
+  {
+    name: "Gold",
+    features: [
+      "Business Analysis",
+      "Keyword Research",
+      "Targeted Keywords - Up to 100 keywords (Home + Blog)",
+      "Content Creation",
+      "Content Optimization",
+      "Website Presence Structurization",
+      "Blogs - 16–25 / Month",
+      "PPT/PDFs - 7–11 / Month",
+      "Image Submission",
+      "For Videos - Contact us",
+      "Monthly Reports",
+    ],
+  },
+  {
+    name: "Diamond",
+    features: [
+      "Business Analysis",
+      "Keyword Research",
+      "Targeted Keywords - Up to 200 keywords (Home + Blog)",
+      "Content Creation",
+      "Content Optimization",
+      "Website Presence Structurization",
+      "Blogs - 26–40 / Month",
+      "PPT/PDFs - 12–20 / Month",
+      "Image Submission",
+      "For Videos - Contact us",
+      "Monthly Reports",
+    ],
+  },
+];
+

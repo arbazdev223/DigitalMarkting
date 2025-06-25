@@ -1,23 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+
+const saveCartToStorage = (course) => {
+  try {
+    localStorage.setItem("course", JSON.stringify(course));
+  } catch (error) {
+    console.error("Error saving cart to localStorage:", error);
+  }
+};
 const loadCartFromStorage = () => {
   try {
-    const cartData = localStorage.getItem("cart");
-    return cartData ? JSON.parse(cartData) : [];
+    const cart = localStorage.getItem("course");
+    return cart ? JSON.parse(cart) : [];
   } catch (error) {
     console.error("Error loading cart from localStorage:", error);
     return [];
   }
 };
-const saveCartToStorage = (cart) => {
-  try {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  } catch (error) {
-    console.error("Error saving cart to localStorage:", error);
-  }
-};
-
 const initialState = {
-  cart: loadCartFromStorage(), 
+  cart: [], 
+  totalQuantity: 0,
 };
 
 const cartSlice = createSlice({
@@ -44,6 +46,17 @@ const cartSlice = createSlice({
 
       saveCartToStorage(state.cart);
     },
+
+    getDataFromLocalStorage(state) {
+      const storedCart = loadCartFromStorage();
+      if (Array.isArray(storedCart)) {
+        state.cart = storedCart;
+      } else {
+        console.warn("Cart in localStorage is not an array");
+        state.cart = [];
+      }
+    },
+
     incrementQuantity(state, action) {
       const item = state.cart.find((i) => i.id === action.payload);
       if (item) {
@@ -51,6 +64,7 @@ const cartSlice = createSlice({
         saveCartToStorage(state.cart);
       }
     },
+
     decrementQuantity(state, action) {
       const item = state.cart.find((i) => i.id === action.payload);
       if (item) {
@@ -62,6 +76,7 @@ const cartSlice = createSlice({
         saveCartToStorage(state.cart);
       }
     },
+
     removeFromCart(state, action) {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
       saveCartToStorage(state.cart);
@@ -80,6 +95,7 @@ export const {
   decrementQuantity,
   removeFromCart,
   clearCart,
+  getDataFromLocalStorage,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

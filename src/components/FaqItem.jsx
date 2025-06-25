@@ -11,9 +11,7 @@ const InnerFaqItem = ({ question, answer }) => {
       >
         <span>{question}</span>
         <FaChevronRight
-          className={`transition-transform duration-300 ${
-            open ? "rotate-90" : ""
-          }`}
+          className={`transition-transform duration-300 ${open ? "rotate-90" : ""}`}
         />
       </button>
       {open && (
@@ -24,9 +22,10 @@ const InnerFaqItem = ({ question, answer }) => {
     </div>
   );
 };
-const FaqItem = ({ title, faqs = [], content = [] }) => {
+const FaqItem = ({ title, faqs = [], content = [], question, answer }) => {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen(!open);
+  const isFlatItem = question && answer && faqs.length === 0;
 
   return (
     <div className="border-b border-gray-300">
@@ -34,32 +33,33 @@ const FaqItem = ({ title, faqs = [], content = [] }) => {
         onClick={toggle}
         className="flex justify-between items-center w-full py-3 text-left text-[#0e3477] font-semibold"
       >
-        <span>{title}</span>
+        <span>{title || question}</span>
         <FaChevronRight
-          className={`transition-transform duration-300 ${
-            open ? "rotate-90" : ""
-          }`}
+          className={`transition-transform duration-300 ${open ? "rotate-90" : ""}`}
         />
       </button>
 
       {open && (
         <div className="pl-4 pb-4 space-y-2">
-          {faqs.length > 0
-            ? faqs.map((faq, i) => (
-                <InnerFaqItem
-                  key={i}
-                  question={faq.question}
-                  answer={faq.answer}
-                />
-              ))
-            : content.map((item, i) => (
-                <div
-                  key={i}
-                  className="text-sm text-gray-700 font-nunito border-b pb-2"
-                >
-                  {item}
-                </div>
-              ))}
+          {faqs.length > 0 &&
+            faqs.map((faq, i) => (
+              <InnerFaqItem key={i} question={faq.question} answer={faq.answer} />
+            ))}
+
+          {isFlatItem && (
+            <p className="text-sm text-gray-600 mt-2 pl-2">{answer}</p>
+          )}
+
+          {!faqs.length &&
+            !isFlatItem &&
+            content.map((item, i) => (
+              <div
+                key={i}
+                className="text-sm text-gray-700 font-nunito border-b pb-2"
+              >
+                {item}
+              </div>
+            ))}
         </div>
       )}
     </div>

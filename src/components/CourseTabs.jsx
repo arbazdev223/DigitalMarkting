@@ -11,8 +11,8 @@ const CourseTabs = ({
   ),
   paragraph = `Choose the right path tailored to your learning journey or team needs. Whether you're a student or a business, our programs are crafted to boost your growth with practical skills.`,
   maxCount = 3,
-  to = "/enroll",
-  label = "Enroll Now", 
+  label = "",
+  to = "",  
 }) => {
   const [userType, setUserType] = useState("Student");
 
@@ -20,7 +20,9 @@ const CourseTabs = ({
     .filter((course) => course.type === userType)
     .sort((a, b) => b.index - a.index)
     .slice(0, maxCount);
+const loadMore = () => {
 
+}
   return (
     <div className="py-10 px-4">
       <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,6 +129,7 @@ const CourseTabs = ({
       </Link>
     ) : (
       <button
+      onClick={loadMore}
         type="button"
         className="inline-block bg-[#0e3477] text-white text-sm font-semibold px-6 py-3 rounded opacity-70 cursor-not-allowed"
         disabled

@@ -17,6 +17,7 @@ import BlogDetails from "./pages/BlogDetails";
 import CourseDetails from "./pages/CourseDetails";
 import ServiceDetailPage from "./pages/ServiceDetailPage";
 import CartPage from "./pages/CartPage";
+import CourseResumePage from "./pages/CourseResumePage";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/service/:id" element={<ServiceDetailPage />} />
+        <Route path="/courseStudent/:id" element={<CourseResumePage />} />
          <Route path="/cart" element={<CartPage />} />
         <Route path="/auth" element={<AuthTabs />} />
         <Route path="/profile" element={<Profile />} />

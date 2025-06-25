@@ -1,5 +1,10 @@
 // All imported Icons
-import { FaLightbulb, FaPenNib, FaQuestionCircle, FaFlag } from "react-icons/fa";
+import {
+  FaLightbulb,
+  FaPenNib,
+  FaQuestionCircle,
+  FaFlag,
+} from "react-icons/fa";
 import { MdOutlineLightbulb } from "react-icons/md";
 import { PiCertificateBold } from "react-icons/pi";
 import {
@@ -11,7 +16,8 @@ import {
   FaCertificate,
   FaHandsHelping,
   FaUserTie,
-  FaSearch, FaHandHoldingUsd,
+  FaSearch,
+  FaHandHoldingUsd,
 } from "react-icons/fa";
 //WhyChooseUs section images
 import { FaCheckCircle } from "react-icons/fa";
@@ -21,7 +27,7 @@ import img3 from "./src/assets/web.jpg";
 import img4 from "./src/assets/web.jpg";
 
 // Award images About us section
-import award1 from "./src/assets/award1.webp"; 
+import award1 from "./src/assets/award1.webp";
 import award2 from "./src/assets/award2.webp";
 import award3 from "./src/assets/award3.webp";
 import award4 from "./src/assets/award4.webp";
@@ -31,11 +37,11 @@ import Cert2 from "./src/assets/certificate2.jpg";
 import Cert3 from "./src/assets/certificate3.jpg";
 import Cert4 from "./src/assets/certificate3.jpg";
 import Cert5 from "./src/assets/certificate3.jpg";
-//company logo 
+//company logo
 import Google from "./src/assets/google.jpg";
 import Walmart from "./src/assets/walmart.jpg";
 import AirBnb from "./src/assets/airbnb.png";
-import MamaEarth from "./src/assets/mamaearth.png"; 
+import MamaEarth from "./src/assets/mamaearth.png";
 import Accenture from "./src/assets/accenture.jpg";
 
 // TestimonialSlider data
@@ -62,7 +68,7 @@ import Logo from "./src/assets/logo.png";
 // HeroSection data
 import BannerHS from "./src/assets/Aboutbgacc.webp";
 //AboutBanner image
-import AboutBanner from "./src/assets/Digital5.jpeg"
+import AboutBanner from "./src/assets/Digital5.jpeg";
 // AboutHeroSection data
 import sampleImage from "./src/assets/Aboutbgacc.webp";
 
@@ -226,89 +232,89 @@ export const courseDetailsList = [
       "Use MongoDB for database operations",
       "Deploy applications on cloud platforms",
       "Understand Git & GitHub for version control",
-      "Create full-stack applications from scratch"
+      "Create full-stack applications from scratch",
     ],
     topics: ["HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB"],
     includes: [
       "60 hours on-demand video",
       "20 downloadable resources",
       "Certificate of completion",
-      "Mobile and desktop access"
+      "Mobile and desktop access",
     ],
     curriculum: [
       {
         section: "Frontend Foundations",
         lectures: [
           { title: "HTML/CSS Basics", duration: "1h 20m" },
-          { title: "JavaScript Essentials", duration: "1h 45m" }
-        ]
+          { title: "JavaScript Essentials", duration: "1h 45m" },
+        ],
       },
       {
         section: "React Development",
         lectures: [
           { title: "JSX and Components", duration: "55 min" },
-          { title: "State and Props", duration: "1h 10m" }
-        ]
-      }
+          { title: "State and Props", duration: "1h 10m" },
+        ],
+      },
     ],
-  downloadBrochure: "/data/cybersecurity-brochure.pdf",
+    downloadBrochure: "/data/cybersecurity-brochure.pdf",
     requirements: [
       "Basic computer knowledge",
-      "Willingness to learn programming"
+      "Willingness to learn programming",
     ],
-    description: `This comprehensive bootcamp teaches you how to build modern web apps using the MERN stack. From HTML to deployment, this course is your gateway to a developer career.`
+    description: `This comprehensive bootcamp teaches you how to build modern web apps using the MERN stack. From HTML to deployment, this course is your gateway to a developer career.`,
   },
   {
-  id: "cybersecurity-beginners",
-  title: "Cybersecurity for Beginners",
-  subtitle: "Learn the fundamentals of cyber threats, hacking, and online safety",
-  rating: 4.8,
-  image: BannerC2,
-  reviewsCount: 220,
-  studentsEnrolled: 980,
-  lastUpdated: "April 2025",
-  category: "Cybersecurity",
-  type: "Student",
+    id: "cybersecurity-beginners",
+    title: "Cybersecurity for Beginners",
+    subtitle:
+      "Learn the fundamentals of cyber threats, hacking, and online safety",
+    rating: 4.8,
+    image: BannerC2,
+    reviewsCount: 220,
+    studentsEnrolled: 980,
+    lastUpdated: "April 2025",
+    category: "Cybersecurity",
+    type: "Student",
     price: 2999,
-  salePrice: 1499,
-  previewVideo: "https://example.com/cybersecurity-intro.mp4",
-  whatYouWillLearn: [
-    "Understand cyber attacks and prevention techniques",
-    "Use tools like Wireshark & Kali Linux",
-    "Identify phishing, malware, and data leaks",
-    "Practice safe browsing and password strategies",
-    "Intro to ethical hacking and cybersecurity careers"
-  ],
-  topics: ["Cybersecurity", "Ethical Hacking", "Network Security"],
-  includes: [
-    "18 hours video",
-    "10 practical labs",
-    "Certificate included",
-    "Runs on all devices"
-  ],
-  curriculum: [
-    {
-      section: "Threat Basics",
-      lectures: [
-        { title: "What is Cybersecurity?", duration: "30 min" },
-        { title: "Types of Attacks", duration: "40 min" }
-      ]
-    },
-    {
-      section: "Tools & Defense",
-      lectures: [
-        { title: "Wireshark and Packet Analysis", duration: "55 min" },
-        { title: "Safe Browsing Habits", duration: "35 min" }
-      ]
-    }
-  ],
-  requirements: [
-    "Interest in IT or security",
-    "No technical background needed"
-  ],
-  description: `Kickstart your cybersecurity journey with this beginner-friendly course. Great for students exploring security and ethical hacking careers.`
-}
-,
+    salePrice: 1499,
+    previewVideo: "https://example.com/cybersecurity-intro.mp4",
+    whatYouWillLearn: [
+      "Understand cyber attacks and prevention techniques",
+      "Use tools like Wireshark & Kali Linux",
+      "Identify phishing, malware, and data leaks",
+      "Practice safe browsing and password strategies",
+      "Intro to ethical hacking and cybersecurity careers",
+    ],
+    topics: ["Cybersecurity", "Ethical Hacking", "Network Security"],
+    includes: [
+      "18 hours video",
+      "10 practical labs",
+      "Certificate included",
+      "Runs on all devices",
+    ],
+    curriculum: [
+      {
+        section: "Threat Basics",
+        lectures: [
+          { title: "What is Cybersecurity?", duration: "30 min" },
+          { title: "Types of Attacks", duration: "40 min" },
+        ],
+      },
+      {
+        section: "Tools & Defense",
+        lectures: [
+          { title: "Wireshark and Packet Analysis", duration: "55 min" },
+          { title: "Safe Browsing Habits", duration: "35 min" },
+        ],
+      },
+    ],
+    requirements: [
+      "Interest in IT or security",
+      "No technical background needed",
+    ],
+    description: `Kickstart your cybersecurity journey with this beginner-friendly course. Great for students exploring security and ethical hacking careers.`,
+  },
   {
     id: "graphic-design-pro",
     title: "Graphic Design Masterclass",
@@ -326,37 +332,37 @@ export const courseDetailsList = [
       "Create logos and branding",
       "Understand typography & color theory",
       "Design posters, brochures, and ads",
-      "Work with Illustrator shapes and paths"
+      "Work with Illustrator shapes and paths",
     ],
     topics: ["Photoshop", "Illustrator", "Typography", "Branding"],
     includes: [
       "30 hours on-demand video",
       "12 downloadable files",
-      "Certificate of completion"
+      "Certificate of completion",
     ],
     curriculum: [
       {
         section: "Design Basics",
         lectures: [
           { title: "Color Theory", duration: "30 min" },
-          { title: "Typography Essentials", duration: "45 min" }
-        ]
+          { title: "Typography Essentials", duration: "45 min" },
+        ],
       },
       {
         section: "Tool Mastery",
         lectures: [
           { title: "Photoshop Interface", duration: "35 min" },
-          { title: "Logo Design in Illustrator", duration: "1h 5m" }
-        ]
-      }
+          { title: "Logo Design in Illustrator", duration: "1h 5m" },
+        ],
+      },
     ],
-      price: 2999,
-  salePrice: 1499,
+    price: 2999,
+    salePrice: 1499,
     requirements: [
       "No prior design knowledge required",
-      "Access to Adobe software preferred"
+      "Access to Adobe software preferred",
     ],
-    description: `Learn graphic design tools and principles to become a creative professional. Whether you're designing for print or web, this course gets you job-ready.`
+    description: `Learn graphic design tools and principles to become a creative professional. Whether you're designing for print or web, this course gets you job-ready.`,
   },
   {
     id: "data-analytics-excel",
@@ -366,8 +372,8 @@ export const courseDetailsList = [
     image: BannerC3,
     reviewsCount: 100,
     studentsEnrolled: 700,
-      price: 2999,
-  salePrice: 1499,
+    price: 2999,
+    salePrice: 1499,
     lastUpdated: "March 2025",
     category: "Data Analysis",
     type: "Student",
@@ -377,35 +383,35 @@ export const courseDetailsList = [
       "Clean and prepare data",
       "Perform statistical analysis",
       "Automate tasks with formulas",
-      "Create interactive dashboards"
+      "Create interactive dashboards",
     ],
     topics: ["Excel", "Data Cleaning", "Dashboards", "Formulas"],
     includes: [
       "20 hours on-demand video",
       "Excel datasets included",
-      "Certificate of completion"
+      "Certificate of completion",
     ],
     curriculum: [
       {
         section: "Data Basics",
         lectures: [
           { title: "Working with Tables", duration: "25 min" },
-          { title: "Functions & Logic", duration: "40 min" }
-        ]
+          { title: "Functions & Logic", duration: "40 min" },
+        ],
       },
       {
         section: "Visualization",
         lectures: [
           { title: "Pivot Tables", duration: "35 min" },
-          { title: "Dashboards", duration: "45 min" }
-        ]
-      }
+          { title: "Dashboards", duration: "45 min" },
+        ],
+      },
     ],
     requirements: [
       "Basic Excel familiarity",
-      "Access to Microsoft Excel (2016+)"
+      "Access to Microsoft Excel (2016+)",
     ],
-    description: `Master Excel for data analysis. Learn how to manipulate, analyze, and visualize real business data with powerful spreadsheet techniques.`
+    description: `Master Excel for data analysis. Learn how to manipulate, analyze, and visualize real business data with powerful spreadsheet techniques.`,
   },
   {
     id: "team-ai-automation",
@@ -423,33 +429,33 @@ export const courseDetailsList = [
       "Identify automation opportunities in teams",
       "Use ChatGPT for document creation",
       "Create SOPs and scripts using AI",
-      "Train non-tech teams to use no-code tools"
+      "Train non-tech teams to use no-code tools",
     ],
     topics: ["AI", "Productivity", "Automation", "Teamwork"],
     includes: [
       "10 hours video training",
       "Templates for SOPs and flows",
-      "Access for 1 year"
+      "Access for 1 year",
     ],
-  downloadBrochure: "/data/cybersecurity-brochure.pdf",
+    downloadBrochure: "/data/cybersecurity-brochure.pdf",
     curriculum: [
       {
         section: "Getting Started",
         lectures: [
           { title: "What is AI Automation?", duration: "20 min" },
-          { title: "Choosing No-Code Tools", duration: "30 min" }
-        ]
+          { title: "Choosing No-Code Tools", duration: "30 min" },
+        ],
       },
       {
         section: "Use Cases",
         lectures: [
           { title: "HR Automation", duration: "25 min" },
-          { title: "Marketing Content Generation", duration: "35 min" }
-        ]
-      }
+          { title: "Marketing Content Generation", duration: "35 min" },
+        ],
+      },
     ],
     requirements: ["Team management access", "Willingness to change workflows"],
-    description: `This course enables managers and leads to introduce AI-based automation to their teams using ChatGPT and simple tools — no coding required.`
+    description: `This course enables managers and leads to introduce AI-based automation to their teams using ChatGPT and simple tools — no coding required.`,
   },
   {
     id: "leadership-communication",
@@ -458,8 +464,8 @@ export const courseDetailsList = [
     rating: 4.7,
     image: BannerC2,
     reviewsCount: 55,
-     price: 2999,
-  salePrice: 1499,
+    price: 2999,
+    salePrice: 1499,
     studentsEnrolled: 180,
     lastUpdated: "Feb 2025",
     category: "Leadership",
@@ -469,136 +475,138 @@ export const courseDetailsList = [
       "Build trust through clear messaging",
       "Handle conflicts and feedback effectively",
       "Present confidently in meetings",
-      "Improve email and verbal communication"
+      "Improve email and verbal communication",
     ],
     topics: ["Leadership", "Communication", "Soft Skills"],
     includes: [
       "6 hours training",
       "Printable resources",
-      "Trainer support access"
+      "Trainer support access",
     ],
     curriculum: [
       {
         section: "Foundations",
         lectures: [
           { title: "What Makes a Good Leader?", duration: "15 min" },
-          { title: "Building Empathy in Teams", duration: "30 min" }
-        ]
+          { title: "Building Empathy in Teams", duration: "30 min" },
+        ],
       },
       {
         section: "Practical Exercises",
         lectures: [
           { title: "Active Listening", duration: "20 min" },
-          { title: "Handling Difficult Conversations", duration: "40 min" }
-        ]
-      }
+          { title: "Handling Difficult Conversations", duration: "40 min" },
+        ],
+      },
     ],
     requirements: [
       "Mid or senior level managers preferred",
-      "Team of 3+ people to apply lessons"
+      "Team of 3+ people to apply lessons",
     ],
-    description: `This course trains business leaders in mastering the art of communication, motivating teams, and solving workplace conflict with confidence.`
-  },{
-  id: "digital-team-upskilling",
-  title: "Digital Team Upskilling Program",
-  subtitle: "Empower your marketing and sales teams with practical AI and digital tools",
-  rating: 4.6,
-  image: BannerC3,
-  downloadBrochure: "/data/cybersecurity-brochure.pdf",
-  reviewsCount: 110,
-  studentsEnrolled: 950,
-  lastUpdated: "May 2025",
-  category: "Corporate Training",
-  type: "Business",
-  previewVideo: "https://example.com/digital-teams.mp4",
-  whatYouWillLearn: [
-    "Boost productivity using ChatGPT and AI tools",
-    "Automate repetitive tasks and content writing",
-    "Collaborate efficiently using digital project tools",
-    "Improve email and ad copy with AI support",
-    "Upskill sales & marketing team with trending tools"
-  ],
-  topics: ["ChatGPT", "Trello", "Slack", "CRM Tools", "Automation"],
-  includes: [
-    "20 hours on-demand video",
-    "8 downloadable resources",
-    "Team certificates",
-    "Cross-device access"
-  ],
-  curriculum: [
-    {
-      section: "AI Integration in Marketing",
-      lectures: [
-        { title: "Using AI for Email Campaigns", duration: "35 min" },
-        { title: "Creating Ad Copies With ChatGPT", duration: "28 min" }
-      ]
-    },
-    {
-      section: "Digital Tools",
-      lectures: [
-        { title: "CRM for Lead Management", duration: "42 min" },
-        { title: "Project Tools (Trello, Notion)", duration: "50 min" }
-      ]
-    }
-  ],
-  requirements: [
-    "Working marketing/sales team",
-    "Basic computer skills"
-  ],
-  description: `This course is designed to enhance business team efficiency using digital tools and AI-powered strategies. Perfect for marketing and sales departments seeking digital transformation.`
-},{
-  id: "corporate-leadership-essentials",
-  title: "Corporate Leadership Essentials",
-  subtitle: "Lead high-performing teams and manage change effectively",
-  rating: 4.9,
-  image: BannerC1,
-  reviewsCount: 190,
-  studentsEnrolled: 600,
-  lastUpdated: "April 2025",
-  category: "Leadership",
-  type: "Business",
-  previewVideo: "https://example.com/leadership-preview.mp4",
-  whatYouWillLearn: [
-    "Understand modern leadership frameworks",
-    "Handle remote and hybrid teams",
-    "Drive innovation and team accountability",
-    "Practice emotional intelligence in leadership",
-    "Plan and implement change in organizations"
-  ],
-  topics: ["Leadership", "Team Management", "Change Management", "Communication"],
-  includes: [
-    "15 hours video",
-    "10 downloadable templates",
-    "Certificate for managers",
-    "Works on all devices"
-  ],
-  downloadBrochure: "/data/cybersecurity-brochure.pdf",
-  curriculum: [
-    {
-      section: "Leadership Mindset",
-      lectures: [
-        { title: "Principles of Modern Leadership", duration: "40 min" },
-        { title: "Managing Across Generations", duration: "35 min" }
-      ]
-    },
-    {
-      section: "Change & Growth",
-      lectures: [
-        { title: "Driving Innovation", duration: "45 min" },
-        { title: "Handling Team Conflicts", duration: "50 min" }
-      ]
-    }
-  ],
-  requirements: [
-    "Mid to senior management roles",
-    "Experience working in teams"
-  ],
-  description: `Ideal for business leaders looking to inspire their teams, drive change, and create a growth-driven company culture.`
-}
-
-
+    description: `This course trains business leaders in mastering the art of communication, motivating teams, and solving workplace conflict with confidence.`,
+  },
+  {
+    id: "digital-team-upskilling",
+    title: "Digital Team Upskilling Program",
+    subtitle:
+      "Empower your marketing and sales teams with practical AI and digital tools",
+    rating: 4.6,
+    image: BannerC3,
+    downloadBrochure: "/data/cybersecurity-brochure.pdf",
+    reviewsCount: 110,
+    studentsEnrolled: 950,
+    lastUpdated: "May 2025",
+    category: "Corporate Training",
+    type: "Business",
+    previewVideo: "https://example.com/digital-teams.mp4",
+    whatYouWillLearn: [
+      "Boost productivity using ChatGPT and AI tools",
+      "Automate repetitive tasks and content writing",
+      "Collaborate efficiently using digital project tools",
+      "Improve email and ad copy with AI support",
+      "Upskill sales & marketing team with trending tools",
+    ],
+    topics: ["ChatGPT", "Trello", "Slack", "CRM Tools", "Automation"],
+    includes: [
+      "20 hours on-demand video",
+      "8 downloadable resources",
+      "Team certificates",
+      "Cross-device access",
+    ],
+    curriculum: [
+      {
+        section: "AI Integration in Marketing",
+        lectures: [
+          { title: "Using AI for Email Campaigns", duration: "35 min" },
+          { title: "Creating Ad Copies With ChatGPT", duration: "28 min" },
+        ],
+      },
+      {
+        section: "Digital Tools",
+        lectures: [
+          { title: "CRM for Lead Management", duration: "42 min" },
+          { title: "Project Tools (Trello, Notion)", duration: "50 min" },
+        ],
+      },
+    ],
+    requirements: ["Working marketing/sales team", "Basic computer skills"],
+    description: `This course is designed to enhance business team efficiency using digital tools and AI-powered strategies. Perfect for marketing and sales departments seeking digital transformation.`,
+  },
+  {
+    id: "corporate-leadership-essentials",
+    title: "Corporate Leadership Essentials",
+    subtitle: "Lead high-performing teams and manage change effectively",
+    rating: 4.9,
+    image: BannerC1,
+    reviewsCount: 190,
+    studentsEnrolled: 600,
+    lastUpdated: "April 2025",
+    category: "Leadership",
+    type: "Business",
+    previewVideo: "https://example.com/leadership-preview.mp4",
+    whatYouWillLearn: [
+      "Understand modern leadership frameworks",
+      "Handle remote and hybrid teams",
+      "Drive innovation and team accountability",
+      "Practice emotional intelligence in leadership",
+      "Plan and implement change in organizations",
+    ],
+    topics: [
+      "Leadership",
+      "Team Management",
+      "Change Management",
+      "Communication",
+    ],
+    includes: [
+      "15 hours video",
+      "10 downloadable templates",
+      "Certificate for managers",
+      "Works on all devices",
+    ],
+    downloadBrochure: "/data/cybersecurity-brochure.pdf",
+    curriculum: [
+      {
+        section: "Leadership Mindset",
+        lectures: [
+          { title: "Principles of Modern Leadership", duration: "40 min" },
+          { title: "Managing Across Generations", duration: "35 min" },
+        ],
+      },
+      {
+        section: "Change & Growth",
+        lectures: [
+          { title: "Driving Innovation", duration: "45 min" },
+          { title: "Handling Team Conflicts", duration: "50 min" },
+        ],
+      },
+    ],
+    requirements: [
+      "Mid to senior management roles",
+      "Experience working in teams",
+    ],
+    description: `Ideal for business leaders looking to inspire their teams, drive change, and create a growth-driven company culture.`,
+  },
 ];
-
 
 export const impactItems = [
   { title: 650, suffix: "+", description: "Websites Launched" },
@@ -611,8 +619,6 @@ export const impactItems = [
   },
   { title: 500, suffix: "+", description: "Happy Clients" },
 ];
-
-
 
 export const features = [
   { id: 1, icon: FaChalkboardTeacher, label: "Expert Trainers" },
@@ -760,7 +766,6 @@ export const officeData = {
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.467478261944!2d77.0805174150823!3d28.614179791285388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1d84519eec41%3A0x65e498e225fc0995!2sDigital%20Vidya!5e0!3m2!1sen!2sin!4v1663671765030!5m2!1sen!2sin",
 };
 
-
 export const upskillsData = [
   {
     id: 1,
@@ -800,7 +805,6 @@ export const upskillsData = [
   },
 ];
 
-
 export const contactBannerData = {
   title: "Contact Us",
   description: `Digital Vidya is a brand name of the Company “Engaging Ideas Private Limited”, 
@@ -808,7 +812,6 @@ which was registered with the Registrar of Companies in the year 2012 and having
 The registered office address of the Company is at C-7/6, Mianwali Nagar, Rohtak Road, New Delhi-110087 
 and the corporate office address at Unit No. 304, 3rd Floor, JMD Regent Plaza, MG Road, Gurugram, Haryana-122001.`,
 };
-
 
 export const aboutInfo = {
   headingTop: "New Way To Learn",
@@ -834,7 +837,6 @@ export const aboutInfo = {
     },
   ],
 };
-
 
 export const steps = [
   {
@@ -863,8 +865,6 @@ export const steps = [
     icon: FaFlag,
   },
 ];
-
-
 
 export const certificates = [
   {
@@ -899,7 +899,7 @@ export const topCompanies = [
   { id: 3, name: "Expedia", logo: MamaEarth },
   { id: 4, name: "Lenskart", logo: Accenture },
   { id: 5, name: "OLA", logo: AirBnb },
-  { id: 6, name: "Walmart", logo:Walmart  },
+  { id: 6, name: "Walmart", logo: Walmart },
   { id: 7, name: "Duolingo", logo: MamaEarth },
   { id: 8, name: "Airbnb", logo: AirBnb },
   { id: 9, name: "Adobe", logo: Google },
@@ -957,33 +957,42 @@ export const steps1 = [
   {
     title: "Learn",
     icon: "https://deen3evddmddt.cloudfront.net/images/courses-details/learn-icon.svg",
-    iconFilled: "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-learn-icon.svg",
+    iconFilled:
+      "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-learn-icon.svg",
     badge: "Live Classes",
-    badgeIcon: "https://deen3evddmddt.cloudfront.net/images/icons/ellipse-icon.svg",
+    badgeIcon:
+      "https://deen3evddmddt.cloudfront.net/images/icons/ellipse-icon.svg",
     badge2: "Self-Paced",
-    description: "Upskill yourself by gaining insights from leading professionals' vast experience."
+    description:
+      "Upskill yourself by gaining insights from leading professionals' vast experience.",
   },
   {
     title: "Practice",
     icon: "https://deen3evddmddt.cloudfront.net/images/courses-details/practice-icon.svg",
-    iconFilled: "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-practice-icon.svg",
-    description: "Sharpen your skills by learning through course assignments, live projects, and regular assessments and quizzes."
+    iconFilled:
+      "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-practice-icon.svg",
+    description:
+      "Sharpen your skills by learning through course assignments, live projects, and regular assessments and quizzes.",
   },
   {
     title: "Ask",
     icon: "https://deen3evddmddt.cloudfront.net/images/courses-details/build-icon.svg",
-    iconFilled: "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-build-icon.svg",
-    description: "Resolve your queries from industry experts with our dedicated 1:1 doubt-clearing sessions."
+    iconFilled:
+      "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-build-icon.svg",
+    description:
+      "Resolve your queries from industry experts with our dedicated 1:1 doubt-clearing sessions.",
   },
   {
     title: "Build",
     icon: "https://deen3evddmddt.cloudfront.net/images/courses-details/success-icon.svg",
-    iconFilled: "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-success-icon.svg",
-    description: "Craft a diverse portfolio and appealing resume, and optimize LinkedIn to showcase your digital marketing skills."
-  }
+    iconFilled:
+      "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-success-icon.svg",
+    description:
+      "Craft a diverse portfolio and appealing resume, and optimize LinkedIn to showcase your digital marketing skills.",
+  },
 ];
 export const bannerContent = {
-  image: AboutBanner, 
+  image: AboutBanner,
   heading: "Welcome to DG Royals",
   paragraph:
     "Empowering learners through industry-ready digital marketing courses, live mentorship, and hands-on training.",
@@ -1039,15 +1048,13 @@ export const services = [
   {
     id: 2,
     title: "Blogging",
-    description:
-      "5,000+ blogs published across various platforms and websites",
+    description: "5,000+ blogs published across various platforms and websites",
     icon: "https://cdn-icons-png.flaticon.com/512/3524/3524388.png",
   },
   {
     id: 3,
     title: "Paid Advertising",
-    description:
-      "400% average ROI for 4,000+ successful campaigns",
+    description: "400% average ROI for 4,000+ successful campaigns",
     icon: "https://cdn-icons-png.flaticon.com/512/5968/5968527.png",
   },
   {
@@ -1060,8 +1067,7 @@ export const services = [
   {
     id: 5,
     title: "Social Media Marketing",
-    description:
-      "Complete social media management across all major platforms",
+    description: "Complete social media management across all major platforms",
     icon: "https://cdn-icons-png.flaticon.com/512/145/145802.png",
   },
   {
@@ -1087,9 +1093,12 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Reach the Right Audience",
     para: "Target users who are most likely to convert.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
-    content2: "It reduces ad spend waste by eliminating unqualified impressions.",
-    content3: "Targeted campaigns improve click-through and conversion rates significantly.",
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2:
+      "It reduces ad spend waste by eliminating unqualified impressions.",
+    content3:
+      "Targeted campaigns improve click-through and conversion rates significantly.",
   },
   {
     type: "benefit",
@@ -1097,9 +1106,11 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Improve Brand Awareness",
     para: "Make your brand more visible and memorable.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
-    content2: "Strategic messaging increases familiarity and trust among audiences.",
-    content3: "More visibility leads to higher recall and brand preference."
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content2:
+      "Strategic messaging increases familiarity and trust among audiences.",
+    content3: "More visibility leads to higher recall and brand preference.",
   },
   {
     type: "benefit",
@@ -1107,9 +1118,10 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Optimize Marketing Budget",
     para: "Get more results with less spend.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
     content2: "Analytics tools help eliminate underperforming spend areas.",
-    content3: "Optimization enables higher ROI from each marketing dollar."
+    content3: "Optimization enables higher ROI from each marketing dollar.",
   },
   {
     type: "consequence",
@@ -1117,9 +1129,10 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Reach Your Target Audience",
     para: "Marketing efforts become too generic.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
     content2: "Resources are wasted on users with no purchase intent.",
-    content3: "Unfocused messaging fails to connect with key segments."
+    content3: "Unfocused messaging fails to connect with key segments.",
   },
   {
     type: "consequence",
@@ -1127,9 +1140,10 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Stand Out From Competitors",
     para: "Your brand gets lost in the crowd.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
     content2: "Poor differentiation weakens your competitive edge.",
-    content3: "Without strategic positioning, your brand is forgettable."
+    content3: "Without strategic positioning, your brand is forgettable.",
   },
   {
     type: "consequence",
@@ -1137,9 +1151,10 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Stand Out From Competitors",
     para: "Your brand gets lost in the crowd.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
     content2: "Poor differentiation weakens your competitive edge.",
-    content3: "Without strategic positioning, your brand is forgettable."
+    content3: "Without strategic positioning, your brand is forgettable.",
   },
   {
     type: "consequence",
@@ -1147,11 +1162,11 @@ export const digitalMarketingPoints = [
     feature: blog3,
     heading: "Stand Out From Competitors",
     para: "Your brand gets lost in the crowd.Your brand gets lost in the crowd.",
-    content: "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
+    content:
+      "Need help with your corporate marketing strategy? Whether you own a startup, enterprise or multiple-location business, a Thrive digital strategy consultant can develop the right internet marketing strategies for your specific needs and demands.",
     content2: "Poor differentiation weakens your competitive edge.",
-    content3: "Without strategic positioning, your brand is forgettable."
-  }
-
+    content3: "Without strategic positioning, your brand is forgettable.",
+  },
 ];
 
 export const strategyData = {
@@ -1198,184 +1213,49 @@ export const allFaqs = {
         "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What are the benefits of digital marketing?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Digital marketing offers numerous benefits including global reach, cost-effectiveness, measurable results, and the ability to target specific audiences.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What is SEO?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "SEO stands for Search Engine Optimization. It is the practice of optimizing your website to rank higher in search engine results and increase organic traffic.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What is PPC advertising?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "PPC stands for Pay-Per-Click. It is an online advertising model where advertisers pay each time a user clicks on one of their ads.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What is social media marketing?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Social media marketing involves promoting your products or services on social media platforms to increase brand awareness and drive traffic.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What is content marketing?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Content marketing is a strategic approach focused on creating and distributing valuable, relevant content to attract and engage a target audience.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What is email marketing?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Email marketing is the use of emails to send advertisements, request business, or solicit sales or donations, and is meant to build loyalty, trust, or brand awareness.",
     },
     {
-      title: "What is digital marketing?",
+      title: "How can digital marketing help my business?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Digital marketing can help your business grow by increasing your online presence, reaching a larger audience, and engaging with customers in real-time.",
     },
     {
-      title: "What is digital marketing?",
+      title: "What is the difference between organic and paid marketing?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Organic marketing refers to unpaid strategies like SEO and content marketing, while paid marketing involves paid advertisements like PPC and social media ads.",
     },
     {
-      title: "What is digital marketing?",
+      title: "How do I measure the success of my digital marketing efforts?",
       content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
-    },
-    {
-      title: "What is digital marketing?",
-      content:
-        "Digital marketing is the use of online platforms and tools to promote products or services through channels like SEO, social media, email, and paid advertising.",
+        "Success can be measured using various metrics such as website traffic, conversion rates, click-through rates, and return on investment (ROI).",
     },
   ],
   DEVELOPMENT: [
@@ -1451,4 +1331,27 @@ export const seoPlans = [
     ],
   },
 ];
-
+export const courseData = [
+  {
+    id: 1,
+    title: "React for Beginners",
+    image: Banner1,
+    duration: "6h 30m",
+    totalHours: 6.5,
+    watchedHours: 3.25,
+    level: "Beginner",
+    tags: ["React", "JavaScript"],
+    progress: true,
+  },
+  {
+    id: 2,
+    title: "Advanced CSS",
+    image: Banner,
+    duration: "4h 10m",
+    totalHours: 4.17,
+    watchedHours: 1.5,
+    level: "Intermediate",
+    tags: ["CSS", "Design"],
+    progress: false,
+  },
+];

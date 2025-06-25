@@ -7,7 +7,7 @@ const AuthTabs = () => {
   const [activeTab, setActiveTab] = useState("signup");
   const dispatch = useDispatch();
   const dummyStudent = {
-    email: "student@example.com",
+    email: "student123@gmail.com",
     password: "student123",
     name: "Student User",
     role: "student",

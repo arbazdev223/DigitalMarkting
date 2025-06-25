@@ -11,7 +11,9 @@ const InnerFaqItem = ({ question, answer }) => {
       >
         <span>{question}</span>
         <FaChevronRight
-          className={`transition-transform duration-300 ${open ? "rotate-90" : ""}`}
+          className={`transition-transform duration-300 ${
+            open ? "rotate-90" : ""
+          }`}
         />
       </button>
       {open && (
@@ -35,7 +37,9 @@ const FaqItem = ({ title, faqs = [], content = [], question, answer }) => {
       >
         <span>{title || question}</span>
         <FaChevronRight
-          className={`transition-transform duration-300 ${open ? "rotate-90" : ""}`}
+          className={`transition-transform duration-300 ${
+            open ? "rotate-90" : ""
+          }`}
         />
       </button>
 
@@ -43,7 +47,11 @@ const FaqItem = ({ title, faqs = [], content = [], question, answer }) => {
         <div className="pl-4 pb-4 space-y-2">
           {faqs.length > 0 &&
             faqs.map((faq, i) => (
-              <InnerFaqItem key={i} question={faq.question} answer={faq.answer} />
+              <InnerFaqItem
+                key={i}
+                question={faq.question}
+                answer={faq.answer}
+              />
             ))}
 
           {isFlatItem && (
@@ -52,14 +60,20 @@ const FaqItem = ({ title, faqs = [], content = [], question, answer }) => {
 
           {!faqs.length &&
             !isFlatItem &&
-            content.map((item, i) => (
-              <div
-                key={i}
-                className="text-sm text-gray-700 font-nunito border-b pb-2"
-              >
-                {item}
-              </div>
-            ))}
+            (Array.isArray(content)
+              ? content.map((item, i) => (
+                  <div
+                    key={i}
+                    className="text-sm text-gray-700 font-nunito border-b pb-2"
+                  >
+                    {item}
+                  </div>
+                ))
+              : content && (
+                  <div className="text-sm text-gray-700 font-nunito border-b pb-2">
+                    {content}
+                  </div>
+                ))}
         </div>
       )}
     </div>

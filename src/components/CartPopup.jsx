@@ -1,18 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { removeFromCart } from "../store/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCartTotalOriginal,
+  selectCartTotalSale,
+  selectCartDiscount,
+} from "../store/cartSlice";
+
+
 
 const CartPopup = ({ cartItems = [], isOpen, onClose }) => {
   if (!isOpen) return null;
-
-  const totalSale = cartItems.reduce(
-    (sum, item) => sum + item.salePrice * item.quantity,
-    0
-  );
-  const totalOriginal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
+const totalOriginal = useSelector(selectCartTotalOriginal);
+const totalSale = useSelector(selectCartTotalSale);
+const discount = useSelector(selectCartDiscount);
+ 
+   const dispatch = useDispatch();
+  const handleRemove = (id) => {
+    dispatch(removeFromCart(id));
+  };
   return (
     <div className="absolute z-50 right-0 mt-2 w-80 bg-white shadow-xl rounded-lg border">
       <div className="max-h-64 overflow-y-auto">
@@ -40,9 +47,14 @@ const CartPopup = ({ cartItems = [], isOpen, onClose }) => {
                   <span className="text-xs line-through text-gray-400">
                     ₹{item.price}
                   </span>
-                  <span className="text-xs text-gray-500 ml-2">
-                    x{item.quantity}
-                  </span>
+                  <div className="text-xs text-[#0e3477] space-x-4">
+                      <button
+                        className="hover:underline"
+                        onClick={() => handleRemove(item.id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
                 </div>
               </div>
             </div>

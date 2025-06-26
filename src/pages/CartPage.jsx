@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDataFromLocalStorage, removeFromCart } from "../store/cartSlice";
+import { getDataFromLocalStorage, removeFromCart, selectCartDiscount, selectCartTotalOriginal, selectCartTotalSale } from "../store/cartSlice";
 import { useNavigate } from "react-router-dom"; 
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
-
+const totalOriginalPrice = useSelector(selectCartTotalOriginal);
+const totalPrice = useSelector(selectCartTotalSale);
+const discount = useSelector(selectCartDiscount);
   const cart = useSelector((state) => state.cart.cart);
 
   useEffect(() => {
@@ -21,22 +23,10 @@ const CartPage = () => {
     navigate("/checkout");
   };
 
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + (item.salePrice || item.price),
-    0
-  );
-
-  const totalOriginalPrice = cart.reduce(
-    (sum, item) => sum + (item.price || 0),
-    0
-  );
-
-  const discount = totalOriginalPrice
-    ? Math.round(((totalOriginalPrice - totalPrice) / totalOriginalPrice) * 100)
-    : 0;
+  
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="max-w-6xl mx-auto px-12 py-10">
       <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
 
       <div className="flex flex-col lg:flex-row justify-between gap-10">

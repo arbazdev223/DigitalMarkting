@@ -53,7 +53,6 @@ const CourseList = ({ courses }) => {
             className="bg-white p-4 rounded shadow hover:shadow-md transition-shadow duration-200"
           >
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              {/* Left: Image + Course Info */}
               <div className="flex items-center gap-4 w-full sm:w-auto">
                 <img
                   src={course.image}
@@ -70,8 +69,6 @@ const CourseList = ({ courses }) => {
                   </p>
                 </div>
               </div>
-
-              {/* Right: Progress + Button */}
               <div className="flex flex-col items-center sm:items-end gap-2">
                 <HalfCircleProgress percent={percent} />
                 {course.watchedHours && course.watchedHours > 0 ? (

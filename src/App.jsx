@@ -18,6 +18,8 @@ import CourseDetails from "./pages/CourseDetails";
 import ServiceDetailPage from "./pages/ServiceDetailPage";
 import CartPage from "./pages/CartPage";
 import CourseResumePage from "./pages/CourseResumePage";
+import CheckoutPage from "./pages/CheckoutPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const App = () => {
   return (
@@ -36,10 +38,12 @@ const App = () => {
         <Route path="/course/:id" element={<CourseDetails />} />
         <Route path="/service/:id" element={<ServiceDetailPage />} />
         <Route path="/courseStudent/:id" element={<CourseResumePage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
          <Route path="/cart" element={<CartPage />} />
         <Route path="/auth" element={<AuthTabs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
     </>

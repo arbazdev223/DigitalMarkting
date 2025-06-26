@@ -11,9 +11,17 @@ const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState("Profile");
   const [showTabs, setShowTabs] = useState(false);
+
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     setShowTabs(false);
+  };
+  const tabComponents = {
+    Profile: <ProfileForm user={user} />,
+    Course: <CourseList courses={courseData} />,
+    Test: <p className="text-gray-600">This is the Test section (Coming Soon).</p>,
+    Payment: <p className="text-gray-600">This is the Payment section (Coming Soon).</p>,
+    Certificate: <p className="text-gray-600">This is the Certificate section (Coming Soon).</p>,
   };
 
   return (
@@ -46,13 +54,8 @@ const Profile = () => {
             onClick={() => setShowTabs((prev) => !prev)}
             aria-label="Open dashboard menu"
           >
-            {showTabs ? (
-              <HiX className="w-6 h-6" />
-            ) : (
-              <HiOutlineMenu className="w-6 h-6" />
-            )}
+            {showTabs ? <HiX className="w-6 h-6" /> : <HiOutlineMenu className="w-6 h-6" />}
           </button>
-
           {showTabs && (
             <div className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-40 flex items-end">
               <div className="w-full bg-white rounded-t-lg pb-10 shadow-lg max-h-[80vh] overflow-y-auto">
@@ -82,13 +85,9 @@ const Profile = () => {
           )}
           <main className="flex-1 p-0">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h1 className="text-2xl font-bold mb-4 text-[#0e3477]">
-                {activeTab}
-              </h1>
-              {activeTab === "Profile" && <ProfileForm user={user} />}
-              {activeTab === "Course" && <CourseList courses={courseData} />}
-              {activeTab !== "Profile" && activeTab !== "Course" && (
-                <p className="text-gray-600">
+              <h1 className="text-2xl font-bold mb-4 text-[#0e3477]">{activeTab}</h1>
+              {tabComponents[activeTab] || (
+                 <p className="text-gray-600">
                   This is the {activeTab} section (Coming Soon).
                 </p>
               )}

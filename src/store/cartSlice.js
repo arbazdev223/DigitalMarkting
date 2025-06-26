@@ -1,5 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const selectCartTotalOriginal = (state) =>
+  state.cart.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+export const selectCartTotalSale = (state) =>
+  state.cart.cart.reduce(
+    (sum, item) => sum + (item.salePrice || item.price) * item.quantity,
+    0
+);
+export const selectCartDiscount = (state) => {
+  const original = selectCartTotalOriginal(state);
+  const sale = selectCartTotalSale(state);
+  return original
+    ? Math.round(((original - sale) / original) * 100)
+    : 0;
+};
+
 const saveCartToStorage = (course) => {
   try {
     localStorage.setItem("course", JSON.stringify(course));
@@ -96,7 +111,6 @@ const cartSlice = createSlice({
   },
 });
 
-// Selector for total quantity
 export const selectCartTotalQuantity = (state) => state.cart.totalQuantity;
 
 export const {

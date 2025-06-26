@@ -317,7 +317,7 @@ export const courseDetailsList = [
   },
   {
     id: "graphic-design-pro",
-    title: "Graphic Design Masterclass",
+    title: "Graphic Design MasterclassName",
     subtitle: "Master Photoshop, Illustrator & design theory from scratch",
     rating: 4.6,
     image: BannerC2,
@@ -373,7 +373,7 @@ export const courseDetailsList = [
     reviewsCount: 100,
     studentsEnrolled: 700,
     price: 2999,
-    salePrice: 1499,
+    salePrice: 1199,
     lastUpdated: "March 2025",
     category: "Data Analysis",
     type: "Student",
@@ -623,8 +623,8 @@ export const impactItems = [
 export const features = [
   { id: 1, icon: FaChalkboardTeacher, label: "Expert Trainers" },
   { id: 2, icon: FaCalendarAlt, label: "Flexible Batches" },
-  { id: 3, icon: FaLaptopCode, label: "Online Classes" },
-  { id: 4, icon: FaUserGraduate, label: "Doubt Classes" },
+  { id: 3, icon: FaLaptopCode, label: "Online classNamees" },
+  { id: 4, icon: FaUserGraduate, label: "Doubt classNamees" },
   { id: 5, icon: FaUserTie, label: "Job Oriented Training" },
   { id: 6, icon: FaProjectDiagram, label: "Live Project Work" },
   { id: 7, icon: FaCertificate, label: "Verifiable Certificate" },
@@ -788,11 +788,11 @@ export const upskillsData = [
   {
     id: 3,
     icon: MdOutlineLightbulb,
-    title: "Smart Classes",
+    title: "Smart classNamees",
     subtitle:
-      "Practical Classes | E-resources | E-Learning | LMS learning | Assessments | Deep Learning Experience",
+      "Practical classNamees | E-resources | E-Learning | LMS learning | Assessments | Deep Learning Experience",
     description:
-      "Being a professional training institute, DIDM believes in high-quality practical training as per market standard. We provide online training sessions through LMS and provide study materials in video and text format so that students can refer to the videos even if they miss any class.",
+      "Being a professional training institute, DIDM believes in high-quality practical training as per market standard. We provide online training sessions through LMS and provide study materials in video and text format so that students can refer to the videos even if they miss any className.",
   },
   {
     id: 4,
@@ -844,7 +844,7 @@ export const steps = [
     description:
       "Upskill yourself by gaining insights from leading professionals' vast experience.",
     icon: FaLightbulb,
-    badge: "Live Classes + Self-Paced",
+    badge: "Live classNamees + Self-Paced",
   },
   {
     title: "Practice",
@@ -959,7 +959,7 @@ export const steps1 = [
     icon: "https://deen3evddmddt.cloudfront.net/images/courses-details/learn-icon.svg",
     iconFilled:
       "https://deen3evddmddt.cloudfront.net/images/courses-details/blue-learn-icon.svg",
-    badge: "Live Classes",
+    badge: "Live classNamees",
     badgeIcon:
       "https://deen3evddmddt.cloudfront.net/images/icons/ellipse-icon.svg",
     badge2: "Self-Paced",
@@ -1012,7 +1012,7 @@ export const almunies = [
   {
     name: "Anuj Sangal",
     title: "Youtuber",
-    company: "Anuj Classes",
+    company: "Anuj classNamees",
     message:
       "Excellent institute for Digital Marketing and it has helped me to get my dream job and given me wings to fly. The Faculty members are very experienced and with the help of their best practices, we have gained a lot of practical knowledge.",
     image: img1,
@@ -1355,3 +1355,95 @@ export const courseData = [
     progress: false,
   },
 ];
+export const privacyTabs = [
+  {
+    title: "Marketplace & Website",
+    key: "marketplace",
+    children: [
+      {
+        title: "Data Collection",
+        key: "marketplace_data_collection",
+        content:
+          "We collect user behavior data including clicks, course enrollments, and preferences to personalize your experience.",
+      },
+      {
+        title: "Cookies Policy",
+        key: "marketplace_cookies",
+        content:
+          "Our website uses cookies to track session data, improve services, and for analytics purposes.",
+      },
+    ],
+  },
+  {
+    title: "Instructors",
+    key: "instructors",
+    children: [
+      {
+        title: "Instructor Obligations",
+        key: "instructor_obligations",
+        content:
+          "Instructors must adhere to content policies and update course materials regularly to reflect accuracy.",
+      },
+    ],
+  },
+  {
+    title: "Udemy Business",
+    key: "business",
+    children: [
+      {
+        title: "Business Usage",
+        key: "business_usage",
+  content: `
+  <h1>Instructor Terms</h1>
+  <p>This was updated on Nov 2024</p>
+  <h2>1. Instructor Obligations</h2>
+  <ul>
+    <li>You confirm all rights.</li>
+    <li>You do not spam.</li>
+  </ul>
+`
+      },
+    ],
+  },
+  {
+    title: "Suppliers",
+    key: "suppliers",
+    children: [
+      {
+        title: "Data Compliance",
+        key: "supplier_data_compliance",
+     content: `
+  <h1>Instructor Terms</h1>
+  <p>This was updated on Nov 2024</p>
+  <h2>1. Instructor Obligations</h2>
+  <ul>
+    <li>You confirm all rights.</li>
+    <li>You do not spam.</li>
+  </ul>
+`
+      },
+    ],
+  },
+  {
+    title: "Partners",
+    key: "partners",
+    children: [
+     {
+  title: "Partnership Guidelines",
+  key: "partner_guidelines",
+content: `
+  <h1>Instructor Terms</h1>
+  <p>This was updated on Nov 2024</p>
+  <h2>1. Instructor Obligations</h2>
+  <ul>
+    <li>You confirm all rights.</li>
+    <li>You do not spam.</li>
+  </ul>
+`
+}
+
+    ],
+  },
+];
+
+

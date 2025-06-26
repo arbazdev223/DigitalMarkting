@@ -1342,6 +1342,26 @@ export const courseData = [
     level: "Beginner",
     tags: ["React", "JavaScript"],
     progress: true,
+    modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ]
   },
   {
     id: 2,
@@ -1353,6 +1373,26 @@ export const courseData = [
     level: "Intermediate",
     tags: ["CSS", "Design"],
     progress: false,
+    modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ]
   },
 ];
 export const privacyTabs = [
@@ -1666,13 +1706,8 @@ export const testQuestions = [
 ];
 
 
-for (let i = 4; i <= testQuestions.length; i++) {
-  testQuestions.push({
-    id: i,
-    type: i % 2 === 0 ? "multi" : "single",
-    question: `Sample question number ${i}?`,
-    options: ["Option A", "Option B", "Option C", "Option D"],
-    correctAnswers: i % 2 === 0 ? ["Option A", "Option C"] : ["Option B"],
-  });
-}
+
+
+
+
 

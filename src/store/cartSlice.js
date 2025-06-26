@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const saveCartToStorage = (course) => {
   try {
     localStorage.setItem("course", JSON.stringify(course));
@@ -18,9 +17,12 @@ const loadCartFromStorage = () => {
   }
 };
 const initialState = {
-  cart: [], 
+  cart: [],
   totalQuantity: 0,
 };
+
+const updateTotalQuantity = (cart) =>
+  cart.reduce((sum, item) => sum + item.quantity, 0);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -43,7 +45,7 @@ const cartSlice = createSlice({
         };
         state.cart.push(newItem);
       }
-
+      state.totalQuantity = updateTotalQuantity(state.cart);
       saveCartToStorage(state.cart);
     },
 
@@ -51,9 +53,10 @@ const cartSlice = createSlice({
       const storedCart = loadCartFromStorage();
       if (Array.isArray(storedCart)) {
         state.cart = storedCart;
+        state.totalQuantity = updateTotalQuantity(state.cart);
       } else {
-        console.warn("Cart in localStorage is not an array");
         state.cart = [];
+        state.totalQuantity = 0;
       }
     },
 
@@ -61,6 +64,7 @@ const cartSlice = createSlice({
       const item = state.cart.find((i) => i.id === action.payload);
       if (item) {
         item.quantity += 1;
+        state.totalQuantity = updateTotalQuantity(state.cart);
         saveCartToStorage(state.cart);
       }
     },
@@ -73,21 +77,27 @@ const cartSlice = createSlice({
         } else {
           state.cart = state.cart.filter((i) => i.id !== action.payload);
         }
+        state.totalQuantity = updateTotalQuantity(state.cart);
         saveCartToStorage(state.cart);
       }
     },
 
     removeFromCart(state, action) {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
+      state.totalQuantity = updateTotalQuantity(state.cart);
       saveCartToStorage(state.cart);
     },
 
     clearCart(state) {
       state.cart = [];
+      state.totalQuantity = 0;
       saveCartToStorage([]);
     },
   },
 });
+
+// Selector for total quantity
+export const selectCartTotalQuantity = (state) => state.cart.totalQuantity;
 
 export const {
   addToCart,

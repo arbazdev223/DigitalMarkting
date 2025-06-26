@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getDataFromLocalStorage,
-  removeFromCart,
-} from "../store/cartSlice";
+import { getDataFromLocalStorage, removeFromCart } from "../store/cartSlice";
+import { useNavigate } from "react-router-dom"; 
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); 
 
   const cart = useSelector((state) => state.cart.cart);
 
@@ -16,6 +15,10 @@ const CartPage = () => {
 
   const handleRemove = (id) => {
     dispatch(removeFromCart(id));
+  };
+
+  const handleCheckout = () => {
+    navigate("/checkout");
   };
 
   const totalPrice = cart.reduce(
@@ -64,7 +67,7 @@ const CartPage = () => {
                     <div className="text-sm text-[#0e3477] space-x-4">
                       <button
                         className="hover:underline"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => handleRemove(item.id)}
                       >
                         Remove
                       </button>
@@ -94,7 +97,10 @@ const CartPage = () => {
           </div>
 
           <div>
-            <button className="w-full bg-[#0e3477] hover:bg-[#0e3477] text-white py-2 rounded font-semibold mb-3 transition">
+            <button
+              className="w-full bg-[#0e3477] hover:bg-[#0e3477] text-white py-2 rounded font-semibold mb-3 transition"
+              onClick={handleCheckout}
+            >
               Proceed to Checkout
             </button>
           </div>

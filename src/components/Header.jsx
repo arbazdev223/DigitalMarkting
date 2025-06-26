@@ -7,7 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { MdShoppingCart } from "react-icons/md";
 import { logout } from "../store/authSlice";
 import CartPopup from "../components/CartPopup";
-import { getDataFromLocalStorage } from "../store/cartSlice";
+import {
+  getDataFromLocalStorage,
+  selectCartTotalQuantity,
+} from "../store/cartSlice";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,10 +18,12 @@ const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
   const dropdownTimeout = useRef(null);
   const cartPopupRef = useRef(null);
+  const cartPopupTimeout = useRef(null); 
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartCount = useSelector((state) => state.count);
+  const cart = useSelector((state) => state.cart.cart);
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const handleLogout = () => {
@@ -32,9 +37,9 @@ const Header = () => {
     clearTimeout(dropdownTimeout.current);
     setProfileDropdown(true);
   };
-useEffect(() => {
-  dispatch(getDataFromLocalStorage());
-}, [dispatch]);
+  useEffect(() => {
+    dispatch(getDataFromLocalStorage());
+  }, [dispatch]);
 
   const handleProfileLeave = () => {
     dropdownTimeout.current = setTimeout(() => {
@@ -46,8 +51,16 @@ useEffect(() => {
     setProfileDropdown((prev) => !prev);
   };
 
-  const toggleCartPopup = () => {
-    setCartPopupOpen((prev) => !prev);
+  // const toggleCartPopup = () => {
+  //   setCartPopupOpen((prev) => !prev);
+  // };
+
+  const handleCartMouseEnter = () => {
+    clearTimeout(cartPopupTimeout.current);
+    setCartPopupOpen(true);
+  };
+  const handleCartMouseLeave = () => {
+    cartPopupTimeout.current = setTimeout(() => setCartPopupOpen(false), 200);
   };
 
   return (
@@ -90,22 +103,27 @@ useEffect(() => {
             </Link>
           </nav>
           <div className="hidden md:flex items-center space-x-4">
-            <div className="relative" ref={cartPopupRef}>
+            <div
+              className="relative"
+              ref={cartPopupRef}
+              onMouseEnter={handleCartMouseEnter}
+              onMouseLeave={handleCartMouseLeave}
+            >
               <button
                 type="button"
                 className="relative flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
-                onClick={toggleCartPopup}
               >
                 <MdShoppingCart className="text-2xl" />
-                {cartCount > 0 && (
+                {cartTotalQuantity > 0 && (
                   <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] px-1.5 py-[1px] rounded-full">
-                    {cartCount}
+                    {cartTotalQuantity}
                   </span>
                 )}
               </button>
               <CartPopup
                 isOpen={cartPopupOpen}
                 onClose={() => setCartPopupOpen(false)}
+                cartItems={cart}
               />
             </div>
             {!isLoggedIn ? (
@@ -198,22 +216,27 @@ useEffect(() => {
               Blog
             </Link>
             <div className="pt-2 space-y-1">
-              <div className="relative" ref={cartPopupRef}>
+              <div
+                className="relative"
+                ref={cartPopupRef}
+                onMouseEnter={handleCartMouseEnter}
+                onMouseLeave={handleCartMouseLeave}
+              >
                 <button
                   type="button"
                   className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
-                  onClick={toggleCartPopup}
                 >
                   <MdShoppingCart className="text-2xl" />
-                  {cartCount > 0 && (
+                  {cartTotalQuantity > 0 && (
                     <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] px-1.5 py-[1px] rounded-full">
-                      {cartCount}
+                      {cartTotalQuantity}
                     </span>
                   )}
                 </button>
                 <CartPopup
                   isOpen={cartPopupOpen}
                   onClose={() => setCartPopupOpen(false)}
+                  cartItems={cart}
                 />
               </div>
               {!isLoggedIn ? (

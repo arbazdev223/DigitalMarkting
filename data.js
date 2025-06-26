@@ -1666,13 +1666,17 @@ export const testQuestions = [
 ];
 
 
-for (let i = 4; i <= testQuestions.length; i++) {
+const additionalCount = 10;
+const startingId = testQuestions.length + 1;
+
+for (let i = 0; i < additionalCount; i++) {
+  const id = startingId + i;
   testQuestions.push({
-    id: i,
-    type: i % 2 === 0 ? "multi" : "single",
-    question: `Sample question number ${i}?`,
+    id,
+    type: id % 2 === 0 ? "multi" : "single",
+    question: `Sample question number ${id}?`,
     options: ["Option A", "Option B", "Option C", "Option D"],
-    correctAnswers: i % 2 === 0 ? ["Option A", "Option C"] : ["Option B"],
+    correctAnswers: id % 2 === 0 ? ["Option A", "Option C"] : ["Option B"],
   });
 }
 

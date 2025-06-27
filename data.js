@@ -234,6 +234,26 @@ export const courseDetailsList = [
       "Understand Git & GitHub for version control",
       "Create full-stack applications from scratch",
     ],
+     modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ],
     topics: ["HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB"],
     includes: [
       "60 hours on-demand video",
@@ -286,6 +306,26 @@ export const courseDetailsList = [
       "Practice safe browsing and password strategies",
       "Intro to ethical hacking and cybersecurity careers",
     ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ],
     topics: ["Cybersecurity", "Ethical Hacking", "Network Security"],
     includes: [
       "18 hours video",
@@ -333,6 +373,26 @@ export const courseDetailsList = [
       "Understand typography & color theory",
       "Design posters, brochures, and ads",
       "Work with Illustrator shapes and paths",
+    ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
     ],
     topics: ["Photoshop", "Illustrator", "Typography", "Branding"],
     includes: [
@@ -385,6 +445,26 @@ export const courseDetailsList = [
       "Automate tasks with formulas",
       "Create interactive dashboards",
     ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ],
     topics: ["Excel", "Data Cleaning", "Dashboards", "Formulas"],
     includes: [
       "20 hours on-demand video",
@@ -431,6 +511,26 @@ export const courseDetailsList = [
       "Create SOPs and scripts using AI",
       "Train non-tech teams to use no-code tools",
     ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ],
     topics: ["AI", "Productivity", "Automation", "Teamwork"],
     includes: [
       "10 hours video training",
@@ -476,6 +576,26 @@ export const courseDetailsList = [
       "Handle conflicts and feedback effectively",
       "Present confidently in meetings",
       "Improve email and verbal communication",
+    ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
     ],
     topics: ["Leadership", "Communication", "Soft Skills"],
     includes: [
@@ -526,6 +646,26 @@ export const courseDetailsList = [
       "Improve email and ad copy with AI support",
       "Upskill sales & marketing team with trending tools",
     ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ],
     topics: ["ChatGPT", "Trello", "Slack", "CRM Tools", "Automation"],
     includes: [
       "20 hours on-demand video",
@@ -571,6 +711,26 @@ export const courseDetailsList = [
       "Practice emotional intelligence in leadership",
       "Plan and implement change in organizations",
     ],
+       modules: [
+      {
+        title: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+      },
+      {
+        title: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+      },
+      {
+        title: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        lessons: ["Variables", "Functions", "DOM Manipulation"]
+      }
+    ],
     topics: [
       "Leadership",
       "Team Management",
@@ -606,6 +766,213 @@ export const courseDetailsList = [
     ],
     description: `Ideal for business leaders looking to inspire their teams, drive change, and create a growth-driven company culture.`,
   },
+  {
+  id: "strategic-digital-marketing",
+  title: "Strategic Digital Marketing",
+  subtitle: "Master SEO, paid ads, and analytics for business growth",
+  rating: 4.8,
+  image: BannerC2,
+  reviewsCount: 245,
+  studentsEnrolled: 1200,
+  lastUpdated: "May 2025",
+  category: "Marketing",
+  type: "Business",
+  previewVideo: "https://example.com/marketing-preview.mp4",
+  whatYouWillLearn: [
+    "Plan data-driven marketing campaigns",
+    "Implement SEO & paid advertising effectively",
+    "Leverage social media and content marketing",
+    "Track performance using advanced analytics",
+    "Optimize conversion funnels and customer journeys"
+  ],
+  modules: [
+    {
+      title: "Module 1: Foundations",
+      completed: true,
+      description: "Understand marketing principles",
+      lessons: ["Digital vs Traditional", "Marketing Funnels", "Strategy Canvas"]
+    },
+    {
+      title: "Module 2: SEO & SEM",
+      completed: false,
+      description: "Improve visibility and ranking",
+      lessons: ["Keyword Research", "Google Ads", "Landing Pages"]
+    },
+    {
+      title: "Module 3: Analytics",
+      completed: false,
+      description: "Use analytics for growth",
+      lessons: ["Google Analytics", "KPI Tracking", "A/B Testing"]
+    }
+  ],
+  topics: ["SEO", "Ads", "Content", "Analytics", "Strategy"],
+  includes: [
+    "18 hours video",
+    "15 templates and tools",
+    "Downloadable resources",
+    "Completion Certificate"
+  ],
+  downloadBrochure: "/data/marketing-brochure.pdf",
+  curriculum: [
+    {
+      section: "Marketing Frameworks",
+      lectures: [
+        { title: "Customer Personas", duration: "30 min" },
+        { title: "Channel Strategy", duration: "40 min" }
+      ]
+    },
+    {
+      section: "Execution & Tools",
+      lectures: [
+        { title: "SEM Campaigns", duration: "45 min" },
+        { title: "Analytics Reports", duration: "50 min" }
+      ]
+    }
+  ],
+  requirements: [
+    "Basic knowledge of digital platforms",
+    "Interest in business growth through marketing"
+  ],
+  description: `Learn how to develop high-impact marketing strategies to grow your business, improve ROI, and engage customers through digital channels.`
+}
+,{
+  id: "data-science-decision-making",
+  title: "Data Science for Decision Making",
+  subtitle: "Use data and AI insights to improve strategic business outcomes",
+  rating: 4.7,
+  image: BannerC3,
+  reviewsCount: 310,
+  studentsEnrolled: 950,
+  lastUpdated: "March 2025",
+  category: "Data & AI",
+  type: "Business",
+  previewVideo: "https://example.com/data-preview.mp4",
+  whatYouWillLearn: [
+    "Understand core data science concepts",
+    "Use dashboards and visualizations",
+    "Make data-backed business decisions",
+    "Integrate AI tools in business workflows",
+    "Collaborate effectively with data teams"
+  ],
+  modules: [
+    {
+      title: "Module 1: Data Literacy",
+      completed: true,
+      description: "Learn to read and interpret data",
+      lessons: ["Data Types", "Dashboards", "KPIs & Metrics"]
+    },
+    {
+      title: "Module 2: Predictive Tools",
+      completed: false,
+      description: "Use ML insights in business",
+      lessons: ["Forecasting", "Trend Analysis", "AI Use Cases"]
+    },
+    {
+      title: "Module 3: Application",
+      completed: false,
+      description: "Drive action through data",
+      lessons: ["Reporting", "Business Cases", "Presentation"]
+    }
+  ],
+  topics: ["Data", "Machine Learning", "BI", "Strategy"],
+  includes: [
+    "12 hours content",
+    "Case studies",
+    "Excel & Power BI files",
+    "Completion certificate"
+  ],
+  downloadBrochure: "/data/data-science-brochure.pdf",
+  curriculum: [
+    {
+      section: "Data Strategy",
+      lectures: [
+        { title: "Intro to Data Science", duration: "30 min" },
+        { title: "How AI Helps Business", duration: "40 min" }
+      ]
+    },
+    {
+      section: "Business Impact",
+      lectures: [
+        { title: "Data-Driven Culture", duration: "45 min" },
+        { title: "Collaborating with Analysts", duration: "35 min" }
+      ]
+    }
+  ],
+  requirements: [
+    "No coding knowledge required",
+    "Interest in business innovation"
+  ],
+  description: `Empower business teams with practical data skills to improve outcomes, collaborate with data experts, and leverage AI-driven insights.`
+},{
+  id: "agile-project-management",
+  title: "Agile Project Management",
+  subtitle: "Deliver results with speed and flexibility using Agile frameworks",
+  rating: 4.85,
+  image: BannerC1,
+  reviewsCount: 175,
+  studentsEnrolled: 870,
+  lastUpdated: "February 2025",
+  category: "Project Management",
+  type: "Business",
+  previewVideo: "https://example.com/agile-preview.mp4",
+  whatYouWillLearn: [
+    "Implement Scrum and Kanban",
+    "Lead Agile ceremonies and retrospectives",
+    "Manage product backlogs and sprints",
+    "Measure team velocity and outcomes",
+    "Align stakeholders with agile goals"
+  ],
+  modules: [
+    {
+      title: "Module 1: Agile Basics",
+      completed: true,
+      description: "Core principles and terminology",
+      lessons: ["Agile vs Waterfall", "Scrum Roles", "Kanban Boards"]
+    },
+    {
+      title: "Module 2: Sprint Management",
+      completed: false,
+      description: "Manage work and iterations",
+      lessons: ["User Stories", "Daily Standups", "Sprint Review"]
+    },
+    {
+      title: "Module 3: Leadership in Agile",
+      completed: false,
+      description: "Facilitate and remove blockers",
+      lessons: ["Servant Leadership", "Retrospectives", "Agile Mindset"]
+    }
+  ],
+  topics: ["Agile", "Scrum", "Kanban", "Team Leadership"],
+  includes: [
+    "10 hours content",
+    "Agile toolkit",
+    "Scrum Guide PDF",
+    "Completion certificate"
+  ],
+  downloadBrochure: "/data/agile-pm-brochure.pdf",
+  curriculum: [
+    {
+      section: "Getting Started with Agile",
+      lectures: [
+        { title: "Agile Manifesto", duration: "20 min" },
+        { title: "When to Use Agile", duration: "25 min" }
+      ]
+    },
+    {
+      section: "Execution & Coaching",
+      lectures: [
+        { title: "Agile Leadership", duration: "40 min" },
+        { title: "Facilitating Retrospectives", duration: "35 min" }
+      ]
+    }
+  ],
+  requirements: [
+    "Familiarity with team projects",
+    "Willingness to adapt to change"
+  ],
+  description: `Build high-performing teams that thrive under change. Learn to lead projects using agile methodologies to deliver business value faster.`
+}
+
 ];
 
 export const impactItems = [
@@ -1339,29 +1706,139 @@ export const courseData = [
     duration: "6h 30m",
     totalHours: 6.5,
     watchedHours: 3.25,
+    badge: "Blend",
     level: "Beginner",
     tags: ["React", "JavaScript"],
     progress: true,
-    modules: [
+  modules: [
+  {
+    moduleTitle: "Module 1: Introduction",
+    completed: true,
+    description: "Basic overview and setup",
+    topics: [
       {
-        title: "Module 1: Introduction",
-        completed: true,
-        description: "Basic overview and setup",
-        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+        topicTitle: "Welcome",
+        contents: [
+          {
+            type: "video",
+            name: "Welcome to the Course",
+            duration: "5m",
+            url: "https://example.com/welcome-video"
+          }
+        ]
       },
       {
-        title: "Module 2: HTML & CSS",
-        completed: true,
-        description: "Learn structure and styling",
-        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+        topicTitle: "Tools Setup",
+        contents: [
+          {
+            type: "video",
+            name: "Installing Tools",
+            duration: "10m",
+            url: "https://example.com/tools-setup"
+          },
+          {
+            type: "video",
+            name: "Environment Setup",
+            duration: "8m",
+            url: "https://example.com/env-setup"
+          }
+        ]
       },
       {
-        title: "Module 3: JavaScript Essentials",
-        completed: false,
-        description: "Understand core JS concepts",
-        lessons: ["Variables", "Functions", "DOM Manipulation"]
+        topicTitle: "Course Overview",
+        contents: [
+          {
+            type: "video",
+            name: "Course Structure",
+            duration: "6m",
+            url: "https://example.com/overview"
+          }
+        ]
       }
     ]
+  },
+  {
+    moduleTitle: "Module 2: HTML & CSS",
+    completed: true,
+    description: "Learn structure and styling",
+    topics: [
+      {
+        topicTitle: "HTML Basics",
+        contents: [
+          {
+            type: "video",
+            name: "HTML Introduction",
+            duration: "15m",
+            url: "https://example.com/html-intro"
+          }
+        ]
+      },
+      {
+        topicTitle: "CSS Flexbox",
+        contents: [
+          {
+            type: "video",
+            name: "Flexbox Layout",
+            duration: "18m",
+            url: "https://example.com/flexbox"
+          }
+        ]
+      },
+      {
+        topicTitle: "Responsive Design",
+        contents: [
+          {
+            type: "video",
+            name: "Responsive Techniques",
+            duration: "20m",
+            url: "https://example.com/responsive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 3: JavaScript Essentials",
+    completed: false,
+    description: "Understand core JS concepts",
+    topics: [
+      {
+        topicTitle: "Variables",
+        contents: [
+          {
+            type: "video",
+            name: "JavaScript Variables Explained",
+            duration: "12m",
+            url: "https://example.com/js-variables"
+          }
+        ]
+      },
+      {
+        topicTitle: "Functions",
+        contents: [
+          {
+            type: "video",
+            name: "Function Basics",
+            duration: "10m",
+            url: "https://example.com/functions"
+          }
+        ]
+      },
+      {
+        topicTitle: "DOM Manipulation",
+        contents: [
+          {
+            type: "video",
+            name: "Intro to the DOM",
+            duration: "14m",
+            url: "https://example.com/dom"
+          }
+        ]
+      }
+    ]
+  }
+]
+
   },
   {
     id: 2,
@@ -1369,31 +1846,705 @@ export const courseData = [
     image: Banner,
     duration: "4h 10m",
     totalHours: 4.17,
-    watchedHours: 1.5,
+    badge: "premium",
+    watchedHours: 3.99,
     level: "Intermediate",
     tags: ["CSS", "Design"],
     progress: false,
-    modules: [
+   modules: [
+  {
+    moduleTitle: "Module 1: Introduction",
+    completed: true,
+    description: "Basic overview and setup",
+    topics: [
       {
-        title: "Module 1: Introduction",
-        completed: true,
-        description: "Basic overview and setup",
-        lessons: ["Welcome", "Tools Setup", "Course Overview"]
+        topicTitle: "Welcome",
+        contents: [
+          {
+            type: "video",
+            name: "Welcome to the Course",
+            duration: "5m",
+            url: "https://example.com/welcome-video"
+          }
+        ]
       },
       {
-        title: "Module 2: HTML & CSS",
-        completed: true,
-        description: "Learn structure and styling",
-        lessons: ["HTML Basics", "CSS Flexbox", "Responsive Design"]
+        topicTitle: "Tools Setup",
+        contents: [
+          {
+            type: "video",
+            name: "Installing Tools",
+            duration: "10m",
+            url: "https://example.com/tools-setup"
+          },
+          {
+            type: "video",
+            name: "Environment Setup",
+            duration: "8m",
+            url: "https://example.com/env-setup"
+          }
+        ]
       },
       {
-        title: "Module 3: JavaScript Essentials",
-        completed: false,
-        description: "Understand core JS concepts",
-        lessons: ["Variables", "Functions", "DOM Manipulation"]
+        topicTitle: "Course Overview",
+        contents: [
+          {
+            type: "video",
+            name: "Course Structure",
+            duration: "6m",
+            url: "https://example.com/overview"
+          }
+        ]
       }
     ]
   },
+  {
+    moduleTitle: "Module 2: HTML & CSS",
+    completed: true,
+    description: "Learn structure and styling",
+    topics: [
+      {
+        topicTitle: "HTML Basics",
+        contents: [
+          {
+            type: "video",
+            name: "HTML Introduction",
+            duration: "15m",
+            url: "https://example.com/html-intro"
+          }
+        ]
+      },
+      {
+        topicTitle: "CSS Flexbox",
+        contents: [
+          {
+            type: "video",
+            name: "Flexbox Layout",
+            duration: "18m",
+            url: "https://example.com/flexbox"
+          }
+        ]
+      },
+      {
+        topicTitle: "Responsive Design",
+        contents: [
+          {
+            type: "video",
+            name: "Responsive Techniques",
+            duration: "20m",
+            url: "https://example.com/responsive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 3: JavaScript Essentials",
+    completed: false,
+    description: "Understand core JS concepts",
+    topics: [
+      {
+        topicTitle: "Variables",
+        contents: [
+          {
+            type: "video",
+            name: "JavaScript Variables Explained",
+            duration: "12m",
+            url: "https://example.com/js-variables"
+          }
+        ]
+      },
+      {
+        topicTitle: "Functions",
+        contents: [
+          {
+            type: "video",
+            name: "Function Basics",
+            duration: "10m",
+            url: "https://example.com/functions"
+          }
+        ]
+      },
+      {
+        topicTitle: "DOM Manipulation",
+        contents: [
+          {
+            type: "video",
+            name: "Intro to the DOM",
+            duration: "14m",
+            url: "https://example.com/dom"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+  },{
+  id: 3,
+  title: "JavaScript Mastery",
+  image: Banner,
+  duration: "6h 45m",
+  totalHours: 6.75,
+  watchedHours: 5.25,
+  badge: "Blend",
+  level: "Advanced",
+  tags: ["JavaScript", "Web Development"],
+  progress: true,
+modules: [
+  {
+    moduleTitle: "Module 1: Introduction",
+    completed: true,
+    description: "Basic overview and setup",
+    topics: [
+      {
+        topicTitle: "Welcome",
+        contents: [
+          {
+            type: "video",
+            name: "Welcome to the Course",
+            duration: "5m",
+            url: "https://example.com/welcome-video"
+          }
+        ]
+      },
+      {
+        topicTitle: "Tools Setup",
+        contents: [
+          {
+            type: "video",
+            name: "Installing Tools",
+            duration: "10m",
+            url: "https://example.com/tools-setup"
+          },
+          {
+            type: "video",
+            name: "Environment Setup",
+            duration: "8m",
+            url: "https://example.com/env-setup"
+          }
+        ]
+      },
+      {
+        topicTitle: "Course Overview",
+        contents: [
+          {
+            type: "video",
+            name: "Course Structure",
+            duration: "6m",
+            url: "https://example.com/overview"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 2: HTML & CSS",
+    completed: true,
+    description: "Learn structure and styling",
+    topics: [
+      {
+        topicTitle: "HTML Basics",
+        contents: [
+          {
+            type: "video",
+            name: "HTML Introduction",
+            duration: "15m",
+            url: "https://example.com/html-intro"
+          }
+        ]
+      },
+      {
+        topicTitle: "CSS Flexbox",
+        contents: [
+          {
+            type: "video",
+            name: "Flexbox Layout",
+            duration: "18m",
+            url: "https://example.com/flexbox"
+          }
+        ]
+      },
+      {
+        topicTitle: "Responsive Design",
+        contents: [
+          {
+            type: "video",
+            name: "Responsive Techniques",
+            duration: "20m",
+            url: "https://example.com/responsive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 3: JavaScript Essentials",
+    completed: false,
+    description: "Understand core JS concepts",
+    topics: [
+      {
+        topicTitle: "Variables",
+        contents: [
+          {
+            type: "video",
+            name: "JavaScript Variables Explained",
+            duration: "12m",
+            url: "https://example.com/js-variables"
+          }
+        ]
+      },
+      {
+        topicTitle: "Functions",
+        contents: [
+          {
+            type: "video",
+            name: "Function Basics",
+            duration: "10m",
+            url: "https://example.com/functions"
+          }
+        ]
+      },
+      {
+        topicTitle: "DOM Manipulation",
+        contents: [
+          {
+            type: "video",
+            name: "Intro to the DOM",
+            duration: "14m",
+            url: "https://example.com/dom"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+},
+{
+  id: 4,
+  title: "React Fundamentals",
+  image: Banner,
+  duration: "7h 10m",
+  totalHours: 7.17,
+  watchedHours: 2.5,
+  badge: "premium",
+  level: "Intermediate",
+  tags: ["React", "Frontend", "JavaScript"],
+  progress: true,
+modules: [
+  {
+    moduleTitle: "Module 1: Introduction",
+    completed: true,
+    description: "Basic overview and setup",
+    topics: [
+      {
+        topicTitle: "Welcome",
+        contents: [
+          {
+            type: "video",
+            name: "Welcome to the Course",
+            duration: "5m",
+            url: "https://example.com/welcome-video"
+          }
+        ]
+      },
+      {
+        topicTitle: "Tools Setup",
+        contents: [
+          {
+            type: "video",
+            name: "Installing Tools",
+            duration: "10m",
+            url: "https://example.com/tools-setup"
+          },
+          {
+            type: "video",
+            name: "Environment Setup",
+            duration: "8m",
+            url: "https://example.com/env-setup"
+          }
+        ]
+      },
+      {
+        topicTitle: "Course Overview",
+        contents: [
+          {
+            type: "video",
+            name: "Course Structure",
+            duration: "6m",
+            url: "https://example.com/overview"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 2: HTML & CSS",
+    completed: true,
+    description: "Learn structure and styling",
+    topics: [
+      {
+        topicTitle: "HTML Basics",
+        contents: [
+          {
+            type: "video",
+            name: "HTML Introduction",
+            duration: "15m",
+            url: "https://example.com/html-intro"
+          }
+        ]
+      },
+      {
+        topicTitle: "CSS Flexbox",
+        contents: [
+          {
+            type: "video",
+            name: "Flexbox Layout",
+            duration: "18m",
+            url: "https://example.com/flexbox"
+          }
+        ]
+      },
+      {
+        topicTitle: "Responsive Design",
+        contents: [
+          {
+            type: "video",
+            name: "Responsive Techniques",
+            duration: "20m",
+            url: "https://example.com/responsive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 3: JavaScript Essentials",
+    completed: false,
+    description: "Understand core JS concepts",
+    topics: [
+      {
+        topicTitle: "Variables",
+        contents: [
+          {
+            type: "video",
+            name: "JavaScript Variables Explained",
+            duration: "12m",
+            url: "https://example.com/js-variables"
+          }
+        ]
+      },
+      {
+        topicTitle: "Functions",
+        contents: [
+          {
+            type: "video",
+            name: "Function Basics",
+            duration: "10m",
+            url: "https://example.com/functions"
+          }
+        ]
+      },
+      {
+        topicTitle: "DOM Manipulation",
+        contents: [
+          {
+            type: "video",
+            name: "Intro to the DOM",
+            duration: "14m",
+            url: "https://example.com/dom"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+}
+,{
+  id: 5,
+  title: "Node.js Backend Essentials",
+  image: Banner,
+  duration: "5h 30m",
+  totalHours: 5.5,
+  badge: "Blend",
+  watchedHours: 0,
+  level: "Beginner",
+  tags: ["Node.js", "Backend", "JavaScript"],
+  progress: false,
+ modules: [
+  {
+    moduleTitle: "Module 1: Introduction",
+    completed: true,
+    description: "Basic overview and setup",
+    topics: [
+      {
+        topicTitle: "Welcome",
+        contents: [
+          {
+            type: "video",
+            name: "Welcome to the Course",
+            duration: "5m",
+            url: "https://example.com/welcome-video"
+          }
+        ]
+      },
+      {
+        topicTitle: "Tools Setup",
+        contents: [
+          {
+            type: "video",
+            name: "Installing Tools",
+            duration: "10m",
+            url: "https://example.com/tools-setup"
+          },
+          {
+            type: "video",
+            name: "Environment Setup",
+            duration: "8m",
+            url: "https://example.com/env-setup"
+          }
+        ]
+      },
+      {
+        topicTitle: "Course Overview",
+        contents: [
+          {
+            type: "video",
+            name: "Course Structure",
+            duration: "6m",
+            url: "https://example.com/overview"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 2: HTML & CSS",
+    completed: true,
+    description: "Learn structure and styling",
+    topics: [
+      {
+        topicTitle: "HTML Basics",
+        contents: [
+          {
+            type: "video",
+            name: "HTML Introduction",
+            duration: "15m",
+            url: "https://example.com/html-intro"
+          }
+        ]
+      },
+      {
+        topicTitle: "CSS Flexbox",
+        contents: [
+          {
+            type: "video",
+            name: "Flexbox Layout",
+            duration: "18m",
+            url: "https://example.com/flexbox"
+          }
+        ]
+      },
+      {
+        topicTitle: "Responsive Design",
+        contents: [
+          {
+            type: "video",
+            name: "Responsive Techniques",
+            duration: "20m",
+            url: "https://example.com/responsive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 3: JavaScript Essentials",
+    completed: false,
+    description: "Understand core JS concepts",
+    topics: [
+      {
+        topicTitle: "Variables",
+        contents: [
+          {
+            type: "video",
+            name: "JavaScript Variables Explained",
+            duration: "12m",
+            url: "https://example.com/js-variables"
+          }
+        ]
+      },
+      {
+        topicTitle: "Functions",
+        contents: [
+          {
+            type: "video",
+            name: "Function Basics",
+            duration: "10m",
+            url: "https://example.com/functions"
+          }
+        ]
+      },
+      {
+        topicTitle: "DOM Manipulation",
+        contents: [
+          {
+            type: "video",
+            name: "Intro to the DOM",
+            duration: "14m",
+            url: "https://example.com/dom"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+}
+,{
+  id: 6,
+  title: "TypeScript for JavaScript Developers",
+  image: Banner,
+  duration: "4h 50m",
+  totalHours: 4.83,
+  badge: "Blend",
+  watchedHours: 4.25,
+  level: "Intermediate",
+  tags: ["TypeScript", "JavaScript", "Typed Programming"],
+  progress: true,
+modules: [
+  {
+    moduleTitle: "Module 1: Introduction",
+    completed: true,
+    description: "Basic overview and setup",
+    topics: [
+      {
+        topicTitle: "Welcome",
+        contents: [
+          {
+            type: "video",
+            name: "Welcome to the Course",
+            duration: "5m",
+            url: "https://example.com/welcome-video"
+          }
+        ]
+      },
+      {
+        topicTitle: "Tools Setup",
+        contents: [
+          {
+            type: "video",
+            name: "Installing Tools",
+            duration: "10m",
+            url: "https://example.com/tools-setup"
+          },
+          {
+            type: "video",
+            name: "Environment Setup",
+            duration: "8m",
+            url: "https://example.com/env-setup"
+          }
+        ]
+      },
+      {
+        topicTitle: "Course Overview",
+        contents: [
+          {
+            type: "video",
+            name: "Course Structure",
+            duration: "6m",
+            url: "https://example.com/overview"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 2: HTML & CSS",
+    completed: true,
+    description: "Learn structure and styling",
+    topics: [
+      {
+        topicTitle: "HTML Basics",
+        contents: [
+          {
+            type: "video",
+            name: "HTML Introduction",
+            duration: "15m",
+            url: "https://example.com/html-intro"
+          }
+        ]
+      },
+      {
+        topicTitle: "CSS Flexbox",
+        contents: [
+          {
+            type: "video",
+            name: "Flexbox Layout",
+            duration: "1h8m",
+            url: "https://example.com/flexbox"
+          }
+        ]
+      },
+      {
+        topicTitle: "Responsive Design",
+        contents: [
+          {
+            type: "video",
+            name: "Responsive Techniques",
+            duration: "20m",
+            url: "https://example.com/responsive"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    moduleTitle: "Module 3: JavaScript Essentials",
+    completed: false,
+    description: "Understand core JS concepts",
+    topics: [
+      {
+        topicTitle: "Variables",
+        contents: [
+          {
+            type: "video",
+            name: "JavaScript Variables Explained",
+            duration: "12m",
+            url: "https://example.com/js-variables"
+          }
+        ]
+      },
+      {
+        topicTitle: "Functions",
+        contents: [
+          {
+            type: "video",
+            name: "Function Basics",
+            duration: "10m",
+            url: "https://example.com/functions"
+          }
+        ]
+      },
+      {
+        topicTitle: "DOM Manipulation",
+        contents: [
+          {
+            type: "video",
+            name: "Intro to the DOM",
+            duration: "14m",
+            url: "https://example.com/dom"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+}
+
 ];
 export const privacyTabs = [
   {

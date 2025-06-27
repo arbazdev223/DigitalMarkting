@@ -51,8 +51,6 @@ const ServiceDetailPage = () => {
       </div>
 
       <StrategyComparison />
-
-      {/* Dynamic FAQ Key Selector */}
       <div className="max-w-6xl mx-auto my-8 flex flex-wrap gap-2 justify-center">
         {faqKeys.map((key) => (
           <button

@@ -20,6 +20,7 @@ import CartPage from "./pages/CartPage";
 import CourseResumePage from "./pages/CourseResumePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CertificatePage from "./pages/CertificatePage";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
         <Route path="/courseStudent/:id" element={<CourseResumePage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
          <Route path="/cart" element={<CartPage />} />
+         <Route path="/certificate" element={<CertificatePage />} />
         <Route path="/auth" element={<AuthTabs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminDashboard />} />

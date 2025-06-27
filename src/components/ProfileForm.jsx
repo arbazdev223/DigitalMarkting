@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-
-const getInitials = (name = "") => {
-  const parts = name.trim().split(" ");
-  if (parts.length === 1) return parts[0][0]?.toUpperCase() || "";
-  return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
-};
+import React, { useState, useEffect,useRef } from "react";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../store/authSlice";
+import { getInitials}  from "../store/authSlice"; 
+import { toast } from "react-toast";
 
 const ProfileForm = ({ user }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
     phone: user?.phone || "",
+    image: user?.image || "",
     address: user?.address || "",
     linkedin: user?.linkedin || "",
     facebook: user?.facebook || "",
     instagram: user?.instagram || "",
-    profile: user?.profile || "", 
+    profile: user?.profile || "",
   });
 
   useEffect(() => {
@@ -23,6 +23,7 @@ const ProfileForm = ({ user }) => {
       name: user?.name || "",
       email: user?.email || "",
       phone: user?.phone || "",
+      image: user?.image || "",
       address: user?.address || "",
       linkedin: user?.linkedin || "",
       facebook: user?.facebook || "",
@@ -30,7 +31,7 @@ const ProfileForm = ({ user }) => {
       profile: user?.profile || "",
     });
   }, [user]);
-
+const imageRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e) => {
@@ -38,27 +39,45 @@ const ProfileForm = ({ user }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Updated Data:", formData);
-    setIsEditing(false);
+const handleImageUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setFormData((prev) => ({ ...prev, profile: reader.result }));
   };
+  reader.readAsDataURL(file);
+};
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  dispatch(updateUser(formData));
+  setIsEditing(false);
+  toast.success("Profile updated successfully!");
+};
 
   return (
-    <div className="bg-white p-6 rounded-md shadow-md">
+      <div className="bg-white p-6 rounded-md shadow-md">
       <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-6 gap-4">
         <div className="flex items-center space-x-4 w-full">
-          {formData.profile ? (
-            <img
-              src={formData.profile}
-              alt="Profile"
-              className="w-20 h-20 rounded-full object-cover border"
-            />
-          ) : (
-            <div className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-3xl font-bold font-nunito select-none">
-              {getInitials(formData.name)}
-            </div>
-          )}
+         {formData.profile ? (
+  <img
+    src={formData.profile}
+    alt="Profile"
+    onClick={() => isEditing && imageRef.current.click()}
+    className="w-20 h-20 rounded-full object-cover border cursor-pointer"
+  />
+) : (
+  <div
+    onClick={() => isEditing && imageRef.current.click()}
+    className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-3xl font-bold font-nunito select-none cursor-pointer"
+  >
+    {getInitials(formData.name)}
+  </div>
+)}
+
           <div className="flex-1">
             <h2 className="text-xl font-bold font-nunito">
               {formData.name || "Your Name"}
@@ -66,6 +85,19 @@ const ProfileForm = ({ user }) => {
             <p className="text-gray-600 font-nunito">
               {formData.email || "email@example.com"}
             </p>
+
+            {isEditing && (
+              <div className="mt-2">
+               <input
+  ref={imageRef}
+  type="file"
+  accept="image/*"
+  onChange={handleImageUpload}
+  className="hidden"
+/>
+              </div>
+            )}
+
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}

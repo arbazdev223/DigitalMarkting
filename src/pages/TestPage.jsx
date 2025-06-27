@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import confetti from "canvas-confetti";
-import { testQuestions } from "../../data";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setScore,
+  decrementAttempts,
+  addCertificate,
+} from "../store/testSlice";
 
-const TestPage = () => {
+import { testQuestions } from "../../data";
+import confetti from "canvas-confetti";
+
+const TestPage = ({ onCertificateEarned }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(90);
-  const [attempts, setAttempts] = useState(3);
   const [submitted, setSubmitted] = useState(false);
-  const [score, setScore] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
+const dispatch = useDispatch();
+const score = useSelector((state) => state.test.score);
+const attempts = useSelector((state) => state.test.attempts);
+
+
+const username = useSelector((state) => state.auth.user?.name || "Student");
+const courseTitle = useSelector((state) => state.course.currentCourse?.title || "Your Course Name");
 
   const navigate = useNavigate();
   const currentQuestion = testQuestions[currentQuestionIndex];
@@ -31,8 +43,8 @@ const TestPage = () => {
       confetti({ spread: 160, particleCount: 300, origin: { y: 0.6 } });
 
       const timer = setTimeout(() => {
-        navigate("/certificate");
-      }, 4000); // 4 seconds delay before redirect
+  
+      }, 4000); 
 
       return () => clearTimeout(timer);
     }
@@ -70,37 +82,39 @@ const TestPage = () => {
     }
   };
 
-  const handleSubmit = () => {
-    let total = 0;
+const handleSubmit = () => {
+  let total = 0;
 
-    testQuestions.forEach((q) => {
-      const userAns = userAnswers[q.id] || [];
-      const correct = q.correctAnswers;
-      const isCorrect =
-        userAns.length === correct.length &&
-        userAns.every((ans) => correct.includes(ans));
-      if (isCorrect) total += 1;
-    });
+  testQuestions.forEach((q) => {
+    const userAns = userAnswers[q.id] || [];
+    const correct = q.correctAnswers;
+    const isCorrect =
+      userAns.length === correct.length &&
+      userAns.every((ans) => correct.includes(ans));
+    if (isCorrect) total += 1;
+  });
 
-    setScore(total);
-    setSubmitted(true);
-    setAttempts((prev) => prev - 1);
+  dispatch(setScore(total));
+  dispatch(decrementAttempts());
+  setSubmitted(true);
 
-    // Save certificate if passed
-    const percent = Math.round((total / testQuestions.length) * 100);
-    if (percent >= 95) {
-      const certificates = JSON.parse(
-        localStorage.getItem("certificates") || "[]"
-      );
-      certificates.push({
-        name: "Student", // Replace with dynamic user name if available
-        course: "Your Course Name", // Replace with dynamic course name if available
-        date: new Date().toLocaleDateString(),
-        id: Date.now(),
-      });
-      localStorage.setItem("certificates", JSON.stringify(certificates));
-    }
+  const percent = Math.round((total / testQuestions.length) * 100);
+if (percent >= 95) {
+  const cert = {
+    name: username,
+    course: courseTitle,
+    date: new Date().toLocaleDateString(),
+    id: Date.now(),
   };
+  dispatch(addCertificate(cert));
+
+  if (onCertificateEarned) {
+    onCertificateEarned();
+  }
+}
+
+};
+
 
   const resetTest = () => {
     setCurrentQuestionIndex(0);

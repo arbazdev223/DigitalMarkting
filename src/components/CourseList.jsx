@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 
 const HalfCircleProgress = ({ percent }) => {
   const radius = 30;
@@ -38,9 +39,15 @@ const HalfCircleProgress = ({ percent }) => {
 };
 
 const CourseList = ({ courses }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCourses = courses.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className="flex-1 flex flex-col gap-4">
-      {courses.map((course) => {
+      {currentCourses.map((course) => {
         const percent =
           course.totalHours && course.watchedHours
             ? (course.watchedHours / course.totalHours) * 100
@@ -85,6 +92,15 @@ const CourseList = ({ courses }) => {
           </Link>
         );
       })}
+
+      {courses.length > itemsPerPage && (
+        <Pagination
+          totalItems={courses.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 };

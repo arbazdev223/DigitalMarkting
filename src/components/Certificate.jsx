@@ -6,8 +6,8 @@ const Certificate = ({ name, course, date }) => {
     <div
       className="relative"
       style={{
-        width: 900,
-        height: 650,
+        width: 250,
+        height: 150,
         backgroundImage: `url(${Cert1})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",

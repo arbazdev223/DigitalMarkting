@@ -8,7 +8,7 @@ const Services = () => {
 <CourseTabs
   heading={<><span className="text-[#0e3477]">Career Courses</span></>}
   paragraph="We offer tailored courses to help students and businesses excel."
-  maxCount={100}
+  maxCount={6}
   label="Load More Courses"
 />
 <ServicesSection/>

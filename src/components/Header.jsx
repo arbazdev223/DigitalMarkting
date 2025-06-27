@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
-import { FaUserCircle } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { MdShoppingCart } from "react-icons/md";
 import { logout } from "../store/authSlice";
@@ -11,7 +10,7 @@ import {
   getDataFromLocalStorage,
   selectCartTotalQuantity,
 } from "../store/cartSlice";
-
+import  {getInitials}  from "../store/authSlice"; 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -30,6 +29,18 @@ const Header = () => {
     dispatch(logout());
     navigate("/");
   };
+  
+useEffect(() => {
+  if (isOpen) {
+    document.body.classList.add("overflow-hidden");
+  } else {
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  return () => {
+    document.body.classList.remove("overflow-hidden");
+  };
+}, [isOpen]);
 
   const handleProfileClick = () => navigate("/profile");
 
@@ -153,7 +164,18 @@ const Header = () => {
                       className="flex items-center focus:outline-none"
                       title="Profile"
                     >
-                      <FaUserCircle className="text-2xl text-[#0e3477] hover:text-[#0d2f6c] transition duration-300" />
+                      {user?.profile ? (
+  <img
+    src={user.profile}
+    alt="Profile"
+    className="w-8 h-8 rounded-full object-cover border border-gray-300"
+  />
+) : (
+  <div className="w-8 h-8 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold">
+    {getInitials(user?.name || "U")}
+  </div>
+)}
+
                     </button>
                     {profileDropdown && (
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-36 bg-white border border-gray-200 rounded-md shadow-md z-50 transition-all duration-300 ease-in-out">
@@ -184,7 +206,7 @@ const Header = () => {
           </div>
         </div>
         {isOpen && (
-          <div className="md:hidden mt-2 space-y-2 pb-4 border-t pt-4">
+          <div className="md:hidden   mt-2 h-[calc(100vh-4rem)] space-y-2 pb-4 border-t pt-4">
             <Link
               to="/"
               className="block text-gray-600 font-semibold hover:text-[#0e3477]"
@@ -264,7 +286,18 @@ const Header = () => {
                         }}
                         className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]"
                       >
-                        <FaUserCircle className="text-xl" /> Profile
+                       {user?.profile ? (
+  <img
+    src={user.profile}
+    alt="Profile"
+    className="w-6 h-6 rounded-full object-cover border border-gray-300"
+  />
+) : (
+  <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-[10px] font-bold">
+    {getInitials(user?.name || "U")}
+  </div>
+)}{" "}
+Profile
                       </button>
                       {profileDropdown && (
                         <div className="mt-2 w-full bg-white border border-gray-200 rounded-md shadow-md z-50">

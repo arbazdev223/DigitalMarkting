@@ -5,6 +5,7 @@ import CourseList from "../components/CourseList";
 import { courseData } from "../../data";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import TestPage from "./TestPage";
+import CertificatePage from "./CertificatePage";
 
 const tabs = ["Profile", "Course", "Test", "Payment", "Certificate"];
 
@@ -22,7 +23,7 @@ const Profile = () => {
     Course: <CourseList courses={courseData} />,
     Test: <TestPage />,
     Payment: <p className="text-gray-600">This is the Payment section (Coming Soon).</p>,
-    Certificate: <p className="text-gray-600">This is the Certificate section (Coming Soon).</p>,
+    Certificate: <CertificatePage/>,
   };
 
   return (

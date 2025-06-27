@@ -7,22 +7,25 @@ import {
   addCertificate,
 } from "../store/testSlice";
 
-import { testQuestions } from "../../data";
 import confetti from "canvas-confetti";
 
-const TestPage = ({ onCertificateEarned }) => {
+const TestPage = ({
+  testQuestions,
+  showUserInfo = true,
+  courseTitle,
+  onCertificateEarned,
+  onTestComplete,
+}) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(90);
   const [submitted, setSubmitted] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
-const dispatch = useDispatch();
-const score = useSelector((state) => state.test.score);
-const attempts = useSelector((state) => state.test.attempts);
+  const dispatch = useDispatch();
+  const score = useSelector((state) => state.test.score);
+  const attempts = useSelector((state) => state.test.attempts);
 
-
-const username = useSelector((state) => state.auth.user?.name || "Student");
-const courseTitle = useSelector((state) => state.course.currentCourse?.title || "Your Course Name");
+  const username = useSelector((state) => state.auth.user?.name || "Student");
 
   const navigate = useNavigate();
   const currentQuestion = testQuestions[currentQuestionIndex];
@@ -42,9 +45,7 @@ const courseTitle = useSelector((state) => state.course.currentCourse?.title || 
       setShowCelebration(true);
       confetti({ spread: 160, particleCount: 300, origin: { y: 0.6 } });
 
-      const timer = setTimeout(() => {
-  
-      }, 4000); 
+      const timer = setTimeout(() => {}, 4000);
 
       return () => clearTimeout(timer);
     }
@@ -82,39 +83,38 @@ const courseTitle = useSelector((state) => state.course.currentCourse?.title || 
     }
   };
 
-const handleSubmit = () => {
-  let total = 0;
+  const handleSubmit = () => {
+    let total = 0;
 
-  testQuestions.forEach((q) => {
-    const userAns = userAnswers[q.id] || [];
-    const correct = q.correctAnswers;
-    const isCorrect =
-      userAns.length === correct.length &&
-      userAns.every((ans) => correct.includes(ans));
-    if (isCorrect) total += 1;
-  });
+    testQuestions.forEach((q) => {
+      const userAns = userAnswers[q.id] || [];
+      const correct = q.correctAnswers;
+      const isCorrect =
+        userAns.length === correct.length &&
+        userAns.every((ans) => correct.includes(ans));
+      if (isCorrect) total += 1;
+    });
 
-  dispatch(setScore(total));
-  dispatch(decrementAttempts());
-  setSubmitted(true);
+    dispatch(setScore(total));
+    dispatch(decrementAttempts());
+    setSubmitted(true);
 
-  const percent = Math.round((total / testQuestions.length) * 100);
-if (percent >= 95) {
-  const cert = {
-    name: username,
-    course: courseTitle,
-    date: new Date().toLocaleDateString(),
-    id: Date.now(),
+    const percent = Math.round((total / testQuestions.length) * 100);
+    if (percent >= 95) {
+      const cert = {
+        name: username,
+        course: courseTitle,
+        date: new Date().toLocaleDateString(),
+        id: Date.now(),
+      };
+      dispatch(addCertificate(cert));
+
+      if (onCertificateEarned) {
+        onCertificateEarned();
+      }
+    }
+    if (onTestComplete) onTestComplete(percent);
   };
-  dispatch(addCertificate(cert));
-
-  if (onCertificateEarned) {
-    onCertificateEarned();
-  }
-}
-
-};
-
 
   const resetTest = () => {
     setCurrentQuestionIndex(0);
@@ -163,6 +163,16 @@ if (percent >= 95) {
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-6">
+      {showUserInfo && (
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+          <div className="text-sm text-gray-700 font-semibold">
+            👤 {username}
+          </div>
+          <div className="text-sm text-[#0e3477] font-bold">
+            📚 {courseTitle}
+          </div>
+        </div>
+      )}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold text-[#0e3477]">
           Question {currentQuestionIndex + 1} of {testQuestions.length}

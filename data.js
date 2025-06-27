@@ -25,6 +25,10 @@ import img1 from "./src/assets/web.jpg";
 import img2 from "./src/assets/web.jpg";
 import img3 from "./src/assets/web.jpg";
 import img4 from "./src/assets/web.jpg";
+//Course data file pdf video
+import CourseVideo from "./src/assets/course.mp4";
+import coursePdf from "./src/assets/testpdf.pdf";
+
 
 // Award images About us section
 import award1 from "./src/assets/award1.webp";
@@ -1710,840 +1714,636 @@ export const courseData = [
     level: "Beginner",
     tags: ["React", "JavaScript"],
     progress: true,
-  modules: [
+    modules: [
+      {
+        moduleTitle: "Module 1: Introduction",
+        completed: true,
+        description: "Basic overview and setup",
+        topics: [
+          {
+            topicTitle: "Welcome",
+           contents: [
   {
-    moduleTitle: "Module 1: Introduction",
-    completed: true,
-    description: "Basic overview and setup",
-    topics: [
-      {
-        topicTitle: "Welcome",
-        contents: [
-          {
-            type: "video",
-            name: "Welcome to the Course",
-            duration: "5m",
-            url: "https://example.com/welcome-video"
-          }
-        ]
-      },
-      {
-        topicTitle: "Tools Setup",
-        contents: [
-          {
-            type: "video",
-            name: "Installing Tools",
-            duration: "10m",
-            url: "https://example.com/tools-setup"
-          },
-          {
-            type: "video",
-            name: "Environment Setup",
-            duration: "8m",
-            url: "https://example.com/env-setup"
-          }
-        ]
-      },
-      {
-        topicTitle: "Course Overview",
-        contents: [
-          {
-            type: "video",
-            name: "Course Structure",
-            duration: "6m",
-            url: "https://example.com/overview"
-          }
-        ]
-      }
-    ]
+    type: "video",
+    name: "Welcome to the Course",
+    duration: "5m",
+    url: CourseVideo
   },
   {
-    moduleTitle: "Module 2: HTML & CSS",
-    completed: true,
-    description: "Learn structure and styling",
-    topics: [
-      {
-        topicTitle: "HTML Basics",
-        contents: [
-          {
-            type: "video",
-            name: "HTML Introduction",
-            duration: "15m",
-            url: "https://example.com/html-intro"
-          }
-        ]
-      },
-      {
-        topicTitle: "CSS Flexbox",
-        contents: [
-          {
-            type: "video",
-            name: "Flexbox Layout",
-            duration: "18m",
-            url: "https://example.com/flexbox"
-          }
-        ]
-      },
-      {
-        topicTitle: "Responsive Design",
-        contents: [
-          {
-            type: "video",
-            name: "Responsive Techniques",
-            duration: "20m",
-            url: "https://example.com/responsive"
-          }
-        ]
-      }
-    ]
+    type: "pdf",
+    name: "Welcome to the Course PDF",
+    duration: "",
+    url: coursePdf
   },
   {
-    moduleTitle: "Module 3: JavaScript Essentials",
-    completed: false,
-    description: "Understand core JS concepts",
-    topics: [
-      {
-        topicTitle: "Variables",
-        contents: [
-          {
-            type: "video",
-            name: "JavaScript Variables Explained",
-            duration: "12m",
-            url: "https://example.com/js-variables"
-          }
-        ]
-      },
-      {
-        topicTitle: "Functions",
-        contents: [
-          {
-            type: "video",
-            name: "Function Basics",
-            duration: "10m",
-            url: "https://example.com/functions"
-          }
-        ]
-      },
-      {
-        topicTitle: "DOM Manipulation",
-        contents: [
-          {
-            type: "video",
-            name: "Intro to the DOM",
-            duration: "14m",
-            url: "https://example.com/dom"
-          }
-        ]
-      }
-    ]
+    type: "image",
+    name: "Certificate Example",
+    duration: "",
+    url: Cert1
   }
 ]
-
-  },
-  {
-    id: 2,
-    title: "Advanced CSS",
-    image: Banner,
-    duration: "4h 10m",
-    totalHours: 4.17,
-    badge: "premium",
-    watchedHours: 3.99,
-    level: "Intermediate",
-    tags: ["CSS", "Design"],
-    progress: false,
-   modules: [
-  {
-    moduleTitle: "Module 1: Introduction",
-    completed: true,
-    description: "Basic overview and setup",
-    topics: [
-      {
-        topicTitle: "Welcome",
-        contents: [
-          {
-            type: "video",
-            name: "Welcome to the Course",
-            duration: "5m",
-            url: "https://example.com/welcome-video"
-          }
-        ]
-      },
-      {
-        topicTitle: "Tools Setup",
-        contents: [
-          {
-            type: "video",
-            name: "Installing Tools",
-            duration: "10m",
-            url: "https://example.com/tools-setup"
           },
           {
-            type: "video",
-            name: "Environment Setup",
-            duration: "8m",
-            url: "https://example.com/env-setup"
-          }
-        ]
-      },
-      {
-        topicTitle: "Course Overview",
-        contents: [
-          {
-            type: "video",
-            name: "Course Structure",
-            duration: "6m",
-            url: "https://example.com/overview"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 2: HTML & CSS",
-    completed: true,
-    description: "Learn structure and styling",
-    topics: [
-      {
-        topicTitle: "HTML Basics",
-        contents: [
-          {
-            type: "video",
-            name: "HTML Introduction",
-            duration: "15m",
-            url: "https://example.com/html-intro"
-          }
-        ]
-      },
-      {
-        topicTitle: "CSS Flexbox",
-        contents: [
-          {
-            type: "video",
-            name: "Flexbox Layout",
-            duration: "18m",
-            url: "https://example.com/flexbox"
-          }
-        ]
-      },
-      {
-        topicTitle: "Responsive Design",
-        contents: [
-          {
-            type: "video",
-            name: "Responsive Techniques",
-            duration: "20m",
-            url: "https://example.com/responsive"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 3: JavaScript Essentials",
-    completed: false,
-    description: "Understand core JS concepts",
-    topics: [
-      {
-        topicTitle: "Variables",
-        contents: [
-          {
-            type: "video",
-            name: "JavaScript Variables Explained",
-            duration: "12m",
-            url: "https://example.com/js-variables"
-          }
-        ]
-      },
-      {
-        topicTitle: "Functions",
-        contents: [
-          {
-            type: "video",
-            name: "Function Basics",
-            duration: "10m",
-            url: "https://example.com/functions"
-          }
-        ]
-      },
-      {
-        topicTitle: "DOM Manipulation",
-        contents: [
-          {
-            type: "video",
-            name: "Intro to the DOM",
-            duration: "14m",
-            url: "https://example.com/dom"
-          }
-        ]
-      }
-    ]
-  }
-]
-
-  },{
-  id: 3,
-  title: "JavaScript Mastery",
-  image: Banner,
-  duration: "6h 45m",
-  totalHours: 6.75,
-  watchedHours: 5.25,
-  badge: "Blend",
-  level: "Advanced",
-  tags: ["JavaScript", "Web Development"],
-  progress: true,
-modules: [
-  {
-    moduleTitle: "Module 1: Introduction",
-    completed: true,
-    description: "Basic overview and setup",
-    topics: [
-      {
-        topicTitle: "Welcome",
-        contents: [
-          {
-            type: "video",
-            name: "Welcome to the Course",
-            duration: "5m",
-            url: "https://example.com/welcome-video"
-          }
-        ]
-      },
-      {
-        topicTitle: "Tools Setup",
-        contents: [
-          {
-            type: "video",
-            name: "Installing Tools",
-            duration: "10m",
-            url: "https://example.com/tools-setup"
+            topicTitle: "Tools Setup",
+            contents: [
+              {
+                type: "video",
+                name: "Installing Tools",
+                duration: "10m",
+                url: "https://example.com/tools-setup"
+              },
+              {
+                type: "video",
+                name: "Environment Setup",
+                duration: "8m",
+                url: "https://example.com/env-setup"
+              }
+            ]
           },
           {
-            type: "video",
-            name: "Environment Setup",
-            duration: "8m",
-            url: "https://example.com/env-setup"
-          }
-        ]
-      },
-      {
-        topicTitle: "Course Overview",
-        contents: [
-          {
-            type: "video",
-            name: "Course Structure",
-            duration: "6m",
-            url: "https://example.com/overview"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 2: HTML & CSS",
-    completed: true,
-    description: "Learn structure and styling",
-    topics: [
-      {
-        topicTitle: "HTML Basics",
-        contents: [
-          {
-            type: "video",
-            name: "HTML Introduction",
-            duration: "15m",
-            url: "https://example.com/html-intro"
-          }
-        ]
-      },
-      {
-        topicTitle: "CSS Flexbox",
-        contents: [
-          {
-            type: "video",
-            name: "Flexbox Layout",
-            duration: "18m",
-            url: "https://example.com/flexbox"
-          }
-        ]
-      },
-      {
-        topicTitle: "Responsive Design",
-        contents: [
-          {
-            type: "video",
-            name: "Responsive Techniques",
-            duration: "20m",
-            url: "https://example.com/responsive"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 3: JavaScript Essentials",
-    completed: false,
-    description: "Understand core JS concepts",
-    topics: [
-      {
-        topicTitle: "Variables",
-        contents: [
-          {
-            type: "video",
-            name: "JavaScript Variables Explained",
-            duration: "12m",
-            url: "https://example.com/js-variables"
-          }
-        ]
-      },
-      {
-        topicTitle: "Functions",
-        contents: [
-          {
-            type: "video",
-            name: "Function Basics",
-            duration: "10m",
-            url: "https://example.com/functions"
-          }
-        ]
-      },
-      {
-        topicTitle: "DOM Manipulation",
-        contents: [
-          {
-            type: "video",
-            name: "Intro to the DOM",
-            duration: "14m",
-            url: "https://example.com/dom"
-          }
-        ]
-      }
-    ]
-  }
-]
-
-},
-{
-  id: 4,
-  title: "React Fundamentals",
-  image: Banner,
-  duration: "7h 10m",
-  totalHours: 7.17,
-  watchedHours: 2.5,
-  badge: "premium",
-  level: "Intermediate",
-  tags: ["React", "Frontend", "JavaScript"],
-  progress: true,
-modules: [
-  {
-    moduleTitle: "Module 1: Introduction",
-    completed: true,
-    description: "Basic overview and setup",
-    topics: [
-      {
-        topicTitle: "Welcome",
-        contents: [
-          {
-            type: "video",
-            name: "Welcome to the Course",
-            duration: "5m",
-            url: "https://example.com/welcome-video"
-          }
-        ]
-      },
-      {
-        topicTitle: "Tools Setup",
-        contents: [
-          {
-            type: "video",
-            name: "Installing Tools",
-            duration: "10m",
-            url: "https://example.com/tools-setup"
+            topicTitle: "Course Overview",
+            contents: [
+              {
+                type: "video",
+                name: "Course Structure",
+                duration: "6m",
+                url: "https://example.com/overview"
+              }
+            ]
           },
           {
-            type: "video",
-            name: "Environment Setup",
-            duration: "8m",
-            url: "https://example.com/env-setup"
+            topicTitle: "Module 1 Quiz",
+            contents: [
+              {
+                type: "test",
+                name: "Module 1 Quiz",
+                questions: [
+                  {
+                    question: "What is React?",
+                    options: ["A library", "A framework", "A database", "A language"],
+                    answer: "A library"
+                  },
+                  {
+                    question: "Which company developed React?",
+                    options: ["Google", "Facebook", "Microsoft", "Amazon"],
+                    answer: "Facebook"
+                  },
+                  {
+                    question: "What is JSX?",
+                    options: [
+                      "A CSS preprocessor",
+                      "A JavaScript extension",
+                      "A database",
+                      "A testing tool"
+                    ],
+                    answer: "A JavaScript extension"
+                  },
+                  {
+                    question: "Which hook is used for state in React?",
+                    options: ["useState", "useEffect", "useRef", "useContext"],
+                    answer: "useState"
+                  },
+                  {
+                    question: "What is the command to create a new React app?",
+                    options: [
+                      "npx create-react-app my-app",
+                      "npm install react",
+                      "react new app",
+                      "npm start"
+                    ],
+                    answer: "npx create-react-app my-app"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       {
-        topicTitle: "Course Overview",
-        contents: [
+        moduleTitle: "Module 2: HTML & CSS",
+        completed: true,
+        description: "Learn structure and styling",
+        topics: [
           {
-            type: "video",
-            name: "Course Structure",
-            duration: "6m",
-            url: "https://example.com/overview"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 2: HTML & CSS",
-    completed: true,
-    description: "Learn structure and styling",
-    topics: [
-      {
-        topicTitle: "HTML Basics",
-        contents: [
-          {
-            type: "video",
-            name: "HTML Introduction",
-            duration: "15m",
-            url: "https://example.com/html-intro"
-          }
-        ]
-      },
-      {
-        topicTitle: "CSS Flexbox",
-        contents: [
-          {
-            type: "video",
-            name: "Flexbox Layout",
-            duration: "18m",
-            url: "https://example.com/flexbox"
-          }
-        ]
-      },
-      {
-        topicTitle: "Responsive Design",
-        contents: [
-          {
-            type: "video",
-            name: "Responsive Techniques",
-            duration: "20m",
-            url: "https://example.com/responsive"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 3: JavaScript Essentials",
-    completed: false,
-    description: "Understand core JS concepts",
-    topics: [
-      {
-        topicTitle: "Variables",
-        contents: [
-          {
-            type: "video",
-            name: "JavaScript Variables Explained",
-            duration: "12m",
-            url: "https://example.com/js-variables"
-          }
-        ]
-      },
-      {
-        topicTitle: "Functions",
-        contents: [
-          {
-            type: "video",
-            name: "Function Basics",
-            duration: "10m",
-            url: "https://example.com/functions"
-          }
-        ]
-      },
-      {
-        topicTitle: "DOM Manipulation",
-        contents: [
-          {
-            type: "video",
-            name: "Intro to the DOM",
-            duration: "14m",
-            url: "https://example.com/dom"
-          }
-        ]
-      }
-    ]
-  }
-]
-
-}
-,{
-  id: 5,
-  title: "Node.js Backend Essentials",
-  image: Banner,
-  duration: "5h 30m",
-  totalHours: 5.5,
-  badge: "Blend",
-  watchedHours: 0,
-  level: "Beginner",
-  tags: ["Node.js", "Backend", "JavaScript"],
-  progress: false,
- modules: [
-  {
-    moduleTitle: "Module 1: Introduction",
-    completed: true,
-    description: "Basic overview and setup",
-    topics: [
-      {
-        topicTitle: "Welcome",
-        contents: [
-          {
-            type: "video",
-            name: "Welcome to the Course",
-            duration: "5m",
-            url: "https://example.com/welcome-video"
-          }
-        ]
-      },
-      {
-        topicTitle: "Tools Setup",
-        contents: [
-          {
-            type: "video",
-            name: "Installing Tools",
-            duration: "10m",
-            url: "https://example.com/tools-setup"
+            topicTitle: "HTML Basics",
+            contents: [
+              {
+                type: "video",
+                name: "HTML Introduction",
+                duration: "15m",
+                url: "https://example.com/html-intro"
+              }
+            ]
           },
           {
-            type: "video",
-            name: "Environment Setup",
-            duration: "8m",
-            url: "https://example.com/env-setup"
-          }
-        ]
-      },
-      {
-        topicTitle: "Course Overview",
-        contents: [
-          {
-            type: "video",
-            name: "Course Structure",
-            duration: "6m",
-            url: "https://example.com/overview"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 2: HTML & CSS",
-    completed: true,
-    description: "Learn structure and styling",
-    topics: [
-      {
-        topicTitle: "HTML Basics",
-        contents: [
-          {
-            type: "video",
-            name: "HTML Introduction",
-            duration: "15m",
-            url: "https://example.com/html-intro"
-          }
-        ]
-      },
-      {
-        topicTitle: "CSS Flexbox",
-        contents: [
-          {
-            type: "video",
-            name: "Flexbox Layout",
-            duration: "18m",
-            url: "https://example.com/flexbox"
-          }
-        ]
-      },
-      {
-        topicTitle: "Responsive Design",
-        contents: [
-          {
-            type: "video",
-            name: "Responsive Techniques",
-            duration: "20m",
-            url: "https://example.com/responsive"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    moduleTitle: "Module 3: JavaScript Essentials",
-    completed: false,
-    description: "Understand core JS concepts",
-    topics: [
-      {
-        topicTitle: "Variables",
-        contents: [
-          {
-            type: "video",
-            name: "JavaScript Variables Explained",
-            duration: "12m",
-            url: "https://example.com/js-variables"
-          }
-        ]
-      },
-      {
-        topicTitle: "Functions",
-        contents: [
-          {
-            type: "video",
-            name: "Function Basics",
-            duration: "10m",
-            url: "https://example.com/functions"
-          }
-        ]
-      },
-      {
-        topicTitle: "DOM Manipulation",
-        contents: [
-          {
-            type: "video",
-            name: "Intro to the DOM",
-            duration: "14m",
-            url: "https://example.com/dom"
-          }
-        ]
-      }
-    ]
-  }
-]
-
-}
-,{
-  id: 6,
-  title: "TypeScript for JavaScript Developers",
-  image: Banner,
-  duration: "4h 50m",
-  totalHours: 4.83,
-  badge: "Blend",
-  watchedHours: 4.25,
-  level: "Intermediate",
-  tags: ["TypeScript", "JavaScript", "Typed Programming"],
-  progress: true,
-modules: [
-  {
-    moduleTitle: "Module 1: Introduction",
-    completed: true,
-    description: "Basic overview and setup",
-    topics: [
-      {
-        topicTitle: "Welcome",
-        contents: [
-          {
-            type: "video",
-            name: "Welcome to the Course",
-            duration: "5m",
-            url: "https://example.com/welcome-video"
-          }
-        ]
-      },
-      {
-        topicTitle: "Tools Setup",
-        contents: [
-          {
-            type: "video",
-            name: "Installing Tools",
-            duration: "10m",
-            url: "https://example.com/tools-setup"
+            topicTitle: "CSS Flexbox",
+            contents: [
+              {
+                type: "video",
+                name: "Flexbox Layout",
+                duration: "18m",
+                url: "https://example.com/flexbox"
+              }
+            ]
           },
           {
-            type: "video",
-            name: "Environment Setup",
-            duration: "8m",
-            url: "https://example.com/env-setup"
+            topicTitle: "Responsive Design",
+            contents: [
+              {
+                type: "video",
+                name: "Responsive Techniques",
+                duration: "20m",
+                url: "https://example.com/responsive"
+              }
+            ]
+          },
+          {
+            topicTitle: "Module 2 Quiz",
+            contents: [
+              {
+                type: "test",
+                name: "Module 2 Quiz",
+                questions: [
+                  {
+                    question: "What does HTML stand for?",
+                    options: [
+                      "Hyper Text Markup Language",
+                      "Home Tool Markup Language",
+                      "Hyperlinks and Text Markup Language",
+                      "Hyper Tool Markup Language"
+                    ],
+                    answer: "Hyper Text Markup Language"
+                  },
+                  {
+                    question: "Which tag is used for the largest heading?",
+                    options: ["<h1>", "<heading>", "<head>", "<h6>"],
+                    answer: "<h1>"
+                  },
+                  {
+                    question: "Which property is used for flex layout?",
+                    options: ["display: flex", "flex: display", "layout: flex", "flexbox: true"],
+                    answer: "display: flex"
+                  },
+                  {
+                    question: "Which CSS property makes a site responsive?",
+                    options: ["media queries", "float", "position", "z-index"],
+                    answer: "media queries"
+                  },
+                  {
+                    question: "Which tag is used for a paragraph?",
+                    options: ["<p>", "<para>", "<text>", "<paragraph>"],
+                    answer: "<p>"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
       {
-        topicTitle: "Course Overview",
-        contents: [
+        moduleTitle: "Module 3: JavaScript Essentials",
+        completed: false,
+        description: "Understand core JS concepts",
+        topics: [
           {
-            type: "video",
-            name: "Course Structure",
-            duration: "6m",
-            url: "https://example.com/overview"
+            topicTitle: "Variables",
+            contents: [
+              {
+                type: "video",
+                name: "JavaScript Variables Explained",
+                duration: "12m",
+                url: "https://example.com/js-variables"
+              }
+            ]
+          },
+          {
+            topicTitle: "Functions",
+            contents: [
+              {
+                type: "video",
+                name: "Function Basics",
+                duration: "10m",
+                url: "https://example.com/functions"
+              }
+            ]
+          },
+          {
+            topicTitle: "DOM Manipulation",
+            contents: [
+              {
+                type: "video",
+                name: "Intro to the DOM",
+                duration: "14m",
+                url: "https://example.com/dom"
+              }
+            ]
+          },
+          {
+            topicTitle: "Module 3 Quiz",
+            contents: [
+              {
+                type: "test",
+                name: "Module 3 Quiz",
+                questions: [
+                  {
+                    question: "Which keyword declares a variable in JS?",
+                    options: ["var", "let", "const", "All of the above"],
+                    answer: "All of the above"
+                  },
+                  {
+                    question: "How do you write a function in JS?",
+                    options: [
+                      "function myFunc() {}",
+                      "func myFunc() {}",
+                      "def myFunc() {}",
+                      "function:myFunc() {}"
+                    ],
+                    answer: "function myFunc() {}"
+                  },
+                  {
+                    question: "What does DOM stand for?",
+                    options: [
+                      "Document Object Model",
+                      "Data Object Model",
+                      "Document Oriented Model",
+                      "Desktop Object Model"
+                    ],
+                    answer: "Document Object Model"
+                  },
+                  {
+                    question: "Which method selects an element by ID?",
+                    options: [
+                      "getElementById",
+                      "getElement",
+                      "querySelectorAll",
+                      "getById"
+                    ],
+                    answer: "getElementById"
+                  },
+                  {
+                    question: "Which symbol is used for comments in JS?",
+                    options: [
+                      "// comment",
+                      "<!-- comment -->",
+                      "# comment",
+                      "** comment **"
+                    ],
+                    answer: "// comment"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
+    ],
+    finalTest: {
+      name: "Final Course Test",
+      type: "test",
+      questions: [
+        {
+          question: "What is the virtual DOM?",
+          options: [
+            "A lightweight copy of the real DOM",
+            "A database",
+            "A CSS property",
+            "A React hook"
+          ],
+          answer: "A lightweight copy of the real DOM"
+        },
+        {
+          question: "Which method is used to render React elements?",
+          options: [
+            "ReactDOM.render()",
+            "render()",
+            "React.render()",
+            "DOM.render()"
+          ],
+          answer: "ReactDOM.render()"
+        },
+        {
+          question: "What is the purpose of useEffect hook?",
+          options: [
+            "To manage state",
+            "To handle side effects",
+            "To render components",
+            "To create context"
+          ],
+          answer: "To handle side effects"
+        },
+        {
+          question: "How can you pass data from a parent component to a child component in React?",
+          options: [
+            "Using props",
+            "Using state",
+            "Using context",
+            "All of the above"
+          ],
+          answer: "Using props"
+        },
+        {
+          question: "What does the key prop do in React lists?",
+          options: [
+            "Identifies elements in the DOM",
+            "Sets the order of elements",
+            "Binds data to components",
+            "Tracks component state"
+          ],
+          answer: "Identifies elements in the DOM"
+        },
+        {
+          question: "Which of the following is a valid use of the spread operator in React?",
+          options: [
+            "const newState = {...state, updatedField: value}",
+            "const newState = state...",
+            "const newState = {...state}",
+            "Both A and C"
+          ],
+          answer: "Both A and C"
+        },
+        {
+          question: "What is the default port for React development server?",
+          options: [
+            "3000",
+            "8000",
+            "5000",
+            "4000"
+          ],
+          answer: "3000"
+        },
+        {
+          question: "How do you create a context in React?",
+          options: [
+            "const MyContext = React.createContext()",
+            "const MyContext = createContext()",
+            "const MyContext = React.Context()",
+            "const MyContext = createContext.React()"
+          ],
+          answer: "const MyContext = React.createContext()"
+        },
+        {
+          question: "What is the purpose of the useReducer hook?",
+          options: [
+            "To manage complex state logic",
+            "To perform side effects",
+            "To memoize values",
+            "To create refs"
+          ],
+          answer: "To manage complex state logic"
+        },
+        {
+          question: "Which of the following is NOT a valid React lifecycle method?",
+          options: [
+            "componentDidMount",
+            "componentDidUpdate",
+            "componentWillUnmount",
+            "rendered"
+          ],
+          answer: "rendered"
+        },
+        {
+          question: "How can you optimize performance for a React application?",
+          options: [
+            "By using PureComponent",
+            "By implementing shouldComponentUpdate",
+            "By using React.memo",
+            "All of the above"
+          ],
+          answer: "All of the above"
+        },
+        {
+          question: "What is the purpose of the React.Fragment component?",
+          options: [
+            "To group multiple elements without adding extra nodes to the DOM",
+            "To apply CSS styles to a group of elements",
+            "To manage state for a group of components",
+            "To handle events for multiple elements"
+          ],
+          answer: "To group multiple elements without adding extra nodes to the DOM"
+        },
+        {
+          question: "Which hook would you use to access the previous state in a functional component?",
+          options: [
+            "useEffect",
+            "useState",
+            "useRef",
+            "useContext"
+          ],
+          answer: "useRef"
+        },
+        {
+          question: "What is the purpose of the keyExtractor prop in React Native FlatList?",
+          options: [
+            "To extract unique keys for items in the list",
+            "To define the layout of the list",
+            "To handle item press events",
+            "To optimize image loading"
+          ],
+          answer: "To extract unique keys for items in the list"
+        },
+        {
+          question: "How do you prevent a component from re-rendering in React?",
+          options: [
+            "By using shouldComponentUpdate lifecycle method",
+            "By returning false in render method",
+            "By using React.PureComponent",
+            "Both A and C"
+          ],
+          answer: "Both A and C"
+        },
+        {
+          question: "What is the purpose of the useLayoutEffect hook?",
+          options: [
+            "To read layout from the DOM and synchronously re-render",
+            "To perform side effects after rendering",
+            "To subscribe to context changes",
+            "To manage local component state"
+          ],
+          answer: "To read layout from the DOM and synchronously re-render"
+        },
+        {
+          question: "Which of the following is a common performance optimization in React?",
+          options: [
+            "Using inline functions in render",
+            "Binding methods in the constructor",
+            "Using array index as key in lists",
+            "All of the above"
+          ],
+          answer: "Binding methods in the constructor"
+        },
+        {
+          question: "What does the React.StrictMode component do?",
+          options: [
+            "It activates additional checks and warnings for its descendants",
+            "It optimizes performance by skipping certain checks",
+            "It is used to define routes in a React app",
+            "It is a legacy component and has no effect in modern React"
+          ],
+          answer: "It activates additional checks and warnings for its descendants"
+        },
+        {
+          question: "How can you share state between components in React?",
+          options: [
+            "By lifting state up to the nearest common ancestor",
+            "By using local storage",
+            "By passing props down the component tree",
+            "Both A and C"
+          ],
+          answer: "Both A and C"
+        },
+        {
+          question: "What is the purpose of the useImperativeHandle hook?",
+          options: [
+            "To customize the instance value that is exposed when using ref",
+            "To manage complex state logic",
+            "To perform side effects in function components",
+            "To memoize expensive calculations"
+          ],
+          answer: "To customize the instance value that is exposed when using ref"
+        },
+        {
+          question: "Which of the following is NOT a valid way to style a React component?",
+          options: [
+            "Inline styles",
+            "CSS stylesheets",
+            "Styled-components",
+            "React-style"
+          ],
+          answer: "React-style"
+        },
+        {
+          question: "How do you handle errors in a React application?",
+          options: [
+            "By using try-catch blocks",
+            "By using error boundaries",
+            "By using the componentDidCatch lifecycle method",
+            "All of the above"
+          ],
+          answer: "All of the above"
+        },
+        {
+          question: "What is the purpose of the useDebugValue hook?",
+          options: [
+            "To display a label in React DevTools for custom hooks",
+            "To log values to the console",
+            "To trigger a re-render",
+            "To manage focus on elements"
+          ],
+          answer: "To display a label in React DevTools for custom hooks"
+        },
+        {
+          question: "Which of the following can be a reason for a component to re-render?",
+          options: [
+            "Changing state",
+            "Changing props",
+            "Context value changes",
+            "All of the above"
+          ],
+          answer: "All of the above"
+        },
+        {
+          question: "What is the use of the React.memo function?",
+          options: [
+            "To memoize a component and prevent unnecessary re-renders",
+            "To optimize performance of class components",
+            "To create higher-order components",
+            "To manage global state"
+          ],
+          answer: "To memoize a component and prevent unnecessary re-renders"
+        },
+        {
+          question: "How do you create a ref in a functional component?",
+          options: [
+            "const myRef = React.createRef()",
+            "const myRef = useRef()",
+            "const myRef = createRef()",
+            "const myRef = useCreateRef()"
+          ],
+          answer: "const myRef = useRef()"
+        },
+        {
+          question: "What is the purpose of the useTransition hook?",
+          options: [
+            "To manage loading states for async updates",
+            "To perform side effects in function components",
+            "To memoize expensive calculations",
+            "To create context providers"
+          ],
+          answer: "To manage loading states for async updates"
+        },
+        {
+          question: "Which of the following is a feature of React 18?",
+          options: [
+            "Automatic batching of updates",
+            "Suspense for data fetching",
+            "Concurrent rendering",
+            "All of the above"
+          ],
+          answer: "All of the above"
+        },
+        {
+          question: "How do you enable strict mode checks in React?",
+          options: [
+            "By wrapping components in <React.StrictMode>",
+            "By setting strictMode: true in config",
+            "By using the --strict flag when starting the app",
+            "Strict mode is always enabled in React"
+          ],
+          answer: "By wrapping components in <React.StrictMode>"
+        },
+        {
+          question: "What is the effect of returning false in a component's render method?",
+          options: [
+            "Prevents the component from rendering",
+            "Renders the component but skips updates",
+            "Causes an error",
+            "Has no effect"
+          ],
+          answer: "Prevents the component from rendering"
+        },
+        {
+          question: "Which of the following hooks can only be used in class components?",
+          options: [
+            "useState",
+            "useEffect",
+            "useContext",
+            "None, all are available in class components"
+          ],
+          answer: "None, all are available in class components"
+        },
+        {
+          question: "What is the purpose of the useContext hook?",
+          options: [
+            "To access context values in a functional component",
+            "To create a context provider",
+            "To memoize context values",
+            "To trigger a re-render when context changes"
+          ],
+          answer: "To access context values in a functional component"
+        },
+        {
+          question: "How do you optimize a React app for production?",
+          options: [
+            "By running npm run build",
+            "By using React DevTools",
+            "By setting NODE_ENV to production",
+            "Both A and C"
+          ],
+          answer: "Both A and C"
+        },
+        {
+          question: "What is the purpose of the useCallback hook?",
+          options: [
+            "To memoize functions and prevent unnecessary re-creations",
+            "To manage component state",
+            "To perform side effects",
+            "To create context providers"
+          ],
+          answer: "To memoize functions and prevent unnecessary re-creations"
+        }
     ]
-  },
-  {
-    moduleTitle: "Module 2: HTML & CSS",
-    completed: true,
-    description: "Learn structure and styling",
-    topics: [
-      {
-        topicTitle: "HTML Basics",
-        contents: [
-          {
-            type: "video",
-            name: "HTML Introduction",
-            duration: "15m",
-            url: "https://example.com/html-intro"
-          }
-        ]
-      },
-      {
-        topicTitle: "CSS Flexbox",
-        contents: [
-          {
-            type: "video",
-            name: "Flexbox Layout",
-            duration: "1h8m",
-            url: "https://example.com/flexbox"
-          }
-        ]
-      },
-      {
-        topicTitle: "Responsive Design",
-        contents: [
-          {
-            type: "video",
-            name: "Responsive Techniques",
-            duration: "20m",
-            url: "https://example.com/responsive"
-          }
-        ]
       }
-    ]
-  },
-  {
-    moduleTitle: "Module 3: JavaScript Essentials",
-    completed: false,
-    description: "Understand core JS concepts",
-    topics: [
-      {
-        topicTitle: "Variables",
-        contents: [
-          {
-            type: "video",
-            name: "JavaScript Variables Explained",
-            duration: "12m",
-            url: "https://example.com/js-variables"
-          }
-        ]
-      },
-      {
-        topicTitle: "Functions",
-        contents: [
-          {
-            type: "video",
-            name: "Function Basics",
-            duration: "10m",
-            url: "https://example.com/functions"
-          }
-        ]
-      },
-      {
-        topicTitle: "DOM Manipulation",
-        contents: [
-          {
-            type: "video",
-            name: "Intro to the DOM",
-            duration: "14m",
-            url: "https://example.com/dom"
-          }
-        ]
-      }
-    ]
   }
-]
-
-}
 
 ];
 export const privacyTabs = [

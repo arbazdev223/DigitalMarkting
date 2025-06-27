@@ -1,28 +1,41 @@
 import React, { useState } from "react";
 import { MdDownload } from "react-icons/md";
 import { courseDetailsList } from "../../data";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const CourseTabs = ({
   heading = (
     <>
-      Choose the Course that <span className="text-[#0e3477]">Interests you the Most</span>
+      Choose the Course that{" "}
+      <span className="text-[#0e3477]">Interests you the Most</span>
     </>
   ),
   paragraph = `Choose the right path tailored to your learning journey or team needs. Whether you're a student or a business, our programs are crafted to boost your growth with practical skills.`,
   maxCount = 3,
   label = "",
-  to = "",  
+  to = "",
 }) => {
   const [userType, setUserType] = useState("Student");
+  const location = useLocation();
+
+  const initialCount = label?.toLowerCase().includes("enroll now")
+    ? 3
+    : location.pathname === "/services"
+    ? 6
+    : maxCount;
+
+  const [visibleCount, setVisibleCount] = useState(initialCount);
 
   const filteredCourses = courseDetailsList
     .filter((course) => course.type === userType)
-    .sort((a, b) => b.index - a.index)
-    .slice(0, maxCount);
-const loadMore = () => {
+    .sort((a, b) => b.index - a.index);
 
-}
+  const visibleCourses = filteredCourses.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 6);
+  };
+
   return (
     <div className="py-10 px-4">
       <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,7 +52,10 @@ const loadMore = () => {
           {["Student", "Business"].map((type) => (
             <button
               key={type}
-              onClick={() => setUserType(type)}
+              onClick={() => {
+                setUserType(type);
+                setVisibleCount(initialCount); 
+              }}
               className={`px-5 py-2 text-sm font-semibold border transition ${
                 userType === type
                   ? "bg-[#0e3477] text-white"
@@ -52,64 +68,61 @@ const loadMore = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-2">
-          {filteredCourses.length > 0 ? (
-            filteredCourses.map((course, idx) => (
-          <Link
-  to={`/course/${course.id}`}
-  key={idx}
-  className="block bg-white border shadow-md rounded overflow-hidden transform transition duration-300 hover:-translate-y-2.5 hover:shadow-xl"
->
-  <div className="overflow-hidden">
-    <img
-      src={course.image}
-      alt={course.title}
-      className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-    />
-  </div>
-  <div className="p-4">
-    <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">
-      {course.title}
-    </h3>
-    <hr className="border-t border-gray-300 mb-3" />
-    <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
-      {course.includes.map((point, i) => (
-        <li key={i}>{point}</li>
-      ))}
-    </ul>
-{course.downloadBrochure ? (
-  <div className="flex gap-3">
-    <span className="w-1/4 text-center bg-[#0e3477] text-white px-4 py-2 text-sm font-semibold rounded">
-      View
-    </span>
-    <a
-      href={course.downloadBrochure}
-      download
-      className="w-3/4 flex items-center justify-center bg-gray-100 text-[#0e3477] px-4 py-2 text-sm font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition"
-    >
-      <MdDownload className="mr-2 text-lg" />
-      Download Brochure
-    </a>
-  </div>
-) : (
-  <div className="flex gap-3">
-    <span className="w-2/4 text-center bg-[#0e3477] text-white px-4 py-2 text-sm font-semibold rounded">
-      View
-    </span>
-    <div className="w-2/4 flex items-center justify-center bg-gray-100 text-[#0e3477] px-4 py-2 text-sm font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition">
-      <span className="text-[16px] font-bold  font-[Open_Sans]">
-        ₹{course.salePrice}
-      </span>
-      <span className="line-through text-sm ml-2">
-        ₹{course.price}
-      </span>
-    </div>
-  </div>
-)}
-
-
-
-  </div>
-</Link>
+          {visibleCourses.length > 0 ? (
+            visibleCourses.map((course, idx) => (
+              <Link
+                to={`/course/${course.id}`}
+                key={idx}
+                className="block bg-white border shadow-md rounded overflow-hidden transform transition duration-300 hover:-translate-y-2.5 hover:shadow-xl"
+              >
+                <div className="overflow-hidden">
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">
+                    {course.title}
+                  </h3>
+                  <hr className="border-t border-gray-300 mb-3" />
+                  <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
+                    {course.includes.map((point, i) => (
+                      <li key={i}>{point}</li>
+                    ))}
+                  </ul>
+                  {course.downloadBrochure ? (
+                    <div className="flex gap-3">
+                      <span className="w-1/4 text-center bg-[#0e3477] text-white px-4 py-2 text-sm font-semibold rounded">
+                        View
+                      </span>
+                      <a
+                        href={course.downloadBrochure}
+                        download
+                        className="w-3/4 flex items-center justify-center bg-gray-100 text-[#0e3477] px-4 py-2 text-sm font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition"
+                      >
+                        <MdDownload className="mr-2 text-lg" />
+                        Download Brochure
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="flex gap-3">
+                      <span className="w-2/4 text-center bg-[#0e3477] text-white px-4 py-2 text-sm font-semibold rounded">
+                        View
+                      </span>
+                      <div className="w-2/4 flex items-center justify-center bg-gray-100 text-[#0e3477] px-4 py-2 text-sm font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition">
+                        <span className="text-[16px] font-bold  font-[Open_Sans]">
+                          ₹{course.salePrice}
+                        </span>
+                        <span className="line-through text-sm ml-2">
+                          ₹{course.price}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Link>
             ))
           ) : (
             <p className="col-span-full text-center text-gray-500">
@@ -118,30 +131,17 @@ const loadMore = () => {
           )}
         </div>
       </div>
-{label && (
-  <div className="mt-10 text-center">
-    {typeof to === "string" && to.trim() !== "" ? (
-      <Link
-        to={to}
-        className="inline-block bg-[#0e3477] text-white text-sm font-semibold px-6 py-3 rounded hover:bg-[#092653] transition"
-      >
-        {label}
-      </Link>
-    ) : (
-      <button
-      onClick={loadMore}
-        type="button"
-        className="inline-block bg-[#0e3477] text-white text-sm font-semibold px-6 py-3 rounded opacity-70 cursor-not-allowed"
-        disabled
-      >
-        {label}
-      </button>
-    )}
-  </div>
-)}
-
-
-     
+      {label && visibleCount < filteredCourses.length && (
+        <div className="mt-10 text-center">
+          <button
+            onClick={handleLoadMore}
+            type="button"
+            className="inline-block bg-[#0e3477] text-white text-sm font-semibold px-6 py-3 rounded hover:bg-[#092653] transition"
+          >
+            {label}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

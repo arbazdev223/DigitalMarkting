@@ -1,5 +1,6 @@
-
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AuthFormCard = ({
   activeTab,
@@ -7,6 +8,20 @@ const AuthFormCard = ({
   handleSignup,
   handleSignin,
 }) => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      if (user.role === "admin") {
+        navigate("/admin-dashboard", { replace: true });
+      } else {
+        navigate("/profile", { replace: true });
+      }
+    }
+  }, [isLoggedIn, user, navigate]);
+
   return (
     <div className="bg-white shadow-md rounded-xl w-full max-w-md p-6">
       <div className="flex justify-between mb-6 border-b">

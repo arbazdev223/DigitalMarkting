@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-toast";
 
 const dummyStudent = [
   {
@@ -92,7 +91,7 @@ export const handleSignup = (newUser) => (dispatch, getState) => {
   const { users } = getState().auth;
   const exists = users.some((u) => u.email === newUser.email);
   if (exists) {
-    toast("User already exists with this email");
+    alert("User already exists with this email");
     return;
   }
   dispatch(authSlice.actions.signup(newUser));

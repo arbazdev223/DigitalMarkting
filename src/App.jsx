@@ -1,5 +1,8 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -23,9 +26,12 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CertificatePage from "./pages/CertificatePage";
 
 const App = () => {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
+
   return (
     <>
-    <TopBar/>
+      <TopBar />
       <Header />
       <SocialIcons />
       <CallToAction />
@@ -40,14 +46,28 @@ const App = () => {
         <Route path="/service/:id" element={<ServiceDetailPage />} />
         <Route path="/courseStudent/:id" element={<CourseResumePage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-         <Route path="/cart" element={<CartPage />} />
-         <Route path="/certificate" element={<CertificatePage />} />
-        <Route path="/auth" element={<AuthTabs />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/certificate" element={<CertificatePage />} />
+        <Route
+          path="/auth"
+          element={
+            isLoggedIn && user ? (
+              user.role === "admin" ? (
+                <Navigate to="/admin-dashboard" replace />
+              ) : (
+                <Navigate to="/profile" replace />
+              )
+            ) : (
+              <AuthTabs />
+            )
+          }
+        />
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
+      <ToastContainer />
     </>
   );
 };

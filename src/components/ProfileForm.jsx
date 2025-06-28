@@ -1,8 +1,8 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../store/authSlice";
-import { getInitials}  from "../store/authSlice"; 
-import { toast } from "react-toast";
+import { getInitials } from "../store/authSlice";
+import { toast } from "react-toastify";
 
 const ProfileForm = ({ user }) => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const ProfileForm = ({ user }) => {
       profile: user?.profile || "",
     });
   }, [user]);
-const imageRef = useRef();
+  const imageRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e) => {
@@ -39,44 +39,43 @@ const imageRef = useRef();
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleImageUpload = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    setFormData((prev) => ({ ...prev, profile: reader.result }));
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({ ...prev, profile: reader.result }));
+    };
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
 
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  dispatch(updateUser(formData));
-  setIsEditing(false);
-  toast.success("Profile updated successfully!");
-};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateUser(formData));
+    setIsEditing(false);
+    toast.success("Profile updated successfully!");
+  };
 
   return (
-      <div className="bg-white p-6 rounded-md shadow-md">
+    <div className="bg-white p-6 rounded-md shadow-md">
       <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-6 gap-4">
         <div className="flex items-center space-x-4 w-full">
-         {formData.profile ? (
-  <img
-    src={formData.profile}
-    alt="Profile"
-    onClick={() => isEditing && imageRef.current.click()}
-    className="w-20 h-20 rounded-full object-cover border cursor-pointer"
-  />
-) : (
-  <div
-    onClick={() => isEditing && imageRef.current.click()}
-    className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-3xl font-bold font-nunito select-none cursor-pointer"
-  >
-    {getInitials(formData.name)}
-  </div>
-)}
+          {formData.profile ? (
+            <img
+              src={formData.profile}
+              alt="Profile"
+              onClick={() => isEditing && imageRef.current.click()}
+              className="w-20 h-20 rounded-full object-cover border cursor-pointer"
+            />
+          ) : (
+            <div
+              onClick={() => isEditing && imageRef.current.click()}
+              className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-3xl font-bold font-nunito select-none cursor-pointer"
+            >
+              {getInitials(formData.name)}
+            </div>
+          )}
 
           <div className="flex-1">
             <h2 className="text-xl font-bold font-nunito">
@@ -88,13 +87,13 @@ const handleSubmit = (e) => {
 
             {isEditing && (
               <div className="mt-2">
-               <input
-  ref={imageRef}
-  type="file"
-  accept="image/*"
-  onChange={handleImageUpload}
-  className="hidden"
-/>
+                <input
+                  ref={imageRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
               </div>
             )}
 

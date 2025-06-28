@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { courseDetailsList } from "../../data";
 import { MdDownload } from "react-icons/md";
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/cartSlice";
 
 const CourseDetails = () => {
+  const [openSection, setOpenSection] = useState(null);
   const { id } = useParams();
   const dispatch = useDispatch();
   const course = courseDetailsList.find((c) => String(c.id) === String(id));
@@ -40,9 +41,9 @@ const handleAddToCart = () => {
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
               {course.title}
             </h1>
-            <p className="text-sm md:text-base mb-3 opacity-90">
-              {course.subtitle}
-            </p>
+         <p className="text-sm md:text-base mb-3 opacity-90 line-clamp-2  items-start  md:line-clamp-none">
+  {course.subtitle}
+</p>
             <p className="text-sm text-gray-200 mb-2">
               <strong>Category:</strong> {course.category} |{" "}
               <strong>Last Updated:</strong> {course.lastUpdated}
@@ -80,7 +81,41 @@ const handleAddToCart = () => {
             <h3 className="text-xl font-bold mb-3 text-[#0e3477]">
               Curriculum
             </h3>
-            <div className="space-y-4">
+             <div className="border rounded-md divide-y">
+      {course.curriculum.map((section, idx) => (
+        <div key={idx}>
+          <button
+            onClick={() =>
+              setOpenSection(openSection === idx ? null : idx)
+            }
+            className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left"
+          >
+            <span className="font-semibold text-gray-800">{section.section}</span>
+            <svg
+              className={`w-5 h-5 transform transition-transform duration-200 ${
+                openSection === idx ? "rotate-180" : ""
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          {openSection === idx && (
+            <ul className="list-disc list-inside gap-2 text-gray-600 px-4 py-2">
+              {section.lectures.map((lec, i) => (
+                <li key={i} className="flex justify-between">
+                  <span>{lec.title}</span>
+                  <span className="text-xs text-gray-400 ml-2">({lec.duration})</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+            {/* <div className="space-y-4">
               {course.curriculum.map((section, idx) => (
                 <div key={idx}>
                   <h4 className="font-semibold text-gray-800 mb-1">
@@ -98,7 +133,7 @@ const handleAddToCart = () => {
                   </ul>
                 </div>
               ))}
-            </div>
+            </div> */}
           </section>
 
           <section>
@@ -137,9 +172,11 @@ const handleAddToCart = () => {
               ))}
             </ul>
             <div className="flex flex-col gap-3">
-              <button className="w-full bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]">
-                Buy Now
-              </button>
+              <Link to="/checkout" className="block">
+  <button className="w-full bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]">
+    Buy Now
+  </button>
+</Link>
               {isInCart ? (
                 <Link
                   to="/cart"

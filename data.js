@@ -1750,13 +1750,13 @@ export const courseData = [
                 type: "video",
                 name: "Installing Tools",
                 duration: "10m",
-                url: "https://example.com/tools-setup"
+                url: CourseVideo
               },
               {
-                type: "video",
+                type: "pdf",
                 name: "Environment Setup",
                 duration: "8m",
-                url: "https://example.com/env-setup"
+                url: coursePdf
               }
             ]
           },
@@ -1767,7 +1767,7 @@ export const courseData = [
                 type: "video",
                 name: "Course Structure",
                 duration: "6m",
-                url: "https://example.com/overview"
+                url: CourseVideo
               }
             ]
           },
@@ -1831,7 +1831,7 @@ export const courseData = [
                 type: "video",
                 name: "HTML Introduction",
                 duration: "15m",
-                url: "https://example.com/html-intro"
+                url: CourseVideo
               }
             ]
           },
@@ -1839,10 +1839,10 @@ export const courseData = [
             topicTitle: "CSS Flexbox",
             contents: [
               {
-                type: "video",
+                type: "pdf",
                 name: "Flexbox Layout",
                 duration: "18m",
-                url: "https://example.com/flexbox"
+                url: coursePdf
               }
             ]
           },
@@ -1853,7 +1853,7 @@ export const courseData = [
                 type: "video",
                 name: "Responsive Techniques",
                 duration: "20m",
-                url: "https://example.com/responsive"
+                url: CourseVideo
               }
             ]
           },
@@ -1912,7 +1912,7 @@ export const courseData = [
                 type: "video",
                 name: "JavaScript Variables Explained",
                 duration: "12m",
-                url: "https://example.com/js-variables"
+                url: CourseVideo
               }
             ]
           },
@@ -1920,10 +1920,10 @@ export const courseData = [
             topicTitle: "Functions",
             contents: [
               {
-                type: "video",
+                type: "pdf",
                 name: "Function Basics",
                 duration: "10m",
-                url: "https://example.com/functions"
+                url: coursePdf
               }
             ]
           },
@@ -1934,7 +1934,7 @@ export const courseData = [
                 type: "video",
                 name: "Intro to the DOM",
                 duration: "14m",
-                url: "https://example.com/dom"
+                url: CourseVideo
               }
             ]
           },

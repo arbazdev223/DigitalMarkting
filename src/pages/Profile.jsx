@@ -21,8 +21,7 @@ const Profile = () => {
   const tabComponents = {
     Profile: <ProfileForm user={user} />,
     Course: <CourseList courses={courseData} />,
-    Test: <TestPage onCertificateEarned={() => setActiveTab("Certificate")} />,
-
+    Test: <TestPage  onCertificateEarned={() => setActiveTab("Certificate")} />,
     Payment: <p className="text-gray-600">This is the Payment section (Coming Soon).</p>,
     Certificate: <CertificatePage/>,
   };

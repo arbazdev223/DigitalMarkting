@@ -15,6 +15,7 @@ const TestPage = ({
   courseTitle,
   onCertificateEarned,
   onTestComplete,
+  isFinalTest = false, 
 }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
@@ -100,7 +101,7 @@ const TestPage = ({
     setSubmitted(true);
 
     const percent = Math.round((total / testQuestions.length) * 100);
-    if (percent >= 95) {
+    if (percent >= 95 && isFinalTest) { // <-- only for final test
       const cert = {
         name: username,
         course: courseTitle,

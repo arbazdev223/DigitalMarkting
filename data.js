@@ -258,6 +258,8 @@ export const courseDetailsList = [
         lessons: ["Variables", "Functions", "DOM Manipulation"]
       }
     ],
+     price: 2999,
+    salePrice: 1499,
     topics: ["HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB"],
     includes: [
       "60 hours on-demand video",
@@ -281,7 +283,7 @@ export const courseDetailsList = [
         ],
       },
     ],
-    downloadBrochure: "/data/cybersecurity-brochure.pdf",
+    
     requirements: [
       "Basic computer knowledge",
       "Willingness to learn programming",
@@ -568,8 +570,7 @@ export const courseDetailsList = [
     rating: 4.7,
     image: BannerC2,
     reviewsCount: 55,
-    price: 2999,
-    salePrice: 1499,
+    downloadBrochure: "/data/cybersecurity-brochure.pdf",
     studentsEnrolled: 180,
     lastUpdated: "Feb 2025",
     category: "Leadership",

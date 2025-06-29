@@ -28,7 +28,7 @@ const CourseTabs = ({
 
   const filteredCourses = courseDetailsList
     .filter((course) => course.type === userType)
-    .sort((a, b) => b.index - a.index);
+    .sort((a, b) => (b.index || 0) - (a.index || 0));
 
   const visibleCourses = filteredCourses.slice(0, visibleCount);
 
@@ -54,7 +54,7 @@ const CourseTabs = ({
               key={type}
               onClick={() => {
                 setUserType(type);
-                setVisibleCount(initialCount); 
+                setVisibleCount(initialCount);
               }}
               className={`px-5 py-2 text-sm font-semibold border transition ${
                 userType === type
@@ -69,61 +69,89 @@ const CourseTabs = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-2">
           {visibleCourses.length > 0 ? (
-            visibleCourses.map((course, idx) => (
-              <Link
-                to={`/course/${course.id}`}
-                key={idx}
-                className="block bg-white border shadow-md rounded overflow-hidden transform transition duration-300 hover:-translate-y-2.5 hover:shadow-xl"
-              >
-                <div className="overflow-hidden">
-                  <img
-                    src={course.image}
-                    alt={course.title}
-                    className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">
-                    {course.title}
-                  </h3>
-                  <hr className="border-t border-gray-300 mb-3" />
-                  <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
-                    {course.includes.map((point, i) => (
-                      <li key={i}>{point}</li>
-                    ))}
-                  </ul>
-                  {course.downloadBrochure ? (
+            visibleCourses.map((course, idx) =>
+              userType === "Business" ? (
+                <div
+                  key={idx}
+                  className="block bg-white border shadow-md rounded overflow-hidden transform transition duration-300 hover:-translate-y-2.5 hover:shadow-xl"
+                >
+                  <div className="overflow-hidden">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">
+                      {course.title}
+                    </h3>
+                    <hr className="border-t border-gray-300 mb-3" />
+                    <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
+                      {course.includes.map((point, i) => (
+                        <li key={i}>{point}</li>
+                      ))}
+                    </ul>
                     <div className="flex gap-3">
-                      <span className="w-1/4 text-center bg-[#0e3477] text-white px-4 py-2 text-sm font-semibold rounded">
-                        View
+                      {course.downloadBrochure && (
+                        <a
+                          href={course.downloadBrochure}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-1/2 min-w-[140px] max-w-[180px] flex items-center justify-center bg-gray-100 text-[#0e3477] px-2 py-2 text-xs font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition"
+                        >
+                          <MdDownload className="mr-1 text-base" />
+                          <span className="truncate">Download Brochure</span>
+                        </a>
+                      )}
+                      <span className="w-1/2 min-w-[140px] max-w-[180px] text-center bg-[#0e3477] text-white px-2 py-2 text-xs font-semibold rounded flex items-center justify-center">
+                        <span className="truncate">Enquire</span>
                       </span>
-                      <a
-                        href={course.downloadBrochure}
-                        download
-                        className="w-3/4 flex items-center justify-center bg-gray-100 text-[#0e3477] px-4 py-2 text-sm font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition"
-                      >
-                        <MdDownload className="mr-2 text-lg" />
-                        Download Brochure
-                      </a>
                     </div>
-                  ) : (
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  to={`/course/${course.id}`}
+                  key={idx}
+                  className="block bg-white border shadow-md rounded overflow-hidden transform transition duration-300 hover:-translate-y-2.5 hover:shadow-xl"
+                >
+                  <div className="overflow-hidden">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">
+                      {course.title}
+                    </h3>
+                    <hr className="border-t border-gray-300 mb-3" />
+                    <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
+                      {course.includes.map((point, i) => (
+                        <li key={i}>{point}</li>
+                      ))}
+                    </ul>
                     <div className="flex gap-3">
-                      <span className="w-2/4 text-center bg-[#0e3477] text-white px-4 py-2 text-sm font-semibold rounded">
-                        View
+                      <span className="w-1/2 min-w-[100px] max-w-[140px] text-center bg-[#0e3477] text-white px-2 py-2 text-xs font-semibold rounded flex items-center justify-center">
+                        <span className="truncate">View</span>
                       </span>
-                      <div className="w-2/4 flex items-center justify-center bg-gray-100 text-[#0e3477] px-4 py-2 text-sm font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition">
-                        <span className="text-[16px] font-bold  font-[Open_Sans]">
+                      <div className="w-1/2 min-w-[100px] max-w-[140px] flex items-center justify-center bg-gray-100 text-[#0e3477] px-2 py-2 text-xs font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition">
+                        <span className="text-xs font-bold font-[Open_Sans]">
                           ₹{course.salePrice}
                         </span>
-                        <span className="line-through text-sm ml-2">
-                          ₹{course.price}
-                        </span>
+                        {course.price && (
+                          <span className="line-through text-xs ml-1">
+                            ₹{course.price}
+                          </span>
+                        )}
                       </div>
                     </div>
-                  )}
-                </div>
-              </Link>
-            ))
+                  </div>
+                </Link>
+              )
+            )
           ) : (
             <p className="col-span-full text-center text-gray-500">
               No courses found.

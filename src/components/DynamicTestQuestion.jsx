@@ -8,15 +8,16 @@ const DynamicTestQuestion = ({
   userAnswers,
   handleOptionChange,
   goToNextQuestion,
-  handleSubmit, 
+  handleSubmit,
 }) => {
   if (!currentQuestion) return null;
-  const answerArr = userAnswers[currentQuestion.id];
+  const answerKey = currentQuestion.id ?? currentQuestionIndex;
+  const answerArr = userAnswers[answerKey];
   const isAnswered = Array.isArray(answerArr) && answerArr.length > 0;
 
   const handleButtonClick = () => {
     if (currentQuestionIndex === testQuestions.length - 1) {
-      handleSubmit && handleSubmit(); 
+      handleSubmit && handleSubmit();
     } else {
       goToNextQuestion();
     }
@@ -51,9 +52,9 @@ const DynamicTestQuestion = ({
               >
                 <input
                   type={currentQuestion.type === "multi" ? "checkbox" : "radio"}
-                  name={`q_${currentQuestion.id}`}
+                  name={`q_${answerKey}`}
                   value={option}
-                  checked={selected}
+                  checked={!!selected} // will be false if not selected
                   onChange={() => handleOptionChange(option)}
                   className="mr-2"
                 />

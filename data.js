@@ -32,9 +32,9 @@ import coursePdf from "./src/assets/testpdf.pdf";
 
 // Award images About us section
 import award1 from "./src/assets/award1.webp";
-import award2 from "./src/assets/award2.webp";
-import award3 from "./src/assets/award3.webp";
-import award4 from "./src/assets/award4.webp";
+import award2 from "./src/assets/award1.webp";
+import award3 from "./src/assets/award1.webp";
+import award4 from "./src/assets/award1.webp";
 // certificate image
 import Cert1 from "./src/assets/certificate1.jpg";
 import Cert2 from "./src/assets/certificate2.jpg";
@@ -55,11 +55,11 @@ import Banner2 from "./src/assets/pdm.webp";
 
 // MiniCard data
 import DM from "./src/assets/1dm.png";
-import DM1 from "./src/assets/2dm.png";
-import DM2 from "./src/assets/3dm.png";
-import DM3 from "./src/assets/4dm.png";
-import DM4 from "./src/assets/5dm.png";
-import DM5 from "./src/assets/6dm.png";
+import DM1 from "./src/assets/1dm.png";
+import DM2 from "./src/assets/1dm.png";
+import DM3 from "./src/assets/1dm.png";
+import DM4 from "./src/assets/1dm.png";
+import DM5 from "./src/assets/1dm.png";
 
 // BlogSection data
 import blog1 from "./src/assets/web.jpg";

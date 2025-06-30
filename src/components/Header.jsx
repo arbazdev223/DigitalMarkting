@@ -10,7 +10,6 @@ import {
   getDataFromLocalStorage,
   selectCartTotalQuantity,
 } from "../store/cartSlice";
-import  {getInitials}  from "../store/authSlice"; 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
@@ -65,6 +64,10 @@ useEffect(() => {
   // const toggleCartPopup = () => {
   //   setCartPopupOpen((prev) => !prev);
   // };
+const profileImageUrl =
+  user?.profileImage && user.profileImage.startsWith("http")
+    ? user.profileImage
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=0e3477&color=fff&size=128`;
 
   const handleCartMouseEnter = () => {
     clearTimeout(cartPopupTimeout.current);
@@ -164,17 +167,12 @@ useEffect(() => {
                       className="flex items-center focus:outline-none"
                       title="Profile"
                     >
-                      {user?.profile ? (
-  <img
-    src={user.profile}
-    alt="Profile"
-    className="w-8 h-8 rounded-full object-cover border border-gray-300"
-  />
-) : (
-  <div className="w-8 h-8 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold">
-    {getInitials(user?.name || "U")}
-  </div>
-)}
+<img
+  src={profileImageUrl}
+  alt="Profile"
+  className="w-6 h-6 rounded-full object-cover border border-gray-300"
+/>
+
 
                     </button>
                     {profileDropdown && (
@@ -286,17 +284,12 @@ useEffect(() => {
                         }}
                         className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]"
                       >
-                       {user?.profile ? (
-  <img
-    src={user.profile}
-    alt="Profile"
-    className="w-6 h-6 rounded-full object-cover border border-gray-300"
-  />
-) : (
-  <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-[10px] font-bold">
-    {getInitials(user?.name || "U")}
-  </div>
-)}{" "}
+                       <img
+  src={profileImageUrl}
+  alt="Profile"
+  className="w-6 h-6 rounded-full object-cover border border-gray-300"
+/>
+
 Profile
                       </button>
                       {profileDropdown && (

@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../store/authSlice";
-import { getInitials } from "../store/authSlice";
 import { toast } from "react-toastify";
 
 const ProfileForm = ({ user }) => {
   const dispatch = useDispatch();
+  const status = useSelector((state) => state.auth.status);
+  const error = useSelector((state) => state.auth.error);
+
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
     phone: user?.phone || "",
-    image: user?.image || "",
     address: user?.address || "",
     linkedin: user?.linkedin || "",
     facebook: user?.facebook || "",
     instagram: user?.instagram || "",
-    profile: user?.profile || "",
+    profileImage: user?.profileImage || "",
   });
 
   useEffect(() => {
@@ -23,12 +24,11 @@ const ProfileForm = ({ user }) => {
       name: user?.name || "",
       email: user?.email || "",
       phone: user?.phone || "",
-      image: user?.image || "",
       address: user?.address || "",
       linkedin: user?.linkedin || "",
       facebook: user?.facebook || "",
       instagram: user?.instagram || "",
-      profile: user?.profile || "",
+      profileImage: user?.profileImage || "",
     });
   }, [user]);
   const imageRef = useRef();
@@ -50,11 +50,15 @@ const ProfileForm = ({ user }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updateUser(formData));
-    setIsEditing(false);
-    toast.success("Profile updated successfully!");
+    const result = await dispatch(updateUser(formData));
+    if (updateUser.fulfilled.match(result)) {
+      toast.success("Profile updated successfully!");
+      setIsEditing(false);
+    } else {
+      toast.error(result.payload || "Profile update failed");
+    }
   };
 
   return (
@@ -63,7 +67,7 @@ const ProfileForm = ({ user }) => {
         <div className="flex items-center space-x-4 w-full">
           {formData.profile ? (
             <img
-              src={formData.profile}
+              src={formData.profileImage}
               alt="Profile"
               onClick={() => isEditing && imageRef.current.click()}
               className="w-20 h-20 rounded-full object-cover border cursor-pointer"
@@ -73,7 +77,7 @@ const ProfileForm = ({ user }) => {
               onClick={() => isEditing && imageRef.current.click()}
               className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-3xl font-bold font-nunito select-none cursor-pointer"
             >
-              {getInitials(formData.name)}
+              {formData.profileImage || ""}
             </div>
           )}
 
@@ -244,9 +248,13 @@ const ProfileForm = ({ user }) => {
           <button
             type="submit"
             className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-nunito text-base"
+            disabled={status === "loading"}
           >
-            Update
+            {status === "loading" ? "Updating..." : "Update"}
           </button>
+        )}
+        {error && (
+          <div className="text-red-600 font-nunito text-sm mt-2">{error}</div>
         )}
       </form>
     </div>

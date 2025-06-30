@@ -1,119 +1,158 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-const dummyStudent = [
-  {
-    email: "student123@gmail.com",
-    password: "student123",
-    name: "Student User",
-    role: "student",
-  },
-  {
-    email: "aditya@gmail.com",
-    password: "aditya123",
-    name: "Aditya Kumar",
-    role: "student",
-  },
-];
-
-const saveUsersToStorage = (users) => {
-  try {
-    localStorage.setItem("users", JSON.stringify(users));
-  } catch (error) {
-    console.error("Error saving users to localStorage:", error);
-  }
-};
-
-const loadUsersFromStorage = () => {
-  try {
-    const users = localStorage.getItem("users");
-    return users ? JSON.parse(users) : [];
-  } catch (error) {
-    console.error("Error loading users from localStorage:", error);
-    return [];
-  }
-};
-
-const saveCurrentUser = (user) => {
-  localStorage.setItem("user", JSON.stringify(user));
-};
-
-const loadCurrentUser = () => {
-  const user = localStorage.getItem("user");
-  return user ? JSON.parse(user) : null;
-};
-
-export const getInitials = (name = "") => {
-  const parts = name.trim().split(" ");
-  if (parts.length === 1) return parts[0][0]?.toUpperCase() || "";
-  return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
-};
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosInstance, axiosAuthInstance } from "../config";
 
 const initialAuthState = {
-  isLoggedIn: !!loadCurrentUser(),
-  user: loadCurrentUser(),
-  users: loadUsersFromStorage().length ? loadUsersFromStorage() : dummyStudent,
+  isLoggedIn: false,
+  user: null,
+  status: "idle",
+  error: null,
 };
+
+export const signup = createAsyncThunk(
+  "auth/signup",
+  async (
+    { name, email, password, confirmPassword },
+    { rejectWithValue }
+  ) => {
+    if (!name || !email || !password || !confirmPassword) {
+      return rejectWithValue("All fields are required");
+    }
+    if (password !== confirmPassword) {
+      return rejectWithValue("Passwords do not match");
+    }
+
+    try {
+      const res = await axiosInstance.post("/user/register", {
+        name,
+        email,
+        password,
+        confirmPassword,
+      });
+      if (res.data.success && res.data.user && res.data.token) {
+        return { ...res.data.user, token: res.data.token };
+      }
+
+      return rejectWithValue(res.data.message || "Signup failed");
+    } catch (err) {
+      console.error("Signup error:", err);
+      return rejectWithValue(err.response?.data?.message || "Signup failed");
+    }
+  }
+);
+
+export const signin = createAsyncThunk(
+  "auth/signin",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/user/login", { email, password });
+      if (res.data.success && res.data.user && res.data.token) {
+        return { ...res.data.user, token: res.data.token };
+      }
+      return rejectWithValue(res.data.message || "Signin failed");
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Signin failed");
+    }
+  }
+);
+
+
+
+export const updateUser = createAsyncThunk(
+  "auth/updateUser",
+  async (userData, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const token = auth.user?.token;
+      const res = await axiosAuthInstance(token).put("/user/update-profile", userData);
+      if (res.data.success && res.data.user) {
+        return res.data.user;
+      }
+      return rejectWithValue(res.data.message || "Update failed");
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Update failed");
+    }
+  }
+);
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { auth } = getState();
+      const token = auth.user?.token;
+      await axiosAuthInstance(token).post("/user/logout");
+      return true;
+    } catch (err) {
+      return rejectWithValue("Logout failed");
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
   initialState: initialAuthState,
   reducers: {
-    login(state, action) {
-      state.isLoggedIn = true;
-      state.user = action.payload;
-      saveCurrentUser(action.payload);
-    },
     logout(state) {
       state.isLoggedIn = false;
       state.user = null;
-      localStorage.removeItem("user");
+      state.status = "idle";
+      state.error = null;
     },
-    updateUser(state, action) {
-      state.user = { ...state.user, ...action.payload };
-      const updatedUsers = state.users.map((u) =>
-        u.email === state.user.email ? { ...u, ...action.payload } : u
-      );
-      state.users = updatedUsers;
-      saveUsersToStorage(updatedUsers);
-      saveCurrentUser(state.user);
+    clearError(state) {
+      state.error = null;
     },
-    signup(state, action) {
-      state.user = action.payload;
-      state.isLoggedIn = true;
-      state.users.push(action.payload);
-      saveUsersToStorage(state.users);
-      saveCurrentUser(action.payload);
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(signup.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        state.isLoggedIn = true;
+      })
+      .addCase(signup.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(signin.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(signin.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = action.payload;
+        state.isLoggedIn = true;
+      })
+      .addCase(signin.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = { ...state.user, ...action.payload };
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoggedIn = false;
+        state.user = null;
+        state.status = "idle";
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.error = action.payload;
+      });
   },
 });
 
-export const handleSignup = (newUser) => (dispatch, getState) => {
-  const { users } = getState().auth;
-  const exists = users.some((u) => u.email === newUser.email);
-  if (exists) {
-    alert("User already exists with this email");
-    return;
-  }
-  dispatch(authSlice.actions.signup(newUser));
-  toast.success("Signup successful!");
-};
-
-export const handleSignin = (email, password) => (dispatch, getState) => {
-  const { users } = getState().auth;
-  const matchedUser = users.find(
-    (user) => user.email === email && user.password === password
-  );
-
-  if (matchedUser) {
-    dispatch(authSlice.actions.login(matchedUser));
-  } else if (email.includes("admin")) {
-    dispatch(
-      authSlice.actions.login({ role: "admin", name: "Admin User", email })
-    );
-  } else {
-    toast("Invalid credentials.");
-  }
-};
-
-export const { login, logout, updateUser, signup } = authSlice.actions;
+export const { logout, clearError } = authSlice.actions;
 export default authSlice.reducer;

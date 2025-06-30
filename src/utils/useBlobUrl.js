@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { frontendUrl } from "../config";
+import { FRONTEND_URL } from "../config";
 
 export function useBlobUrl(fileUrl) {
   const [blobUrl, setBlobUrl] = useState("");
@@ -9,7 +9,7 @@ export function useBlobUrl(fileUrl) {
     const accessUrl =
       fileUrl.startsWith("http") || fileUrl.startsWith("blob:")
         ? fileUrl
-        : `${frontendUrl}${fileUrl.startsWith("/") ? "" : "/"}${fileUrl}`;
+        : `${FRONTEND_URL}${fileUrl.startsWith("/") ? "" : "/"}${fileUrl}`;
     fetch(accessUrl)
       .then((res) => res.blob())
       .then((blob) => {

@@ -52,17 +52,22 @@ const App = () => {
           path="/auth"
           element={
             isLoggedIn && user ? (
-              user.role === "admin" ? (
-                <Navigate to="/admin-dashboard" replace />
-              ) : (
-                <Navigate to="/profile" replace />
-              )
+              <Navigate to="/" replace />
             ) : (
               <AuthTabs />
             )
           }
         />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            isLoggedIn && user ? (
+              <Profile />
+            ) : (
+              <Navigate to="/auth" replace />
+            )
+          }
+        />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AuthFormCard = ({
   activeTab,
@@ -8,9 +9,11 @@ const AuthFormCard = ({
   handleSignup,
   handleSignin,
 }) => {
+  const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
-  const navigate = useNavigate();
+  const status = useSelector((state) => state.auth.status);
+  const error = useSelector((state) => state.auth.error);
 
   useEffect(() => {
     if (isLoggedIn && user) {
@@ -21,6 +24,12 @@ const AuthFormCard = ({
       }
     }
   }, [isLoggedIn, user, navigate]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <div className="bg-white shadow-md rounded-xl w-full max-w-md p-6">
@@ -60,48 +69,62 @@ const AuthFormCard = ({
         <form className="space-y-4 animate-fade-in" onSubmit={handleSignup}>
           <input
             type="text"
+            name="name"
             placeholder="Full Name"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
+            required
           />
           <input
             type="email"
+            name="email"
             placeholder="Email"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
+            required
           />
           <input
             type="password"
+            name="password"
             placeholder="Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
+            required
           />
           <input
             type="password"
+            name="confirmPassword"
             placeholder="Confirm Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
+            required
           />
           <button
             type="submit"
             className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
+            disabled={status === "loading"}
           >
-            Sign Up
+            {status === "loading" ? "Signing up..." : "Sign Up"}
           </button>
         </form>
       ) : (
         <form className="space-y-4 animate-fade-in" onSubmit={handleSignin}>
           <input
             type="email"
+            name="email"
             placeholder="Email"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
+            required
           />
           <input
             type="password"
+            name="password"
             placeholder="Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
+            required
           />
           <button
             type="submit"
             className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
+            disabled={status === "loading"}
           >
-            Sign In
+            {status === "loading" ? "Signing in..." : "Sign In"}
           </button>
         </form>
       )}

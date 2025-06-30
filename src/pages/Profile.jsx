@@ -10,7 +10,7 @@ import CertificatePage from "./CertificatePage";
 const tabs = ["Profile", "Course", "Test", "Payment", "Certificate"];
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.auth);
+    const user = useSelector((state) => state.auth.user);
   const [activeTab, setActiveTab] = useState("Profile");
   const [showTabs, setShowTabs] = useState(false);
 

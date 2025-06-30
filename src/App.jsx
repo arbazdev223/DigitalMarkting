@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -24,10 +24,18 @@ import CourseResumePage from "./pages/CourseResumePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CertificatePage from "./pages/CertificatePage";
+import { loadUser } from "./store/authSlice";
 
 const App = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const authUser = JSON.parse(localStorage.getItem("authUser"));
+    if (authUser?.token) {
+      dispatch(loadUser());
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -48,28 +56,20 @@ const App = () => {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/certificate" element={<CertificatePage />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         <Route
           path="/auth"
           element={
-            isLoggedIn && user ? (
-              <Navigate to="/" replace />
-            ) : (
-              <AuthTabs />
-            )
+            isLoggedIn && user ? <Navigate to="/" replace /> : <AuthTabs />
           }
         />
         <Route
           path="/profile"
           element={
-            isLoggedIn && user ? (
-              <Profile />
-            ) : (
-              <Navigate to="/auth" replace />
-            )
+            isLoggedIn && user ? <Profile /> : <Navigate to="/auth" replace />
           }
         />
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
       <ToastContainer />

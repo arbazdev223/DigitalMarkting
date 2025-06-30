@@ -8,15 +8,24 @@ import {
 } from "../store/testSlice";
 
 import confetti from "canvas-confetti";
+import QuizResult from "../components/QuizResult";
 
-const TestPage = ({
-  testQuestions,
-  showUserInfo = true,
-  courseTitle,
-  onCertificateEarned,
-  onTestComplete,
-  isFinalTest = false, 
-}) => {
+const TestPage = (props) => {
+  const {
+    quizzes = [],
+    allModulesCompleted = false,
+    finalTestQuestions = [],
+    showUserInfo = true,
+    courseTitle,
+    onCertificateEarned,
+    onTestComplete,
+    isFinalTest = false,
+  } = props;
+
+  const quizReports = useSelector((state) => state.test.quizReports || {});
+  const quizIds = Object.keys(quizReports);
+  const [selectedQuizId, setSelectedQuizId] = useState(quizIds[0] || "");
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(90);
@@ -26,22 +35,26 @@ const TestPage = ({
   const score = useSelector((state) => state.test.score);
   const attempts = useSelector((state) => state.test.attempts);
 
-  const username = useSelector((state) => state.auth.user?.name || "Student");
-
-  const navigate = useNavigate();
-  const currentQuestion = testQuestions[currentQuestionIndex];
+  const currentQuestion = allModulesCompleted
+    ? finalTestQuestions[currentQuestionIndex]
+    : (quizzes.find((q) => q.id === selectedQuizId)?.questions || [])[
+        currentQuestionIndex
+      ];
 
   useEffect(() => {
-    if (timeLeft > 0 && !submitted) {
+    if (timeLeft > 0 && !submitted && allModulesCompleted) {
       const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft === 0 && allModulesCompleted) {
       goToNextQuestion();
     }
-  }, [timeLeft, submitted]);
+  }, [timeLeft, submitted, allModulesCompleted]);
 
   useEffect(() => {
-    const percent = Math.round((score / testQuestions.length) * 100);
+    const totalQ = allModulesCompleted
+      ? finalTestQuestions.length
+      : quizzes.find((q) => q.id === selectedQuizId)?.questions.length || 1;
+    const percent = Math.round((score / totalQ) * 100);
     if (submitted && percent >= 95) {
       setShowCelebration(true);
       confetti({ spread: 160, particleCount: 300, origin: { y: 0.6 } });
@@ -50,9 +63,18 @@ const TestPage = ({
 
       return () => clearTimeout(timer);
     }
-  }, [submitted, score, navigate]);
+  }, [
+    submitted,
+    score,
+    // navigate,
+    allModulesCompleted,
+    finalTestQuestions.length,
+    quizzes,
+    selectedQuizId,
+  ]);
 
   const handleOptionChange = (option) => {
+    if (!currentQuestion) return;
     const isMulti = currentQuestion.type === "multi";
     const current = userAnswers[currentQuestion.id] || [];
 
@@ -68,26 +90,30 @@ const TestPage = ({
 
   const goToNextQuestion = () => {
     setTimeLeft(90);
-    if (currentQuestionIndex < testQuestions.length - 1) {
-      setCurrentQuestionIndex((prev) => {
-        const nextIndex = prev + 1;
-        const nextQuestionId = testQuestions[nextIndex].id;
-        setUserAnswers((prevAnswers) => {
-          const updated = { ...prevAnswers };
-          updated[nextQuestionId] = [];
-          return updated;
+    if (allModulesCompleted) {
+      if (currentQuestionIndex < finalTestQuestions.length - 1) {
+        setCurrentQuestionIndex((prev) => {
+          const nextIndex = prev + 1;
+          const nextQuestionId = finalTestQuestions[nextIndex].id;
+          setUserAnswers((prevAnswers) => {
+            const updated = { ...prevAnswers };
+            updated[nextQuestionId] = [];
+            return updated;
+          });
+          return nextIndex;
         });
-        return nextIndex;
-      });
-    } else {
-      handleSubmit();
+      } else {
+        handleSubmit();
+      }
     }
   };
 
   const handleSubmit = () => {
     let total = 0;
-
-    testQuestions.forEach((q) => {
+    const questions = allModulesCompleted
+      ? finalTestQuestions
+      : quizzes.find((q) => q.id === selectedQuizId)?.questions || [];
+    questions.forEach((q) => {
       const userAns = userAnswers[q.id] || [];
       const correct = q.correctAnswers;
       const isCorrect =
@@ -100,8 +126,8 @@ const TestPage = ({
     dispatch(decrementAttempts());
     setSubmitted(true);
 
-    const percent = Math.round((total / testQuestions.length) * 100);
-    if (percent >= 95 && isFinalTest) { // <-- only for final test
+    const percent = Math.round((total / questions.length) * 100);
+    if (percent >= 95 && isFinalTest && allModulesCompleted) {
       const cert = {
         name: username,
         course: courseTitle,
@@ -109,7 +135,6 @@ const TestPage = ({
         id: Date.now(),
       };
       dispatch(addCertificate(cert));
-
       if (onCertificateEarned) {
         onCertificateEarned();
       }
@@ -122,20 +147,21 @@ const TestPage = ({
     setUserAnswers({});
     setTimeLeft(90);
     setSubmitted(false);
-    setScore(0);
+    dispatch(setScore(0));
     setShowCelebration(false);
   };
-
   if (submitted) {
-    const percent = Math.round((score / testQuestions.length) * 100);
+    const totalQ = allModulesCompleted
+      ? finalTestQuestions.length
+      : quizzes.find((q) => q.id === selectedQuizId)?.questions.length || 1;
+    const percent = Math.round((score / totalQ) * 100);
 
     return (
       <div className="max-w-3xl mx-auto p-6 text-center relative">
         <h2 className="text-2xl font-bold mb-4 text-[#0e3477]">Test Result</h2>
         <p className="text-lg mb-4 text-gray-700">
-          You got <strong>{score}</strong> out of{" "}
-          <strong>{testQuestions.length}</strong> correct (
-          <strong>{percent}%</strong>).
+          You got <strong>{score}</strong> out of <strong>{totalQ}</strong>{" "}
+          correct (<strong>{percent}%</strong>).
         </p>
 
         {percent >= 95 && showCelebration && (
@@ -160,73 +186,102 @@ const TestPage = ({
     );
   }
 
-  const isAnswered = !!userAnswers[currentQuestion.id]?.length;
+  const isAnswered = !!userAnswers[currentQuestion?.id]?.length;
 
-  return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6">
-      {showUserInfo && (
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
-          <div className="text-sm text-gray-700 font-semibold">
-            👤 {username}
-          </div>
-          <div className="text-sm text-[#0e3477] font-bold">
-            📚 {courseTitle}
-          </div>
+  if (!props.allModulesCompleted) {
+    if (quizIds.length === 0) {
+      return (
+        <div className="text-center text-gray-500 py-12">
+          No quiz reports found.
+          <br />
+          <span className="text-sm">
+            Try attempting a quiz to see your report here.
+          </span>
         </div>
-      )}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-[#0e3477]">
-          Question {currentQuestionIndex + 1} of {testQuestions.length}
-        </h2>
-        <div className="text-sm font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded">
-          ⏳ {Math.floor(timeLeft / 60)}:{("0" + (timeLeft % 60)).slice(-2)}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-lg shadow p-4 sm:p-6">
-        <p className="mb-4 font-medium text-gray-800">
-          {currentQuestion.question}
-        </p>
-        <div className="space-y-3 mb-6">
-          {currentQuestion.options.map((option, idx) => {
-            const selected = userAnswers[currentQuestion.id]?.includes(option);
-            return (
-              <label
-                key={idx}
-                className={`block border px-4 py-2 rounded cursor-pointer ${
-                  selected
-                    ? "bg-[#e0ebff] border-[#0e3477]"
-                    : "hover:bg-gray-50 border-gray-300"
-                }`}
-              >
-                <input
-                  type={currentQuestion.type === "multi" ? "checkbox" : "radio"}
-                  name={`q_${currentQuestion.id}`}
-                  value={option}
-                  checked={selected}
-                  onChange={() => handleOptionChange(option)}
-                  className="mr-2"
-                />
-                {option}
-              </label>
-            );
-          })}
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            onClick={goToNextQuestion}
-            className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 disabled:opacity-50"
-            disabled={!isAnswered}
+      );
+    }
+    const selectedQuiz = quizReports[selectedQuizId];
+    return (
+      <div>
+        <h2 className="text-xl font-bold mb-4">Quiz Reports</h2>
+        <div className="mb-4 flex items-center gap-2">
+          <label className="font-semibold">Select Quiz:</label>
+          <select
+            className="border rounded px-2 py-1"
+            value={selectedQuizId}
+            onChange={(e) => setSelectedQuizId(e.target.value)}
           >
-            {currentQuestionIndex === testQuestions.length - 1
-              ? "Submit"
-              : "Next"}
-          </button>
+            {quizIds.map((qid) => (
+              <option key={qid} value={qid}>
+                {quizReports[qid].quizName}
+              </option>
+            ))}
+          </select>
         </div>
+        {selectedQuiz && (
+          <QuizResult
+            quizName={selectedQuiz.quizName}
+            attempts={selectedQuiz.attempts}
+            totalQuestions={selectedQuiz.totalQuestions}
+          />
+        )}
       </div>
-    </div>
-  );
+    );
+  }
+  if (allModulesCompleted) {
+    return (
+      <div>
+        <h2 className="text-xl font-bold mb-4">Final Test</h2>
+        {finalTestQuestions.length > 0 && !submitted && (
+          <div className="bg-white rounded shadow p-6 max-w-xl mx-auto">
+            <div className="mb-4 font-semibold">
+              Question {currentQuestionIndex + 1} of {finalTestQuestions.length}
+            </div>
+            <div className="mb-4">{currentQuestion?.question}</div>
+            <div className="mb-4">
+              {currentQuestion?.options?.map((option, idx) => (
+                <label key={idx} className="block mb-2 cursor-pointer">
+                  <input
+                    type={
+                      currentQuestion.type === "multi" ? "checkbox" : "radio"
+                    }
+                    name="option"
+                    value={option}
+                    checked={
+                      userAnswers[currentQuestion.id]
+                        ? userAnswers[currentQuestion.id].includes(option)
+                        : false
+                    }
+                    onChange={() => handleOptionChange(option)}
+                    className="mr-2"
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-gray-500">
+                Time Left: {timeLeft}s
+              </span>
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={
+                  currentQuestionIndex === finalTestQuestions.length - 1
+                    ? handleSubmit
+                    : goToNextQuestion
+                }
+                disabled={!isAnswered}
+              >
+                {currentQuestionIndex === finalTestQuestions.length - 1
+                  ? "Submit"
+                  : "Next"}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 };
 
 export default TestPage;

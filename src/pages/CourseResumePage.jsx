@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { courseData } from "../../data";
 import {
   FaCheckCircle,
   FaFilePdf,
@@ -17,7 +16,28 @@ import {
   selectLevels,
 } from "../store/courseSlice";
 import TestPage from "./TestPage";
-import QuizContainer from "../components/QuizContainer"; 
+import QuizContainer from "../components/QuizContainer";
+import { useBlobUrl } from "../utils/useBlobUrl";
+import { courseData } from "../../data";
+
+function preventDownloadProps(type) {
+  if (type === "video" || type === "audio") {
+    return { controlsList: "nodownload" };
+  }
+  if (type === "image") {
+    return {
+      draggable: false,
+      onContextMenu: (e) => e.preventDefault(),
+      style: { pointerEvents: "auto" },
+    };
+  }
+  if (type === "pdf") {
+    return {
+      style: { pointerEvents: "none" },
+    };
+  }
+  return {};
+}
 
 const getContentIcon = (type) => {
   switch (type) {
@@ -48,7 +68,7 @@ const CourseResumePage = () => {
   const totalModules = useSelector(selectTotalModules);
   const totalLessons = useSelector(selectTotalLessons);
   const levels = useSelector(selectLevels);
-  const user = useSelector((state) => state.auth.user); 
+  const user = useSelector((state) => state.auth.user);
 
   const markContentComplete = (mIdx, tIdx, cIdx) => {
     const key = `${mIdx}-${tIdx}-${cIdx}`;
@@ -82,9 +102,8 @@ const CourseResumePage = () => {
     const completed = mod.topics.reduce(
       (sum, t, tIdx) =>
         sum +
-        (t.contents?.filter((_, cIdx) =>
-          isContentCompleted(modIdx, tIdx, cIdx)
-        ).length || 0),
+        (t.contents?.filter((_, cIdx) => isContentCompleted(modIdx, tIdx, cIdx))
+          .length || 0),
       0
     );
     return total === 0 ? 0 : Math.round((completed / total) * 100);
@@ -111,11 +130,37 @@ const CourseResumePage = () => {
 
   const activeMod = course.modules?.[activeModule];
   const selectedTopicObj =
-    activeMod && selectedTopic !== null ? activeMod.topics[selectedTopic] : null;
+    activeMod && selectedTopic !== null
+      ? activeMod.topics[selectedTopic]
+      : null;
   const selectedContentObj =
     selectedTopicObj && selectedContent !== null
       ? selectedTopicObj.contents?.[selectedContent]
       : null;
+  const finalTestContent = course.modules
+    .flatMap((m) => m.topics)
+    .flatMap((t) => t.contents)
+    .find((c) => c.type === "test" && c.isFinalTest);
+
+  const finalTestQuestions = finalTestContent?.questions || [];
+  const OverlayBlock = () => (
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 10,
+        cursor: "not-allowed",
+      }}
+      onContextMenu={(e) => e.preventDefault()}
+      onMouseDown={(e) => e.preventDefault()}
+      onDragStart={(e) => e.preventDefault()}
+    />
+  );
+
+  const blobUrl = useBlobUrl(selectedContentObj?.url);
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -138,7 +183,9 @@ const CourseResumePage = () => {
             </div>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-400 mb-1">Your Performance Status</p>
+            <p className="text-sm text-gray-400 mb-1">
+              Your Performance Status
+            </p>
             <div
               className={`w-24 h-24 rounded-full border-[6px] flex items-center justify-center ${getProgressColor(
                 progressPercent
@@ -187,7 +234,11 @@ const CourseResumePage = () => {
                     <span className="text-xs text-gray-500">
                       {getModuleProgress(mIdx)}%
                     </span>
-                    {activeModule === mIdx ? <HiChevronUp /> : <HiChevronDown />}
+                    {activeModule === mIdx ? (
+                      <HiChevronUp />
+                    ) : (
+                      <HiChevronDown />
+                    )}
                   </span>
                 </button>
                 {activeModule === mIdx && mod.topics && (
@@ -215,7 +266,9 @@ const CourseResumePage = () => {
                                 setSelectedContent(0);
                               }}
                               className={`flex-1 text-left cursor-pointer ${
-                                selectedTopic === tIdx ? "underline font-bold" : ""
+                                selectedTopic === tIdx
+                                  ? "underline font-bold"
+                                  : ""
                               }`}
                             >
                               {topic.topicTitle}
@@ -223,7 +276,13 @@ const CourseResumePage = () => {
                                 <FaCheckCircle className="inline ml-1 text-green-500" />
                               )}
                             </span>
-                            <span>{openTopic[tIdx] ? <HiChevronUp /> : <HiChevronDown />}</span>
+                            <span>
+                              {openTopic[tIdx] ? (
+                                <HiChevronUp />
+                              ) : (
+                                <HiChevronDown />
+                              )}
+                            </span>
                           </button>
                           {openTopic[tIdx] && (
                             <ul className="pl-4 py-1">
@@ -231,7 +290,8 @@ const CourseResumePage = () => {
                                 <li
                                   key={cIdx}
                                   className={`flex items-center text-xs text-gray-600 py-1 cursor-pointer ${
-                                    selectedTopic === tIdx && selectedContent === cIdx
+                                    selectedTopic === tIdx &&
+                                    selectedContent === cIdx
                                       ? "font-bold underline text-blue-700"
                                       : ""
                                   }`}
@@ -261,12 +321,14 @@ const CourseResumePage = () => {
         <div className="w-full lg:w-2/3 bg-white rounded p-6 shadow min-h-[300px]">
           {activeMod && selectedTopicObj && selectedContentObj ? (
             <div>
-              <h3 className="text-lg font-bold mb-2">{selectedTopicObj.topicTitle}</h3>
+              <h3 className="text-lg font-bold mb-2">
+                {selectedTopicObj.topicTitle}
+              </h3>
               <div className="border rounded p-4 shadow-sm bg-gray-50">
                 {selectedContentObj.type === "test" ? (
                   selectedContentObj.isFinalTest ? (
                     <TestPage
-                      testQuestions={selectedContentObj.questions}
+                      finalTestQuestions={selectedContentObj.questions}
                       courseTitle={course.title}
                       isFinalTest={true}
                     />
@@ -280,76 +342,126 @@ const CourseResumePage = () => {
                   )
                 ) : (
                   <>
-                    <div className="flex justify-between items-center mb-4"> 
+                    <div className="flex justify-between items-center mb-4">
                       <div className="font-medium flex items-center mb-2">
-                      {getContentIcon(selectedContentObj.type)}
-                      {selectedContentObj.name}
+                        {getContentIcon(selectedContentObj.type)}
+                        {selectedContentObj.name}
+                      </div>
+                      <div className="text-xs text-gray-500 mb-1">
+                        {selectedContentObj.duration && (
+                          <>Duration: {selectedContentObj.duration}</>
+                        )}
+                      </div>
                     </div>
-                    <div className="text-xs text-gray-500 mb-1">
-                      {selectedContentObj.duration && <>Duration: {selectedContentObj.duration}</>}
-                    </div>
-                    </div>
-                    {selectedContentObj.type === "video" && (
-                      <video
-                        src={selectedContentObj.url}
-                        controls
-                        className="w-full max-w-2xl my-2"
-                        onEnded={() => {
-                          markContentComplete(activeModule, selectedTopic, selectedContent);
-                          if (
-                            selectedTopicObj.contents &&
-                            selectedContent < selectedTopicObj.contents.length - 1
-                          ) {
-                            setSelectedContent(selectedContent + 1);
-                          }
-                        }}
-                      />
+                    {selectedContentObj.type === "video" && blobUrl && (
+                      <div className="relative">
+                        <video
+                          src={blobUrl}
+                          controls
+                          controlsList="nodownload"
+                          className="w-full max-w-2xl my-2"
+                          onContextMenu={(e) => e.preventDefault()}
+                          onEnded={() => {
+                            markContentComplete(
+                              activeModule,
+                              selectedTopic,
+                              selectedContent
+                            );
+                            if (
+                              selectedTopicObj.contents &&
+                              selectedContent <
+                                selectedTopicObj.contents.length - 1
+                            ) {
+                              setSelectedContent(selectedContent + 1);
+                            }
+                          }}
+                        />
+                      </div>
                     )}
-                    {selectedContentObj.type === "audio" && (
-                      <audio
-                        controls
-                        src={selectedContentObj.url}
-                        className="mt-2 w-full max-w-2xl text-gray-500"
-                        onEnded={() => {
-                          markContentComplete(activeModule, selectedTopic, selectedContent);
-                          if (
-                            selectedTopicObj.contents &&
-                            selectedContent < selectedTopicObj.contents.length - 1
-                          ) {
-                            setSelectedContent(selectedContent + 1);
-                          }
-                        }}
-                      />
-                    )}
-                   {selectedContentObj.type === "pdf" && (
-  <div className="w-full max-w-2xl my-2">
-    <iframe
-      src={selectedContentObj.url}
-      title={selectedContentObj.name}
-      className="w-full h-96 border rounded"
-      onLoad={() =>
-        markContentComplete(activeModule, selectedTopic, selectedContent)
-      }
-    />
-  </div>
-)}
 
-                    {selectedContentObj.type === "image" && (
-                      <img
-                        src={selectedContentObj.url}
-                        alt={selectedContentObj.name}
-                        className="w-40 w-full max-w-2xl  my-2 rounded"
-                        onLoad={() =>
-                          markContentComplete(activeModule, selectedTopic, selectedContent)
-                        }
-                      />
+                    {selectedContentObj.type === "audio" && blobUrl && (
+                      <div className="relative">
+                        <audio
+                          src={blobUrl}
+                          controls
+                          controlsList="nodownload"
+                          className="w-full max-w-2xl my-2"
+                          onContextMenu={(e) => e.preventDefault()}
+                          onEnded={() => {
+                            markContentComplete(
+                              activeModule,
+                              selectedTopic,
+                              selectedContent
+                            );
+                            if (
+                              selectedTopicObj.contents &&
+                              selectedContent <
+                                selectedTopicObj.contents.length - 1
+                            ) {
+                              setSelectedContent(selectedContent + 1);
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    {selectedContentObj.type === "pdf" && blobUrl && (
+                      <div
+                        className="relative w-full max-w-2xl my-2"
+                        style={{ height: "500px", overflow: "auto" }}
+                      >
+                        <iframe
+                          src={blobUrl}
+                          title={selectedContentObj.name}
+                          className="w-full h-full border rounded"
+                          style={{
+                            minHeight: "500px",
+                            background: "#fff",
+                            display: "block",
+                            pointerEvents: "auto",
+                          }}
+                          onContextMenu={(e) => e.preventDefault()}
+                          onLoad={() =>
+                            markContentComplete(
+                              activeModule,
+                              selectedTopic,
+                              selectedContent
+                            )
+                          }
+                        />
+                      </div>
+                    )}
+
+                    {selectedContentObj.type === "image" && blobUrl && (
+                      <div className="relative">
+                        <img
+                          src={blobUrl}
+                          alt={selectedContentObj.name}
+                          className="w-full max-w-2xl my-2 rounded"
+                          draggable={false}
+                          onContextMenu={(e) => e.preventDefault()}
+                          onLoad={() =>
+                            markContentComplete(
+                              activeModule,
+                              selectedTopic,
+                              selectedContent
+                            )
+                          }
+                          style={{
+                            userSelect: "none",
+                            pointerEvents: "auto",
+                          }}
+                        />
+                      </div>
                     )}
                   </>
                 )}
               </div>
             </div>
           ) : (
-            <div className="text-gray-500 italic">Select a topic and content to view its details.</div>
+            <div className="text-gray-500 italic">
+              Select a topic and content to view its details.
+            </div>
           )}
         </div>
       </div>

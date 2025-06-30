@@ -19,6 +19,7 @@ const initialState = {
   completedContent: load("completedContent", {}),
   activeModule: load("activeModule", null),
   selectedTopic: load("selectedTopic", null),
+  quizReports: load("quizReports", {}),
 };
 
 const testSlice = createSlice({
@@ -89,6 +90,25 @@ const testSlice = createSlice({
       save("activeModule", null);
       save("selectedTopic", null);
     },
+    saveQuizReport: (state, action) => {
+      // action.payload: { quizId, quizName, score, totalQuestions }
+      const { quizId, quizName, score, totalQuestions } = action.payload;
+      if (!state.quizReports[quizId]) {
+        state.quizReports[quizId] = {
+          quizName,
+          attempts: [],
+          totalQuestions,
+        };
+      }
+      state.quizReports[quizId].quizName = quizName;
+      state.quizReports[quizId].totalQuestions = totalQuestions;
+      state.quizReports[quizId].attempts.push(score);
+      save("quizReports", state.quizReports);
+    },
+    resetQuizReports: (state) => {
+      state.quizReports = {};
+      save("quizReports", {});
+    },
   },
 });
 
@@ -104,6 +124,8 @@ export const {
   setSelectedTopic,
   resetProgress,
   resetAll,
+  saveQuizReport,
+  resetQuizReports,
 } = testSlice.actions;
 
 export default testSlice.reducer;

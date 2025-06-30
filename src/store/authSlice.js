@@ -7,7 +7,7 @@ const initialAuthState = {
   status: "idle",
   error: null,
 };
-
+//signup action
 export const signup = createAsyncThunk(
   "auth/signup",
   async (

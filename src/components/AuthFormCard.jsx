@@ -38,6 +38,11 @@ const AuthFormCard = ({
     }
   };
 
+  const handleTabSwitch = (tab) => {
+    setActiveTab(tab);
+    dispatch(setAuthStatusIdle());
+  };
+
   return (
     <div className="bg-white shadow-md rounded-xl w-full max-w-md p-6">
       <div className="flex justify-between mb-6 border-b">
@@ -47,7 +52,7 @@ const AuthFormCard = ({
               ? "text-[#0e3477] border-b-2 border-[#0e3477]"
               : "text-gray-500"
           }`}
-          onClick={() => setActiveTab("signup")}
+          onClick={() => handleTabSwitch("signup")}
         >
           Sign Up
         </button>
@@ -57,7 +62,7 @@ const AuthFormCard = ({
               ? "text-[#0e3477] border-b-2 border-[#0e3477]"
               : "text-gray-500"
           }`}
-          onClick={() => setActiveTab("signin")}
+          onClick={() => handleTabSwitch("signin")}
         >
           Sign In
         </button>

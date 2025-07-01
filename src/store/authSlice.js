@@ -55,18 +55,12 @@ export const signin = createAsyncThunk(
 
 export const loadUser = createAsyncThunk(
   "auth/loadUser",
-  async (_, { getState, rejectWithValue }) => {
-    const token = getState().auth.token;
-
-    if (!token) return rejectWithValue("No token available");
-
+  async (_, { rejectWithValue }) => {
     try {
-      const res = await axiosAuthInstance(token).get("/user/me");
-
+      const res = await axiosInstance.get("/user/me");
       if (res.data.success && res.data.user) {
         return res.data.user;
       }
-
       return rejectWithValue("Unable to load user");
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Load failed");
@@ -122,6 +116,9 @@ const authSlice = createSlice({
     clearError(state) {
       state.error = null;
     },
+    setAuthStatusIdle(state) {
+      state.status = "idle";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -163,5 +160,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, setAuthStatusIdle } = authSlice.actions;
 export default authSlice.reducer;

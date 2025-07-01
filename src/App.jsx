@@ -31,11 +31,10 @@ const App = () => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const authUser = JSON.parse(localStorage.getItem("authUser"));
-    if (authUser?.token) {
-      dispatch(loadUser());
+    if (isLoggedIn) {
+      dispatch(loadUser()).catch(() => {});
     }
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn]);
 
   return (
     <>

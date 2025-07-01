@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AuthFormCard from "./AuthFormCard";
-import { signup, signin, loadUser } from "../store/authSlice";
+import { signup, signin } from "../store/authSlice";
 import { toast } from "react-toastify";
 
 const AuthTabs = () => {
   const [activeTab, setActiveTab] = useState("signup");
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const onSignup = async (e) => {
     e.preventDefault();
@@ -30,6 +31,7 @@ const AuthTabs = () => {
       );
       if (signup.fulfilled.match(resultAction)) {
         toast.success("Signup successful!");
+        setActiveTab("signin"); 
       } else {
         toast.error(resultAction.payload || "Signup failed");
       }
@@ -38,30 +40,27 @@ const AuthTabs = () => {
     }
   };
 
-const onSignin = async (e) => {
-  e.preventDefault();
-  const email = e.target.elements[0].value.trim();
-  const password = e.target.elements[1].value;
+  const onSignin = async (e) => {
+    e.preventDefault();
+    const email = e.target.elements[0].value.trim();
+    const password = e.target.elements[1].value;
 
-  if (!email || !password) {
-    toast.error("All fields are required");
-    return;
-  }
-
-  try {
-    const resultAction = await dispatch(signin({ email, password }));
-    if (signin.fulfilled.match(resultAction)) {
-      toast.success("Signin successful!");
-    } else {
-      toast.error(resultAction.payload || "Signin failed");
+    if (!email || !password) {
+      toast.error("All fields are required");
+      return;
     }
-  } catch (error) {
-    toast.error("Signin failed");
-  }
-};
-useEffect(() => {
-  dispatch(loadUser());
-}, [dispatch]);
+
+    try {
+      const resultAction = await dispatch(signin({ email, password }));
+      if (signin.fulfilled.match(resultAction)) {
+        toast.success("Signin successful!");
+      } else {
+        toast.error(resultAction.payload || "Signin failed");
+      }
+    } catch (error) {
+      toast.error("Signin failed");
+    }
+  };
 
   return (
     <div className="sm:min-h-[70%] h-[60%] flex items-center justify-center bg-gray-100 p-4">

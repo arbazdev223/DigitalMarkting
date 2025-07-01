@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { setAuthStatusIdle } from "../store/authSlice";
 
 const AuthFormCard = ({
   activeTab,
@@ -10,6 +11,7 @@ const AuthFormCard = ({
   handleSignin,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
   const status = useSelector((state) => state.auth.status);
@@ -30,6 +32,11 @@ const AuthFormCard = ({
       toast.error(error);
     }
   }, [error]);
+  const handleInputChange = () => {
+    if (status !== "idle") {
+      dispatch(setAuthStatusIdle());
+    }
+  };
 
   return (
     <div className="bg-white shadow-md rounded-xl w-full max-w-md p-6">
@@ -73,6 +80,7 @@ const AuthFormCard = ({
             placeholder="Full Name"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
             required
+            onChange={handleInputChange}
           />
           <input
             type="email"
@@ -80,6 +88,7 @@ const AuthFormCard = ({
             placeholder="Email"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
             required
+            onChange={handleInputChange}
           />
           <input
             type="password"
@@ -87,6 +96,7 @@ const AuthFormCard = ({
             placeholder="Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
             required
+            onChange={handleInputChange}
           />
           <input
             type="password"
@@ -94,13 +104,16 @@ const AuthFormCard = ({
             placeholder="Confirm Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
             required
+            onChange={handleInputChange}
           />
           <button
             type="submit"
             className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
             disabled={status === "loading"}
           >
-            {status === "loading" ? "Signing up..." : "Sign Up"}
+            {status === "loading" && activeTab === "signup"
+              ? "Signing up..."
+              : "Sign Up"}
           </button>
         </form>
       ) : (
@@ -111,6 +124,7 @@ const AuthFormCard = ({
             placeholder="Email"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
             required
+            onChange={handleInputChange}
           />
           <input
             type="password"
@@ -118,13 +132,16 @@ const AuthFormCard = ({
             placeholder="Password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none"
             required
+            onChange={handleInputChange}
           />
           <button
             type="submit"
             className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
             disabled={status === "loading"}
           >
-            {status === "loading" ? "Signing in..." : "Sign In"}
+            {status === "loading" && activeTab === "signin"
+              ? "Signing in..."
+              : "Sign In"}
           </button>
         </form>
       )}

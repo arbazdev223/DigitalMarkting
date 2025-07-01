@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getInitials, loadUser, updateUser } from "../store/authSlice";
+import { getInitials, loadUser, updateUser, clearError } from "../store/authSlice";
 import { toast } from "react-toastify";
 
 const ProfileForm = ({ user }) => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
   const error = useSelector((state) => state.auth.error);
-
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch, user]);
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -17,21 +19,21 @@ const ProfileForm = ({ user }) => {
     linkedin: user?.linkedin || "",
     facebook: user?.facebook || "",
     instagram: user?.instagram || "",
-   profileImage: user?.profileImage || null,
+    profileImage: user?.profileImage || null,
   });
 
-useEffect(() => {
-  setFormData({
-    name: user?.name || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
-    address: user?.address || "",
-    linkedin: user?.linkedin || "",
-    facebook: user?.facebook || "",
-    instagram: user?.instagram || "",
-    profileImage: user?.profileImage || "",
-  });
-}, [user]);
+  useEffect(() => {
+    setFormData({
+      name: user?.name || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
+      address: user?.address || "",
+      linkedin: user?.linkedin || "",
+      facebook: user?.facebook || "",
+      instagram: user?.instagram || "",
+      profileImage: user?.profileImage || "",
+    });
+  }, [user]);
 
   const imageRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
@@ -41,16 +43,15 @@ useEffect(() => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleImageUpload = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    setFormData((prev) => ({ ...prev, profileImage: reader.result }));
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData((prev) => ({ ...prev, profileImage: reader.result }));
+    };
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,10 +71,9 @@ const handleImageUpload = (e) => {
     }
   };
 
-useEffect(() => {
-  dispatch(loadUser());
-}, []);
-
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
 
   return (
     <div className="bg-white p-6 rounded-md shadow-md">
@@ -267,7 +267,8 @@ useEffect(() => {
             {status === "loading" ? "Updating..." : "Update"}
           </button>
         )}
-        {error && (
+        {/* Only show error if it is not null and not an empty string */}
+        {error && error !== "" && (
           <div className="text-red-600 font-nunito text-sm mt-2">{error}</div>
         )}
       </form>

@@ -12,7 +12,6 @@ export const FRONTEND_URL = isProduction
   ? import.meta.env.VITE_APP_FRONTEND_PROD
   : import.meta.env.VITE_APP_FRONTEND_DEV;
 
-console.log("ENV:", import.meta.env);
 console.log("BACKEND_URL:", BACKEND_URL);
 console.log("FRONTEND_URL:", FRONTEND_URL);
 

@@ -5,11 +5,9 @@ import { toast } from "react-toastify";
 
 const ProfileForm = ({ user }) => {
   const dispatch = useDispatch();
+  const authUser = useSelector((state) => state.auth.user);
   const status = useSelector((state) => state.auth.status);
   const error = useSelector((state) => state.auth.error);
-  useEffect(() => {
-    dispatch(clearError());
-  }, [dispatch, user]);
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -19,24 +17,35 @@ const ProfileForm = ({ user }) => {
     linkedin: user?.linkedin || "",
     facebook: user?.facebook || "",
     instagram: user?.instagram || "",
-    profileImage: user?.profileImage || null,
+    profileImage: user?.profileImage || "",
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+  const imageRef = useRef();
   useEffect(() => {
-    setFormData({
-      name: user?.name || "",
-      email: user?.email || "",
-      phone: user?.phone || "",
-      address: user?.address || "",
-      linkedin: user?.linkedin || "",
-      facebook: user?.facebook || "",
-      instagram: user?.instagram || "",
-      profileImage: user?.profileImage || "",
-    });
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+        linkedin: user.linkedin || "",
+        facebook: user.facebook || "",
+        instagram: user.instagram || "",
+        profileImage: user.profileImage || "",
+      });
+    }
   }, [user]);
 
-  const imageRef = useRef();
-  const [isEditing, setIsEditing] = useState(false);
+  useEffect(() => {
+    if (isEditing) dispatch(clearError());
+  }, [isEditing, dispatch]);
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+  useEffect(() => {
+    if (!authUser) dispatch(loadUser());
+  }, [authUser, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,9 +64,9 @@ const ProfileForm = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const result = await dispatch(updateUser(formData));
+      const { email, ...updatableFields } = formData; 
+      const result = await dispatch(updateUser(updatableFields));
 
       if (updateUser.fulfilled.match(result)) {
         toast.success("Profile updated successfully!");
@@ -70,10 +79,6 @@ const ProfileForm = ({ user }) => {
       toast.error("An unexpected error occurred");
     }
   };
-
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
 
   return (
     <div className="bg-white p-6 rounded-md shadow-md">
@@ -267,7 +272,6 @@ const ProfileForm = ({ user }) => {
             {status === "loading" ? "Updating..." : "Update"}
           </button>
         )}
-        {/* Only show error if it is not null and not an empty string */}
         {error && error !== "" && (
           <div className="text-red-600 font-nunito text-sm mt-2">{error}</div>
         )}

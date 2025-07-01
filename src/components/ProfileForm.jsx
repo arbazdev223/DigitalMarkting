@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../store/authSlice";
+import { getInitials, loadUser, updateUser } from "../store/authSlice";
 import { toast } from "react-toastify";
 
 const ProfileForm = ({ user }) => {
   const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
   const error = useSelector((state) => state.auth.error);
+
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -16,21 +17,22 @@ const ProfileForm = ({ user }) => {
     linkedin: user?.linkedin || "",
     facebook: user?.facebook || "",
     instagram: user?.instagram || "",
-    profileImage: user?.profileImage || "",
+   profileImage: user?.profileImage || null,
   });
 
-  useEffect(() => {
-    setFormData({
-      name: user?.name || "",
-      email: user?.email || "",
-      phone: user?.phone || "",
-      address: user?.address || "",
-      linkedin: user?.linkedin || "",
-      facebook: user?.facebook || "",
-      instagram: user?.instagram || "",
-      profileImage: user?.profileImage || "",
-    });
-  }, [user]);
+useEffect(() => {
+  setFormData({
+    name: user?.name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    address: user?.address || "",
+    linkedin: user?.linkedin || "",
+    facebook: user?.facebook || "",
+    instagram: user?.instagram || "",
+    profileImage: user?.profileImage || "",
+  });
+}, [user]);
+
   const imageRef = useRef();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -39,33 +41,45 @@ const ProfileForm = ({ user }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prev) => ({ ...prev, profile: reader.result }));
-    };
-    reader.readAsDataURL(file);
+const handleImageUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setFormData((prev) => ({ ...prev, profileImage: reader.result }));
   };
+  reader.readAsDataURL(file);
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await dispatch(updateUser(formData));
-    if (updateUser.fulfilled.match(result)) {
-      toast.success("Profile updated successfully!");
-      setIsEditing(false);
-    } else {
-      toast.error(result.payload || "Profile update failed");
+
+    try {
+      const result = await dispatch(updateUser(formData));
+
+      if (updateUser.fulfilled.match(result)) {
+        toast.success("Profile updated successfully!");
+        setIsEditing(false);
+      } else {
+        toast.error(result.payload || "Profile update failed");
+      }
+    } catch (err) {
+      console.error("Profile update error:", err);
+      toast.error("An unexpected error occurred");
     }
   };
+
+useEffect(() => {
+  dispatch(loadUser());
+}, []);
+
 
   return (
     <div className="bg-white p-6 rounded-md shadow-md">
       <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-6 gap-4">
         <div className="flex items-center space-x-4 w-full">
-          {formData.profile ? (
+          {formData.profileImage ? (
             <img
               src={formData.profileImage}
               alt="Profile"
@@ -75,9 +89,9 @@ const ProfileForm = ({ user }) => {
           ) : (
             <div
               onClick={() => isEditing && imageRef.current.click()}
-              className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-3xl font-bold font-nunito select-none cursor-pointer"
+              className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-2xl font-bold font-nunito select-none cursor-pointer"
             >
-              {formData.profileImage || ""}
+              {getInitials(formData.name)}
             </div>
           )}
 

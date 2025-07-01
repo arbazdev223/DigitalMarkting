@@ -4,7 +4,7 @@ import Logo from "../assets/logo.png";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { MdShoppingCart } from "react-icons/md";
-import { logout } from "../store/authSlice";
+import { getInitials, logout } from "../store/authSlice";
 import CartPopup from "../components/CartPopup";
 import {
   getDataFromLocalStorage,
@@ -16,7 +16,7 @@ const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
   const dropdownTimeout = useRef(null);
   const cartPopupRef = useRef(null);
-  const cartPopupTimeout = useRef(null); 
+  const cartPopupTimeout = useRef(null);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,18 +28,18 @@ const Header = () => {
     dispatch(logout());
     navigate("/");
   };
-  
-useEffect(() => {
-  if (isOpen) {
-    document.body.classList.add("overflow-hidden");
-  } else {
-    document.body.classList.remove("overflow-hidden");
-  }
 
-  return () => {
-    document.body.classList.remove("overflow-hidden");
-  };
-}, [isOpen]);
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
 
   const handleProfileClick = () => navigate("/profile");
 
@@ -60,14 +60,6 @@ useEffect(() => {
   const toggleDropdownClick = () => {
     setProfileDropdown((prev) => !prev);
   };
-
-  // const toggleCartPopup = () => {
-  //   setCartPopupOpen((prev) => !prev);
-  // };
-const profileImageUrl =
-  user?.profileImage && user.profileImage.startsWith("http")
-    ? user.profileImage
-    : `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || "User")}&background=0e3477&color=fff&size=128`;
 
   const handleCartMouseEnter = () => {
     clearTimeout(cartPopupTimeout.current);
@@ -167,13 +159,17 @@ const profileImageUrl =
                       className="flex items-center focus:outline-none"
                       title="Profile"
                     >
-<img
-  src={profileImageUrl}
-  alt="Profile"
-  className="w-6 h-6 rounded-full object-cover border border-gray-300"
-/>
-
-
+                      {user?.profileImage ? (
+                        <img
+                          src={user.profileImage}
+                          alt="Profile"
+                          className="w-6 h-6 rounded-full object-cover border border-gray-300"
+                        />
+                      ) : (
+                        <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold border border-gray-300">
+                          {getInitials(user?.name)}
+                        </div>
+                      )}
                     </button>
                     {profileDropdown && (
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-36 bg-white border border-gray-200 rounded-md shadow-md z-50 transition-all duration-300 ease-in-out">
@@ -284,13 +280,18 @@ const profileImageUrl =
                         }}
                         className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]"
                       >
-                       <img
-  src={profileImageUrl}
-  alt="Profile"
-  className="w-6 h-6 rounded-full object-cover border border-gray-300"
-/>
-
-Profile
+                        {user?.profileImage ? (
+                          <img
+                            src={user.profileImage}
+                            alt="Profile"
+                            className="w-6 h-6 rounded-full object-cover border border-gray-300"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold border border-gray-300">
+                            {getInitials(user?.name)}
+                          </div>
+                        )}
+                        Profile
                       </button>
                       {profileDropdown && (
                         <div className="mt-2 w-full bg-white border border-gray-200 rounded-md shadow-md z-50">

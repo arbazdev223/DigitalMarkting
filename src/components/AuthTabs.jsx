@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import AuthFormCard from "./AuthFormCard";
-import { signup, signin } from "../store/authSlice";
+import { signup, signin, loadUser } from "../store/authSlice";
 import { toast } from "react-toastify";
 
 const AuthTabs = () => {
@@ -59,7 +59,9 @@ const onSignin = async (e) => {
     toast.error("Signin failed");
   }
 };
-
+useEffect(() => {
+  dispatch(loadUser());
+}, [dispatch]);
 
   return (
     <div className="sm:min-h-[70%] h-[60%] flex items-center justify-center bg-gray-100 p-4">

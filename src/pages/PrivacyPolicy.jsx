@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import { privacyTabs } from "../../data";
-import { transformHTML } from "../utiLs/transformHTML";
+import { transformHTML } from "../utils/transformHTML";
+
+
 
 const PrivacyPolicy = () => {
   const [activeTabKey, setActiveTabKey] = useState(

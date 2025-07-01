@@ -3,7 +3,7 @@ import axios from "axios";
 export const BACKEND_URL =
   import.meta.env.VITE_APP_PROD_ENV === "production"
     ? import.meta.env.VITE_APP_BACKEND_PROD
-    : import.meta.env.VITE_APP_BACKEND_DEV;
+    : import.meta.env.VITE_APP_BACKEND_DEV || "http://localhost:5000/api";
 
 export const FRONTEND_URL =
   import.meta.env.VITE_APP_PROD_ENV === "production"

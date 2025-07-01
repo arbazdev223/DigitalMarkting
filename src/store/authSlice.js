@@ -58,25 +58,42 @@ export const loadUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("/user/me");
-      if (res.data.success && res.data.user) {
+
+      if (res?.data?.success && res?.data?.user) {
         return res.data.user;
+      } else {
+        console.error("Unexpected loadUser response:", res);
+        return rejectWithValue(res?.data?.message || "Unable to load user (unexpected response)");
       }
-      return rejectWithValue("Unable to load user");
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Load failed");
+      console.error("Load user failed:", err);
+      if (err?.response?.data?.message) {
+        return rejectWithValue(err.response.data.message);
+      } else if (err?.message) {
+        return rejectWithValue(err.message);
+      }
+      return rejectWithValue("Failed to load user");
     }
   }
 );
+
+
+
+
 
 export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (userData, { getState, rejectWithValue }) => {
     try {
       const token = getState().auth.token;
+      if (!token) {
+        return rejectWithValue("Unauthorized: Token missing");
+      }
+      const { email, ...allowedData } = userData;
 
       const res = await axiosAuthInstance(token).put(
         "/user/update-profile",
-        userData
+        allowedData
       );
 
       if (res.data.success && res.data.user) {
@@ -85,10 +102,13 @@ export const updateUser = createAsyncThunk(
 
       return rejectWithValue(res.data.message || "Update failed");
     } catch (err) {
+      console.error("Update user failed:", err);
       return rejectWithValue(err.response?.data?.message || "Update failed");
     }
   }
 );
+
+
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
@@ -127,21 +147,32 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.isLoggedIn = true;
         state.status = "succeeded";
+        state.error = null;
       })
-      .addCase(loadUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoggedIn = true;
-        state.status = "succeeded";
-      })
+    .addCase(loadUser.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    })
+    .addCase(loadUser.fulfilled, (state, action) => {
+      state.status = "succeeded";
+      state.user = action.payload;
+       state.error = null;
+    })
+    .addCase(loadUser.rejected, (state, action) => {
+      state.status = "failed";
+      state.error = action.payload;
+    })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.status = "succeeded";
+         state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.token = null;
         state.isLoggedIn = false;
         state.status = "idle";
+         state.error = null;
       })
       .addMatcher(
         (action) => action.type.endsWith("/pending"),

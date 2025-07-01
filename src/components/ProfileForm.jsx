@@ -5,47 +5,41 @@ import { toast } from "react-toastify";
 
 const ProfileForm = ({ user }) => {
   const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.auth.user);
   const status = useSelector((state) => state.auth.status);
   const error = useSelector((state) => state.auth.error);
+  const [isEditing, setIsEditing] = useState(false);
+  const imageRef = useRef();
 
   const [formData, setFormData] = useState({
     name: user?.name || "",
-    email: user?.email || "",
     phone: user?.phone || "",
     address: user?.address || "",
     linkedin: user?.linkedin || "",
     facebook: user?.facebook || "",
     instagram: user?.instagram || "",
     profileImage: user?.profileImage || "",
+    password: "",
+    confirmPassword: "",
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-  const imageRef = useRef();
   useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        address: user.address || "",
-        linkedin: user.linkedin || "",
-        facebook: user.facebook || "",
-        instagram: user.instagram || "",
-        profileImage: user.profileImage || "",
-      });
-    }
-  }, [user]);
+    setFormData({
+      name: user?.name || "",
+      phone: user?.phone || "",
+      address: user?.address || "",
+      linkedin: user?.linkedin || "",
+      facebook: user?.facebook || "",
+      instagram: user?.instagram || "",
+      profileImage: user?.profileImage || "",
+      password: "",
+      confirmPassword: "",
+    });
+    dispatch(clearError());
+  }, [user, dispatch]);
 
   useEffect(() => {
-    if (isEditing) dispatch(clearError());
-  }, [isEditing, dispatch]);
-  useEffect(() => {
-    dispatch(clearError());
+    dispatch(loadUser());
   }, [dispatch]);
-  useEffect(() => {
-    if (!authUser) dispatch(loadUser());
-  }, [authUser, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,9 +58,16 @@ const ProfileForm = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const {
+      name, phone, address, linkedin, facebook, instagram,
+      profileImage, password, confirmPassword
+    } = formData;
+
     try {
-      const { email, ...updatableFields } = formData; 
-      const result = await dispatch(updateUser(updatableFields));
+      const result = await dispatch(updateUser({
+        name, phone, address, linkedin, facebook, instagram,
+        profileImage, password, confirmPassword
+      }));
 
       if (updateUser.fulfilled.match(result)) {
         toast.success("Profile updated successfully!");
@@ -105,19 +106,17 @@ const ProfileForm = ({ user }) => {
               {formData.name || "Your Name"}
             </h2>
             <p className="text-gray-600 font-nunito">
-              {formData.email || "email@example.com"}
+              {user?.email || "email@example.com"}
             </p>
 
             {isEditing && (
-              <div className="mt-2">
-                <input
-                  ref={imageRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-              </div>
+              <input
+                ref={imageRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
             )}
 
             {!isEditing && (
@@ -130,6 +129,7 @@ const ProfileForm = ({ user }) => {
             )}
           </div>
         </div>
+
         {!isEditing && (
           <button
             onClick={() => setIsEditing(true)}
@@ -149,26 +149,9 @@ const ProfileForm = ({ user }) => {
             disabled={!isEditing}
             value={formData.name}
             onChange={handleChange}
-            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-              isEditing
-                ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                : "bg-gray-100 cursor-not-allowed"
-            }`}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium font-nunito">Email</label>
-          <input
-            type="email"
-            name="email"
-            disabled={!isEditing}
-            value={formData.email}
-            onChange={handleChange}
-            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-              isEditing
-                ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                : "bg-gray-100 cursor-not-allowed"
+            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm font-nunito ${
+              isEditing ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        : "bg-gray-100 cursor-not-allowed"
             }`}
           />
         </div>
@@ -181,99 +164,83 @@ const ProfileForm = ({ user }) => {
             disabled={!isEditing}
             value={formData.phone}
             onChange={handleChange}
-            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-              isEditing
-                ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                : "bg-gray-100 cursor-not-allowed"
+            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm font-nunito ${
+              isEditing ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        : "bg-gray-100 cursor-not-allowed"
             }`}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium font-nunito">
-            Address
-          </label>
+          <label className="block text-sm font-medium font-nunito">Address</label>
           <textarea
             name="address"
             disabled={!isEditing}
             value={formData.address}
             onChange={handleChange}
             rows={3}
-            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-              isEditing
-                ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                : "bg-gray-100 cursor-not-allowed"
+            className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm font-nunito ${
+              isEditing ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                        : "bg-gray-100 cursor-not-allowed"
             }`}
           />
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium font-nunito">
-              LinkedIn
-            </label>
-            <input
-              type="url"
-              name="linkedin"
-              disabled={!isEditing}
-              value={formData.linkedin}
-              onChange={handleChange}
-              placeholder="LinkedIn Profile URL"
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-                isEditing
-                  ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                  : "bg-gray-100 cursor-not-allowed"
-              }`}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium font-nunito">
-              Facebook
-            </label>
-            <input
-              type="url"
-              name="facebook"
-              disabled={!isEditing}
-              value={formData.facebook}
-              onChange={handleChange}
-              placeholder="Facebook Profile URL"
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-                isEditing
-                  ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                  : "bg-gray-100 cursor-not-allowed"
-              }`}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium font-nunito">
-              Instagram
-            </label>
-            <input
-              type="url"
-              name="instagram"
-              disabled={!isEditing}
-              value={formData.instagram}
-              onChange={handleChange}
-              placeholder="Instagram Profile URL"
-              className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none font-nunito ${
-                isEditing
-                  ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                  : "bg-gray-100 cursor-not-allowed"
-              }`}
-            />
-          </div>
+          {["linkedin", "facebook", "instagram"].map((field) => (
+            <div key={field}>
+              <label className="block text-sm font-medium font-nunito capitalize">
+                {field}
+              </label>
+              <input
+                type="url"
+                name={field}
+                disabled={!isEditing}
+                value={formData[field]}
+                onChange={handleChange}
+                placeholder={`${field} Profile URL`}
+                className={`mt-1 w-full px-3 py-2 border rounded-md shadow-sm font-nunito ${
+                  isEditing ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            : "bg-gray-100 cursor-not-allowed"
+                }`}
+              />
+            </div>
+          ))}
         </div>
 
         {isEditing && (
-          <button
-            type="submit"
-            className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-nunito text-base"
-            disabled={status === "loading"}
-          >
-            {status === "loading" ? "Updating..." : "Update"}
-          </button>
-        )}
-        {error && error !== "" && (
-          <div className="text-red-600 font-nunito text-sm mt-2">{error}</div>
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium font-nunito">New Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:ring-blue-500 focus:border-blue-500 font-nunito"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium font-nunito">Confirm Password</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="mt-1 w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:ring-blue-500 focus:border-blue-500 font-nunito"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-nunito text-base"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? "Updating..." : "Update"}
+            </button>
+          </>
         )}
       </form>
     </div>

@@ -16,6 +16,7 @@ const AuthFormCard = ({
   const user = useSelector((state) => state.auth.user);
   const status = useSelector((state) => state.auth.status);
   const error = useSelector((state) => state.auth.error);
+  const currentAction = useSelector((state) => state.auth.currentAction);
 
   useEffect(() => {
     if (isLoggedIn && user) {
@@ -116,7 +117,7 @@ const AuthFormCard = ({
             className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
             disabled={status === "loading"}
           >
-            {status === "loading" && activeTab === "signup"
+            {status === "loading" && currentAction === "signup"
               ? "Signing up..."
               : "Sign Up"}
           </button>
@@ -144,7 +145,7 @@ const AuthFormCard = ({
             className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
             disabled={status === "loading"}
           >
-            {status === "loading" && activeTab === "signin"
+            {status === "loading" && currentAction === "signin"
               ? "Signing in..."
               : "Sign In"}
           </button>

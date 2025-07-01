@@ -30,11 +30,20 @@ const App = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(loadUser()).catch(() => {});
-    }
-  }, [dispatch, isLoggedIn]);
+useEffect(() => {
+  const getCookie = (name) => {
+    return document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(name + "="))
+      ?.split("=")[1];
+  };
+
+  const token = getCookie("token");
+  if (token && !isLoggedIn) {
+    dispatch(loadUser());
+  }
+}, [dispatch, isLoggedIn]);
+
 
   return (
     <>

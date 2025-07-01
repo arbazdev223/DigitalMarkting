@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AuthFormCard from "./AuthFormCard";
 import { signup, signin } from "../store/authSlice";
 import { toast } from "react-toastify";
@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 const AuthTabs = () => {
   const [activeTab, setActiveTab] = useState("signup");
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const onSignup = async (e) => {
     e.preventDefault();
@@ -31,7 +30,7 @@ const AuthTabs = () => {
       );
       if (signup.fulfilled.match(resultAction)) {
         toast.success("Signup successful!");
-        setActiveTab("signin"); 
+        setActiveTab("signin");
       } else {
         toast.error(resultAction.payload || "Signup failed");
       }

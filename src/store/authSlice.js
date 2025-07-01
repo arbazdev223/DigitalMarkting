@@ -5,7 +5,7 @@ const initialAuthState = {
   isLoggedIn: false,
   token: null,
   user: null,
-  status: "idle",
+  status: null,
   error: null,
 };
 export const getInitials = (name = "") => {

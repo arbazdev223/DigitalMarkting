@@ -55,27 +55,25 @@ export const signin = createAsyncThunk(
 
 export const loadUser = createAsyncThunk(
   "auth/loadUser",
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get("/user/me");
+     const token = getState().auth.token;
+if (!token) return rejectWithValue("Unauthorized: Token missing");
 
-      if (res?.data?.success && res?.data?.user) {
+const res = await axiosAuthInstance(token).get("/user/me");
+
+ 
+      if (res.data.success && res.data.user) {
         return res.data.user;
-      } else {
-        console.error("Unexpected loadUser response:", res);
-        return rejectWithValue(res?.data?.message || "Unable to load user (unexpected response)");
       }
+      return rejectWithValue(res.data.message || "Unable to load user");
     } catch (err) {
       console.error("Load user failed:", err);
-      if (err?.response?.data?.message) {
-        return rejectWithValue(err.response.data.message);
-      } else if (err?.message) {
-        return rejectWithValue(err.message);
-      }
-      return rejectWithValue("Failed to load user");
+      return rejectWithValue(err.response?.data?.message || "Load failed");
     }
   }
 );
+
 
 
 

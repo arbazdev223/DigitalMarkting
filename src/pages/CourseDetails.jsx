@@ -139,25 +139,6 @@ const CourseDetails = () => {
                 </div>
               ))}
             </div>
-            {/* <div className="space-y-4">
-              {course.curriculum.map((section, idx) => (
-                <div key={idx}>
-                  <h4 className="font-semibold text-gray-800 mb-1">
-                    {section.section}
-                  </h4>
-                  <ul className="list-disc list-inside text-gray-600 ml-4">
-                    {section.lectures.map((lec, i) => (
-                      <li key={i}>
-                        {lec.title}{" "}
-                        <span className="text-xs text-gray-400 ml-2">
-                          ({lec.duration})
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div> */}
           </section>
 
           <section>

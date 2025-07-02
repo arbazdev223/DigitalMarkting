@@ -20,9 +20,7 @@ const Office = () => {
               placeholder="Phone"
               className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
             />
-            <select
-              className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
-            >
+            <select className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]">
               <option>Course</option>
               {courseOptions.map((course, index) => (
                 <option key={index} value={course}>

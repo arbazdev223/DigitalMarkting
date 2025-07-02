@@ -4,19 +4,18 @@ import { axiosInstance } from "../config";
 const initialAuthState = {
   isLoggedIn: false,
   user: null,
+  token: null, 
   status: "idle",
   error: null,
   currentAction: null,
 };
 
-// Utility function for initials
 export const getInitials = (name = "") => {
   const parts = name.trim().split(" ");
   if (parts.length === 1) return parts[0][0]?.toUpperCase() || "";
   return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
 };
 
-// SIGNUP
 export const signup = createAsyncThunk(
   "auth/signup",
   async ({ name, email, password, confirmPassword }, { rejectWithValue }) => {
@@ -26,8 +25,8 @@ export const signup = createAsyncThunk(
         { name, email, password, confirmPassword },
         { withCredentials: true }
       );
-      if (res.data.success && res.data.user) {
-        return res.data.user;
+      if (res.data.success && res.data.user && res.data.token) {
+        return { user: res.data.user, token: res.data.token };
       }
       return rejectWithValue(res.data.message);
     } catch (error) {
@@ -36,7 +35,6 @@ export const signup = createAsyncThunk(
   }
 );
 
-// SIGNIN
 export const signin = createAsyncThunk(
   "auth/signin",
   async ({ email, password }, { rejectWithValue }) => {
@@ -46,8 +44,8 @@ export const signin = createAsyncThunk(
         { email, password },
         { withCredentials: true }
       );
-      if (res.data.success && res.data.user) {
-        return { user: res.data.user };
+      if (res.data.success && res.data.user && res.data.token) {
+        return { user: res.data.user, token: res.data.token };
       }
       return rejectWithValue(res.data.message);
     } catch (error) {
@@ -56,7 +54,6 @@ export const signin = createAsyncThunk(
   }
 );
 
-// LOAD USER
 export const loadUser = createAsyncThunk(
   "auth/loadUser",
   async (_, { rejectWithValue }) => {
@@ -74,7 +71,6 @@ export const loadUser = createAsyncThunk(
   }
 );
 
-// UPDATE USER
 export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (userData, { rejectWithValue }) => {
@@ -93,7 +89,6 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-// LOGOUT
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
@@ -114,6 +109,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isLoggedIn = false;
       state.user = null;
+      state.token = null; 
       state.status = "idle";
       state.error = null;
     },
@@ -128,13 +124,15 @@ const authSlice = createSlice({
     builder
       .addCase(signin.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        state.token = action.payload.token;
         state.isLoggedIn = true;
         state.status = "succeeded";
         state.error = null;
       })
       .addCase(signup.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoggedIn = true;
+        state.user = null;            
+        state.token = null;              
+        state.isLoggedIn = false;   
         state.status = "succeeded";
         state.error = null;
       })

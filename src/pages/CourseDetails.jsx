@@ -1,37 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { courseDetailsList } from "../../data";
 import { MdDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/cartSlice";
+import {
+  fetchCourseById,
+  selectSelectedCourse,
+  selectCourses,
+  selectCourseStatus,
+} from "../store/courseSlice";
 
 const CourseDetails = () => {
   const [openSection, setOpenSection] = useState(null);
   const { id } = useParams();
   const dispatch = useDispatch();
-  const course = courseDetailsList.find((c) => String(c.id) === String(id));
-
-  if (!course)
-    return <div className="text-center py-10">Course not found.</div>;
-
-  const relatedCourses = courseDetailsList
+  const course = useSelector(selectSelectedCourse);
+  const allCourses = useSelector(selectCourses);
+  const status = useSelector(selectCourseStatus);
+  useEffect(() => {
+    if (!course || String(course.id) !== String(id)) {
+      dispatch(fetchCourseById(id));
+    }
+  }, [dispatch, id]);
+  const relatedCourses = allCourses
     .filter(
       (c) =>
-        c.id !== course.id &&
-        (c.category === course.category || c.type === course.type)
+        String(c.id) !== String(id) &&
+        (c.category === course?.category || c.type === course?.type)
     )
-    .sort((a, b) => b.index - a.index)
+    .sort((a, b) => (b.index || 0) - (a.index || 0))
     .slice(0, 3);
 
- const cartItems = useSelector((state) => state.cart.cart) || [];
+  const cartItems = useSelector((state) => state.cart.cart) || [];
+  const isInCart = cartItems.some((item) => String(item.id) === String(id));
 
-const isInCart = cartItems.some((item) => String(item.id) === String(id));
+  const handleAddToCart = () => {
+    if (course) {
+      dispatch(addToCart(course));
+    }
+  };
 
-const handleAddToCart = () => {
-  dispatch(addToCart(course)); 
-  console.log("Course added to cart:", course);
-};
+  if (status === "loading" || !course) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
 
+  if (!course) {
+    return <div className="text-center py-10">Course not found.</div>;
+  }
 
   return (
     <div className="w-full bg-gray-50 min-h-screen pb-20">
@@ -41,9 +56,9 @@ const handleAddToCart = () => {
             <h1 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
               {course.title}
             </h1>
-         <p className="text-sm md:text-base mb-3 opacity-90 line-clamp-2  items-start  md:line-clamp-none">
-  {course.subtitle}
-</p>
+            <p className="text-sm md:text-base mb-3 opacity-90 line-clamp-2  items-start  md:line-clamp-none">
+              {course.subtitle}
+            </p>
             <p className="text-sm text-gray-200 mb-2">
               <strong>Category:</strong> {course.category} |{" "}
               <strong>Last Updated:</strong> {course.lastUpdated}
@@ -55,11 +70,11 @@ const handleAddToCart = () => {
               <span>{course.studentsEnrolled}+ enrolled</span>
             </div>
           </div>
-          <div className="hidden md:block">
+          <div className="hidden md:block ">
             <img
               src={course.image}
               alt={course.title}
-              className="w-full h-48 object-contain rounded shadow-xl"
+              className="w-full h-48  object-contain rounded "
             />
           </div>
         </div>
@@ -81,40 +96,49 @@ const handleAddToCart = () => {
             <h3 className="text-xl font-bold mb-3 text-[#0e3477]">
               Curriculum
             </h3>
-             <div className="border rounded-md divide-y">
-      {course.curriculum.map((section, idx) => (
-        <div key={idx}>
-          <button
-            onClick={() =>
-              setOpenSection(openSection === idx ? null : idx)
-            }
-            className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left"
-          >
-            <span className="font-semibold text-gray-800">{section.section}</span>
-            <svg
-              className={`w-5 h-5 transform transition-transform duration-200 ${
-                openSection === idx ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          {openSection === idx && (
-            <ul className="list-disc list-inside gap-2 text-gray-600 px-4 py-2">
-              {section.lectures.map((lec, i) => (
-                <li key={i} className="flex justify-between">
-                  <span>{lec.title}</span>
-                  <span className="text-xs text-gray-400 ml-2">({lec.duration})</span>
-                </li>
+            <div className="border rounded-md divide-y">
+              {course.curriculum.map((section, idx) => (
+                <div key={idx}>
+                  <button
+                    onClick={() =>
+                      setOpenSection(openSection === idx ? null : idx)
+                    }
+                    className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left"
+                  >
+                    <span className="font-semibold text-gray-800">
+                      {section.section}
+                    </span>
+                    <svg
+                      className={`w-5 h-5 transform transition-transform duration-200 ${
+                        openSection === idx ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  {openSection === idx && (
+                    <ul className="list-disc list-inside gap-2 text-gray-600 px-4 py-2">
+                      {section.lectures.map((lec, i) => (
+                        <li key={i} className="flex justify-between">
+                          <span>{lec.title}</span>
+                          <span className="text-xs text-gray-400 ml-2">
+                            ({lec.duration})
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               ))}
-            </ul>
-          )}
-        </div>
-      ))}
-    </div>
+            </div>
             {/* <div className="space-y-4">
               {course.curriculum.map((section, idx) => (
                 <div key={idx}>
@@ -173,10 +197,10 @@ const handleAddToCart = () => {
             </ul>
             <div className="flex flex-col gap-3">
               <Link to="/checkout" className="block">
-  <button className="w-full bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]">
-    Buy Now
-  </button>
-</Link>
+                <button className="w-full bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]">
+                  Buy Now
+                </button>
+              </Link>
               {isInCart ? (
                 <Link
                   to="/cart"

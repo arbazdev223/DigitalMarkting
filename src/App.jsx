@@ -25,25 +25,29 @@ import CheckoutPage from "./pages/CheckoutPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CertificatePage from "./pages/CertificatePage";
 import { loadUser } from "./store/authSlice";
+import { fetchCourses } from "./store/courseSlice"; 
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isLoggedIn, user, status } = useSelector((state) => state.auth);
 
-useEffect(() => {
-  const getCookie = (name) => {
-    return document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(name + "="))
-      ?.split("=")[1];
-  };
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
 
-  const token = getCookie("token");
-  if (token && !isLoggedIn) {
-    dispatch(loadUser());
-  }
-}, [dispatch, isLoggedIn]);
+  useEffect(() => {
+    const getCookie = (name) => {
+      return document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(name + "="))
+        ?.split("=")[1];
+    };
 
+    const token = getCookie("token");
+    if (token && !isLoggedIn) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, isLoggedIn]);
 
   return (
     <>
@@ -68,7 +72,11 @@ useEffect(() => {
         <Route
           path="/auth"
           element={
-            isLoggedIn && user ? <Navigate to="/" replace /> : <AuthTabs />
+            status === "loading"
+              ? null // or <LoadingSpinner />
+              : isLoggedIn && user
+              ? <Navigate to="/" replace />
+              : <AuthTabs />
           }
         />
         <Route

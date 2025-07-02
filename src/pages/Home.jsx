@@ -12,8 +12,19 @@ import HeroMain from "../components/HeroMain";
 import TopCompanies from "../components/TopCompanies";
 import FeatureSummary from "../components/FeatureSummary";
 import { accordionItems, blogData } from "../../data";
+import { fetchCourses,selectCourses,selectCourseStatus } from "../store/courseSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Home = () => {
+   const dispatch = useDispatch();
+    const courses = useSelector(selectCourses);
+    const Status = useSelector(selectCourseStatus);
+    useEffect(() => {
+  if (status === "idle") {
+    dispatch(fetchCourses());
+  }
+}, [dispatch, status]);
   return (
     <>
       <HeroMain />

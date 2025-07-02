@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import AuthFormCard from "./AuthFormCard";
-import { signup, signin } from "../store/authSlice";
+import { signup, signin, loadUser, clearError } from "../store/authSlice";
 import { toast } from "react-toastify";
 
 const AuthTabs = () => {
   const [activeTab, setActiveTab] = useState("signup");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   const onSignup = async (e) => {
     e.preventDefault();
@@ -30,7 +34,7 @@ const AuthTabs = () => {
       );
       if (signup.fulfilled.match(resultAction)) {
         toast.success("Signup successful!");
-        setActiveTab("signin");
+        setActiveTab("signin"); 
       } else {
         toast.error(resultAction.payload || "Signup failed");
       }
@@ -53,6 +57,7 @@ const AuthTabs = () => {
       const resultAction = await dispatch(signin({ email, password }));
       if (signin.fulfilled.match(resultAction)) {
         toast.success("Signin successful!");
+        await dispatch(loadUser());
       } else {
         toast.error(resultAction.payload || "Signin failed");
       }

@@ -1,16 +1,27 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ProfileForm from "../components/ProfileForm";
 import CourseList from "../components/CourseList";
 import { courseData } from "../../data";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import TestPage from "./TestPage";
 import CertificatePage from "./CertificatePage";
+import { loadUser } from "../store/authSlice";
 
 const tabs = ["Profile", "Course", "Test", "Payment", "Certificate"];
 
 const Profile = () => {
-    const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (isLoggedIn && token && !user) {
+      dispatch(loadUser());
+    }
+  }, [isLoggedIn, token, user, dispatch]);
+
   const [activeTab, setActiveTab] = useState("Profile");
   const [showTabs, setShowTabs] = useState(false);
 
@@ -21,9 +32,9 @@ const Profile = () => {
   const tabComponents = {
     Profile: <ProfileForm user={user} />,
     Course: <CourseList courses={courseData} />,
-    Test: <TestPage  onCertificateEarned={() => setActiveTab("Certificate")} />,
+    Test: <TestPage onCertificateEarned={() => setActiveTab("Certificate")} />,
     Payment: <p className="text-gray-600">This is the Payment section (Coming Soon).</p>,
-    Certificate: <CertificatePage/>,
+    Certificate: <CertificatePage />,
   };
 
   return (
@@ -89,7 +100,7 @@ const Profile = () => {
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h1 className="text-2xl font-bold mb-4 text-[#0e3477]">{activeTab}</h1>
               {tabComponents[activeTab] || (
-                 <p className="text-gray-600">
+                <p className="text-gray-600">
                   This is the {activeTab} section (Coming Soon).
                 </p>
               )}

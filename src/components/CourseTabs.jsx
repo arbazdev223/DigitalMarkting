@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdDownload } from "react-icons/md";
-import { courseDetailsList } from "../../data";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCourses, selectCourses, selectCourseStatus } from "../store/courseSlice";
 
 const CourseTabs = ({
   heading = (
@@ -17,6 +18,9 @@ const CourseTabs = ({
 }) => {
   const [userType, setUserType] = useState("Student");
   const location = useLocation();
+  const dispatch = useDispatch();
+  const courses = useSelector(selectCourses);
+  const status = useSelector(selectCourseStatus);
 
   const initialCount = label?.toLowerCase().includes("enroll now")
     ? 3
@@ -26,7 +30,13 @@ const CourseTabs = ({
 
   const [visibleCount, setVisibleCount] = useState(initialCount);
 
-  const filteredCourses = courseDetailsList
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchCourses());
+    }
+  }, [dispatch, status]);
+
+  const filteredCourses = courses
     .filter((course) => course.type === userType)
     .sort((a, b) => (b.index || 0) - (a.index || 0));
 

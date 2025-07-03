@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { courseOptions } from "../../data";
+import { submitForm } from "../store/formSlice";
+import { toast } from "react-toastify";
 
 const Office = () => {
+  const dispatch = useDispatch();
+  const formSubmitStatus = useSelector((state) => state.form.formSubmitStatus);
+  const formSubmitError = useSelector((state) => state.form.formSubmitError);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    course: "",
+    email: "",
+    message: "",
+    formHeading: "Contact Form",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(submitForm(formData)).unwrap();
+      toast("Form submitted successfully!");
+      setFormData({
+        name: "",
+        phone: "",
+        course: "",
+        email: "",
+        message: "",
+        formHeading: "Contact Form",
+      });
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      toast(error || "Failed to submit form");
+    }
+  };
+
   return (
     <section className="bg-[#f7f4eb] py-10 px-4">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -9,19 +49,30 @@ const Office = () => {
           <h2 className="text-2xl sm:text-3xl font-bold font-opens text-[#333333] mb-6 text-center md:text-left">
             Let's connect with us
           </h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Name"
               className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
             />
             <input
               type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               placeholder="Phone"
               className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
             />
-            <select className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]">
-              <option>Course</option>
+            <select
+              name="course"
+              value={formData.course}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
+            >
+              <option value="">Course</option>
               {courseOptions.map((course, index) => (
                 <option key={index} value={course}>
                   {course}
@@ -30,20 +81,30 @@ const Office = () => {
             </select>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Email Address"
               className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
             />
             <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Message"
               rows="4"
               className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
             />
             <button
               type="submit"
+              disabled={formSubmitStatus === "loading"}
               className="bg-[#0076FF] hover:bg-[#0e3477] text-white font-semibold px-6 py-2 rounded-md transition w-fit ml-auto block"
             >
-              Apply Now →
+              {formSubmitStatus === "loading" ? "Submitting..." : "Apply Now"}
             </button>
+            {formSubmitError && (
+              <p className="text-red-500 text-sm">{formSubmitError}</p>
+            )}
           </form>
         </div>
         <div className="w-full h-[400px] md:h-auto rounded-xl overflow-hidden shadow-md">

@@ -1,35 +1,53 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
-
-import authReducer from "./authSlice";
+import createTransform from "redux-persist/es/createTransform";
+import { encrypt, decrypt } from "../utils/crypto"; 
+import authReducer, { loadUser } from "./authSlice";
 import cartReducer from "./cartSlice";
 import courseReducer from "./courseSlice";
 import testReducer from "./testSlice";
 import certificateReducer from "./certificateSlice";
 import formReducer from "./formSlice";
+
+const authTransform = createTransform(
+  (inboundState) => ({
+    ...inboundState,
+    token: inboundState.token ? encrypt(inboundState.token) : null,
+  }),
+  (outboundState) => ({
+    ...outboundState,
+    token: outboundState.token ? decrypt(outboundState.token) : null,
+  }),
+  { whitelist: ["auth"] }
+);
+
+const authPersistConfig = {
+  key: "auth",
+  storage,
+  whitelist: ["token"], 
+  transforms: [authTransform],
+};
+
 const rootReducer = combineReducers({
-  auth: authReducer,
+  auth: persistReducer(authPersistConfig, authReducer),
   cart: cartReducer,
   course: courseReducer,
   test: testReducer,
   certificate: certificateReducer,
   form: formReducer,
 });
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["auth"],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store);
+export const initAuth = () => {
+  const state = store.getState();
+  if (state.auth?.token) {
+    store.dispatch(loadUser());
+  }
+};

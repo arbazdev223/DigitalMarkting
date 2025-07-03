@@ -5,13 +5,12 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor, store } from "./store";
+import { store, persistor, initAuth } from "./store";
 import { axiosInstance } from "./config";
-
 axiosInstance.interceptors.request.use(
   (config) => {
     const state = store.getState();
-    const token = state.auth.token;
+    const token = state.auth?.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } else {
@@ -25,7 +24,7 @@ axiosInstance.interceptors.request.use(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor} onBeforeLift={initAuth}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
@@ -33,4 +32,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Provider>
   </React.StrictMode>
 );
-

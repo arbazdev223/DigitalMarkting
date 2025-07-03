@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   FaFacebookF,
   FaTwitter,
@@ -6,8 +7,32 @@ import {
 } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitForm, clearFormError } from '../store/formSlice';
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const dispatch = useDispatch();
+  const formSubmitStatus = useSelector((state) => state.form.formSubmitStatus);
+  const formSubmitError = useSelector((state) => state.form.formSubmitError);
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    dispatch(clearFormError());
+
+    try {
+      await dispatch(
+        submitForm({
+          formHeading: 'News Letter',
+          email,
+        })
+      ).unwrap();
+      setEmail(''); 
+    } catch (error) {
+      console.error('Subscription failed:', error);
+    }
+  };
+
   return (
     <footer className="bg-gray-900 text-gray-300 pt-12 pb-8 px-6 sm:px-12 lg:px-20">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -23,6 +48,7 @@ const Footer = () => {
             <a href="#" className="hover:text-white"><FaLinkedinIn /></a>
           </div>
         </div>
+
         <div className="grid grid-cols-2 gap-6 col-span-2">
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Courses</h4>
@@ -45,19 +71,32 @@ const Footer = () => {
             </ul>
           </div>
         </div>
+
         <div className="md:col-span-1 col-span-2">
           <h4 className="text-lg font-semibold text-white mb-4">Subscribe</h4>
           <p className="text-sm mb-4">Get the latest updates and course offers.</p>
-          <form className="flex flex-col gap-3">
+          <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
             <input
               type="email"
               placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="rounded-md px-4 py-2 bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none"
             />
-            <button className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-md transition">
+            <button
+              type="submit"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-4 py-2 rounded-md transition"
+            >
               Subscribe
             </button>
           </form>
+          {formSubmitStatus === 'failed' && formSubmitError && (
+            <p className="text-red-400 text-xs mt-2">{formSubmitError}</p>
+          )}
+          {formSubmitStatus === 'succeeded' && (
+            <p className="text-green-400 text-xs mt-2">Subscribed successfully!</p>
+          )}
         </div>
       </div>
 

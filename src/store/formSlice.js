@@ -39,7 +39,11 @@ const initialState = {
 const formSlice = createSlice({
   name: "form",
   initialState,
-  reducers: {},
+  reducers: {
+    clearFormError(state) {
+      state.formSubmitError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(submitForm.pending, (state) => {
@@ -54,8 +58,6 @@ const formSlice = createSlice({
         state.formSubmitStatus = "failed";
         state.formSubmitError = action.payload;
       })
-
-      // Get all forms
       .addCase(getAllForms.pending, (state) => {
         state.fetchStatus = "loading";
         state.fetchError = null;
@@ -70,5 +72,5 @@ const formSlice = createSlice({
       });
   },
 });
-
+export const { clearFormError } = formSlice.actions;
 export default formSlice.reducer;

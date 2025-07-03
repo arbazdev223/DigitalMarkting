@@ -10,24 +10,21 @@ const ServicesSection = () => {
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-4 gap-6 items-start">
           <div className="md:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {leftServices.map((service) => (
-              <Link to={`/service/${service.id}`}>
-              <div
-                key={service.id}
-                className="bg-white rounded-lg p-5 text-center shadow-sm hover:shadow-lg transition min-h-[200px] flex flex-col justify-start"
-              >
-                <img
-                  src={service.icon}
-                  alt={service.title}
-                  className="w-12 h-12 mx-auto mb-3 hover:translate-y-2 transition"
-                />
-                <h4 className="text-md font-bold text-[#0e3477] mb-1 font-[Open_Sans]">
-                  {service.title}
-                </h4>
-                <p className="text-sm text-[#444444] font-[Nunito] leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
+            {leftServices.map((service, idx) => (
+              <Link to={`/service/${service.id}`} key={service.id || idx}>
+                <div className="bg-white rounded-lg p-5 text-center shadow-sm hover:shadow-lg transition min-h-[200px] flex flex-col justify-start">
+                  <img
+                    src={service.icon}
+                    alt={service.title}
+                    className="w-12 h-12 mx-auto mb-3 hover:translate-y-2 transition"
+                  />
+                  <h4 className="text-md font-bold text-[#0e3477] mb-1 font-[Open_Sans]">
+                    {service.title}
+                  </h4>
+                  <p className="text-sm text-[#444444] font-[Nunito] leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
               </Link>
             ))}
           </div>

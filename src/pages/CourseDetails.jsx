@@ -34,11 +34,11 @@ const CourseDetails = () => {
   const cartItems = useSelector((state) => state.cart.cart) || [];
   const isInCart = cartItems.some((item) => String(item.id) === String(id));
 
-  const handleAddToCart = () => {
-    if (course) {
-      dispatch(addToCart(course));
-    }
-  };
+const handleAddToCart = () => {
+  if (course && !isInCart) {
+    dispatch(addToCart(course));
+  }
+};
 
   if (status === "loading" || !course) {
     return <div className="text-center py-10">Loading...</div>;
@@ -178,9 +178,17 @@ const CourseDetails = () => {
             </ul>
             <div className="flex flex-col gap-3">
               <Link to="/checkout" className="block">
-                <button className="w-full bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]">
-                  Buy Now
-                </button>
+             <button
+  onClick={() => {
+    if (course && !isInCart) {
+      dispatch(addToCart(course));
+    }
+    window.location.href = "/checkout";
+  }}
+  className="w-full bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]"
+>
+  Buy Now
+</button>
               </Link>
               {isInCart ? (
                 <Link

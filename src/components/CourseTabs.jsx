@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { MdDownload } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCourses, selectCourses, selectCourseStatus } from "../store/courseSlice";
+import { FiPhoneCall } from "react-icons/fi";
+import { MdEmail } from "react-icons/md";
+import {
+  fetchCourses,
+  selectCourses,
+  selectCourseStatus,
+} from "../store/courseSlice";
+import FormControl from "../components/FormControl";
 
 const CourseTabs = ({
   heading = (
@@ -19,8 +26,12 @@ const CourseTabs = ({
   const [userType, setUserType] = useState("Student");
   const location = useLocation();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   const courses = useSelector(selectCourses);
   const status = useSelector(selectCourseStatus);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const [popupForm, setPopupForm] = useState({ open: false, course: null });
+  const [enquirePopup, setEnquirePopup] = useState(false);
 
   const initialCount = label?.toLowerCase().includes("enroll now")
     ? 3
@@ -28,12 +39,11 @@ const CourseTabs = ({
     ? 6
     : maxCount;
 
-  const [visibleCount, setVisibleCount] = useState(initialCount);
-
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchCourses());
     }
+    setVisibleCount(initialCount);
   }, [dispatch, status]);
 
   const filteredCourses = courses
@@ -44,6 +54,14 @@ const CourseTabs = ({
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 6);
+  };
+
+  const handleBrochureClick = (course) => {
+    if (!user) {
+      setPopupForm({ open: true, course });
+    } else {
+      window.open(course.downloadBrochure, "_blank");
+    }
   };
 
   return (
@@ -104,19 +122,20 @@ const CourseTabs = ({
                     </ul>
                     <div className="flex gap-3">
                       {course.downloadBrochure && (
-                        <a
-                          href={course.downloadBrochure}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          onClick={() => handleBrochureClick(course)}
                           className="w-1/2 min-w-[140px] max-w-[180px] flex items-center justify-center bg-gray-100 text-[#0e3477] px-2 py-2 text-xs font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white transition"
                         >
                           <MdDownload className="mr-1 text-base" />
                           <span className="truncate">Download Brochure</span>
-                        </a>
+                        </button>
                       )}
-                      <span className="w-1/2 min-w-[140px] max-w-[180px] text-center bg-[#0e3477] text-white px-2 py-2 text-xs font-semibold rounded flex items-center justify-center">
+                      <button
+                        onClick={() => setEnquirePopup(true)}
+                        className="w-1/2 min-w-[140px] max-w-[180px] text-center bg-[#0e3477] text-white px-2 py-2 text-xs font-semibold rounded flex items-center justify-center"
+                      >
                         <span className="truncate">Enquire</span>
-                      </span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -178,6 +197,77 @@ const CourseTabs = ({
           >
             {label}
           </button>
+        </div>
+      )}
+      {popupForm.open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="relative w-full max-w-md rounded-xl overflow-hidden shadow-xl bg-[#0e3477] text-white">
+            <div className="p-6 sm:p-8 text-center">
+              <button
+                onClick={() => setPopupForm({ open: false, course: null })}
+                className="absolute top-3 right-3 text-white hover:text-red-200 text-lg font-bold"
+              >
+                ✕
+              </button>
+
+              {popupForm.course?.title && (
+                <p className="text-sm mb-4">
+                  For:{" "}
+                  <span className="font-semibold">
+                    {popupForm.course.title}
+                  </span>
+                </p>
+              )}
+
+              <div className="space-y-3 text-left">
+                <FormControl
+                  className="bg-white"
+                  prefilledName={user?.name}
+                  prefilledEmail={user?.email}
+                  courseTitle={popupForm.course?.title}
+                  onSuccess={() => {
+                    setPopupForm({ open: false, course: null });
+                    window.open(popupForm.course?.downloadBrochure, "_blank");
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {enquirePopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="relative w-full max-w-md rounded-xl overflow-hidden shadow-xl bg-[#0e3477] text-white">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/20 bg-[#092653]">
+              <h3 className="text-lg font-bold">
+                {(popupForm?.course && popupForm.course.title) || "Enquire Now"}
+              </h3>
+              <button
+                onClick={() => setEnquirePopup(false)}
+                className="text-white hover:text-red-200 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6 sm:p-8 text-center">
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4">
+                <a
+                  href="tel:+918800505151"
+                  className="flex items-center justify-center gap-2 bg-white text-[#0e3477] px-4 py-2 rounded font-semibold text-sm hover:bg-gray-200 transition w-full sm:w-auto"
+                >
+                  <FiPhoneCall className="text-base" />
+                  +91-8800505151
+                </a>
+                <a
+                  href="mailto:info@didm.in"
+                  className="flex items-center justify-center gap-2 bg-white text-[#0e3477] px-4 py-2 rounded font-semibold text-sm hover:bg-gray-200 transition w-full sm:w-auto"
+                >
+                  <MdEmail className="text-base" />
+                  info@didm.in
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

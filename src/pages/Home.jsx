@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import HomeBanner from "../components/HomeBanner";
 import CourseTabs from "../components/CourseTabs";
 import FAQSection from "../components/FaqSection";
@@ -11,26 +14,45 @@ import CertificatesSection from "../components/CertificatesSection";
 import HeroMain from "../components/HeroMain";
 import TopCompanies from "../components/TopCompanies";
 import FeatureSummary from "../components/FeatureSummary";
-import { accordionItems, blogData } from "../../data";
-import { fetchCourses,selectCourses,selectCourseStatus } from "../store/courseSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+
+import { accordionItems } from "../../data";
+import {
+  fetchCourses,
+  // selectCourses,
+  selectCourseStatus,
+} from "../store/courseSlice";
+
+import {
+  fetchBlogs,
+  clearBlogError,
+} from "../store/blogSlice";
 
 const Home = () => {
-   const dispatch = useDispatch();
-    const courses = useSelector(selectCourses);
-    const Status = useSelector(selectCourseStatus);
-    useEffect(() => {
-  if (status === "idle") {
-    dispatch(fetchCourses());
-  }
-}, [dispatch, status]);
+  const dispatch = useDispatch();
+
+  // const courses = useSelector(selectCourses);
+  const courseStatus = useSelector(selectCourseStatus);
+
+  const { blogs, status: blogStatus, error: blogError } = useSelector((state) => state.blog);
+
+  useEffect(() => {
+    if (courseStatus === "idle") {
+      dispatch(fetchCourses());
+    }
+    if (blogStatus === "idle") {
+      dispatch(fetchBlogs());
+    }
+    return () => {
+      dispatch(clearBlogError());
+    };
+  }, [dispatch, courseStatus, blogStatus]);
+
   return (
     <>
       <HeroMain />
       <FeatureSummary />
       <TopCompanies />
-      <CourseTabs to={"/enroll"} label={'Enroll Now'}  />
+      <CourseTabs to={"/enroll"} label={"Enroll Now"} />
       <MiniCard />
       <FAQSection faqs={accordionItems} />
       <Upskills />
@@ -39,9 +61,11 @@ const Home = () => {
       <BlogSection
         heading="Blog"
         paragraph="Check back every week for inspiring articles on website design and digital marketing to help build and expand your digital presence."
-        blogData={blogData}
+        blogData={blogs}
         showTabs={true}
         maxBlogs={3}
+        status={blogStatus}
+        error={blogError}
       />
       <CertificatesSection />
       <ContactFormSection />

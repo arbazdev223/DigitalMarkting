@@ -1,97 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const selectCartTotalOriginal = (state) =>
-  state.cart.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-export const selectCartTotalSale = (state) =>
-  state.cart.cart.reduce(
-    (sum, item) => sum + (item.salePrice || item.price) * item.quantity,
-    0
-);
-export const selectCartDiscount = (state) => {
-  const original = selectCartTotalOriginal(state);
-  const sale = selectCartTotalSale(state);
-  return original
-    ? Math.round(((original - sale) / original) * 100)
-    : 0;
-};
+// Utility: Save/Load from localStorage
+const STORAGE_KEY = "course_cart";
 
-const saveCartToStorage = (course) => {
+const saveCartToStorage = (cart) => {
   try {
-    localStorage.setItem("course", JSON.stringify(course));
-  } catch (error) {
-    console.error("Error saving cart to localStorage:", error);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  } catch (err) {
+    console.error("Error saving cart:", err);
   }
 };
+
 const loadCartFromStorage = () => {
   try {
-    const cart = localStorage.getItem("course");
+    const cart = localStorage.getItem(STORAGE_KEY);
     return cart ? JSON.parse(cart) : [];
-  } catch (error) {
-    console.error("Error loading cart from localStorage:", error);
+  } catch (err) {
+    console.error("Error loading cart:", err);
     return [];
   }
 };
+
+const updateTotalQuantity = (cart) => cart.length;
+
 const initialState = {
-  cart: [],
+  cart: loadCartFromStorage(),
   totalQuantity: 0,
 };
 
-const updateTotalQuantity = (cart) =>
-  cart.reduce((sum, item) => sum + item.quantity, 0);
+initialState.totalQuantity = updateTotalQuantity(initialState.cart);
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart(state, action) {
-      const product = action.payload;
-      const existing = state.cart.find((item) => item.id === product.id);
+      const course = action.payload;
+      const exists = state.cart.find((item) => item.id === course.id);
 
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        const newItem = {
-          id: product.id,
-          title: product.title,
-          image: product.image,
-          price: product.price,
-          salePrice: product.salePrice,
-          quantity: 1,
-        };
-        state.cart.push(newItem);
-      }
-      state.totalQuantity = updateTotalQuantity(state.cart);
-      saveCartToStorage(state.cart);
-    },
-
-    getDataFromLocalStorage(state) {
-      const storedCart = loadCartFromStorage();
-      if (Array.isArray(storedCart)) {
-        state.cart = storedCart;
-        state.totalQuantity = updateTotalQuantity(state.cart);
-      } else {
-        state.cart = [];
-        state.totalQuantity = 0;
-      }
-    },
-
-    incrementQuantity(state, action) {
-      const item = state.cart.find((i) => i.id === action.payload);
-      if (item) {
-        item.quantity += 1;
-        state.totalQuantity = updateTotalQuantity(state.cart);
-        saveCartToStorage(state.cart);
-      }
-    },
-
-    decrementQuantity(state, action) {
-      const item = state.cart.find((i) => i.id === action.payload);
-      if (item) {
-        if (item.quantity > 1) {
-          item.quantity -= 1;
-        } else {
-          state.cart = state.cart.filter((i) => i.id !== action.payload);
-        }
+      if (!exists) {
+        state.cart.push({ ...course, quantity: 1 });
         state.totalQuantity = updateTotalQuantity(state.cart);
         saveCartToStorage(state.cart);
       }
@@ -108,15 +56,34 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
       saveCartToStorage([]);
     },
+
+    getDataFromLocalStorage(state) {
+      const storedCart = loadCartFromStorage();
+      if (Array.isArray(storedCart)) {
+        state.cart = storedCart;
+        state.totalQuantity = updateTotalQuantity(storedCart);
+      }
+    },
   },
 });
 
+export const selectCartItems = (state) => state.cart.cart;
 export const selectCartTotalQuantity = (state) => state.cart.totalQuantity;
+
+export const selectCartTotalOriginal = (state) =>
+  state.cart.cart.reduce((sum, item) => sum + item.price, 0);
+
+export const selectCartTotalSale = (state) =>
+  state.cart.cart.reduce((sum, item) => sum + (item.salePrice || item.price), 0);
+
+export const selectCartDiscount = (state) => {
+  const original = selectCartTotalOriginal(state);
+  const sale = selectCartTotalSale(state);
+  return original ? Math.round(((original - sale) / original) * 100) : 0;
+};
 
 export const {
   addToCart,
-  incrementQuantity,
-  decrementQuantity,
   removeFromCart,
   clearCart,
   getDataFromLocalStorage,

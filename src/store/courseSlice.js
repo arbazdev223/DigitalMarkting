@@ -13,17 +13,33 @@ export const fetchCourses = createAsyncThunk(
   }
 );
 
+
 export const fetchCourseById = createAsyncThunk(
   "course/fetchCourseById",
-  async (id, { rejectWithValue }) => {
+  async (courseId, { getState, rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get(`/courses/${id}`);
-      return res.data.course;
+      const state = getState();
+      const existingCourse = state.course.selectedCourse;
+
+      if (existingCourse && String(existingCourse.courseId) === String(courseId)) {
+        return existingCourse;
+      }
+
+      const response = await axiosInstance.get(`/courses/${courseId}`); 
+
+      if (response?.data?.course) {
+        return response.data.course;
+      } else {
+        return rejectWithValue("Course not found or not a Student course");
+      }
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Failed to fetch course");
     }
   }
 );
+
+
+
 
 const initialState = {
   courses: [],
@@ -42,6 +58,7 @@ const courseSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Fetch All
       .addCase(fetchCourses.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -56,8 +73,8 @@ const courseSlice = createSlice({
       })
       .addCase(fetchCourseById.pending, (state) => {
         state.status = "loading";
-        state.error = null;
         state.selectedCourse = null;
+        state.error = null;
       })
       .addCase(fetchCourseById.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -67,13 +84,12 @@ const courseSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
         state.selectedCourse = null;
-      });
+      })
   },
 });
 
+export const { resetSelectedCourse } = courseSlice.actions;
 export default courseSlice.reducer;
-
-// Selectors
 export const selectCourses = (state) => state.course.courses;
 export const selectSelectedCourse = (state) => state.course.selectedCourse;
 export const selectCourseStatus = (state) => state.course.status;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MdDownload } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FiPhoneCall } from "react-icons/fi";
 import { MdEmail } from "react-icons/md";
@@ -29,7 +29,6 @@ const CourseTabs = ({
   const status = useSelector(selectCourseStatus);
   const formSubmitStatus = useSelector((state) => state.form.formSubmitStatus);
   const formSubmitError = useSelector((state) => state.form.formSubmitError);
-
   const [userType, setUserType] = useState("Student");
   const [visibleCount, setVisibleCount] = useState(3);
   const [popupForm, setPopupForm] = useState({ open: false, course: null });
@@ -133,8 +132,8 @@ const CourseTabs = ({
                 </div>
               ) : (
                 <Link
-                  to={`/course/${course.id}`}
-                  key={idx}
+                    to={`/course/${course.courseId}`} 
+  key={course.courseId}
                   className="bg-white border shadow-md rounded transform hover:-translate-y-2.5 hover:shadow-xl transition"
                 >
                   <img src={course.image} alt={course.title} className="w-full h-48 object-cover hover:scale-105 transition-transform" />

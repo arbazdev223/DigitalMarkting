@@ -10,6 +10,7 @@ import testReducer from "./testSlice";
 import certificateReducer from "./certificateSlice";
 import formReducer from "./formSlice";
 import blogReducer from './blogSlice';
+import courseStudentReducer from './courseStudentSlice';
 const authTransform = createTransform(
   (inboundState) => ({
     ...inboundState,
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   certificate: certificateReducer,
   form: formReducer,
   blog:blogReducer,
+  courseStudent:courseStudentReducer,
 });
 
 export const store = configureStore({

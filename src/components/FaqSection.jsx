@@ -7,7 +7,7 @@ faqTitle = `FAQs about our ${heading}`,
 }) => {
   return (
     <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-[#0e3477] mb-8">
           {faqTitle}
         </h2>

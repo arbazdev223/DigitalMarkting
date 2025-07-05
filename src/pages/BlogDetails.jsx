@@ -7,34 +7,26 @@ import {
   addComment,
 } from "../store/blogSlice";
 import Sidebar from "../components/Sidebar";
+import { FaStar } from "react-icons/fa";
 
 const BlogDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  // Blog state
   const { selectedBlog, blogs, status, error } = useSelector((state) => state.blog);
-
-  // Auth state
   const { isLoggedIn, user } = useSelector((state) => state.auth);
 
-  // Form state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0);
 
-  // Load blog on mount
   useEffect(() => {
-    if (id) {
-      dispatch(fetchBlogById(id));
-    }
-    return () => {
-      dispatch(clearSelectedBlog());
-    };
+    if (id) dispatch(fetchBlogById(id));
+    return () => dispatch(clearSelectedBlog());
   }, [dispatch, id]);
 
-  // Prefill name/email if logged in
   useEffect(() => {
     if (isLoggedIn && user) {
       setName(user.name || "User");
@@ -47,20 +39,20 @@ const BlogDetails = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!comment.trim()) return;
+    if (!comment.trim() || rating === 0) return;
 
     const payload = {
       blogId: id,
       name: name || "Anonymous",
       email: email || "",
       text: isLoggedIn && subject ? `${subject}: ${comment}` : comment,
+      rating,
     };
 
     dispatch(addComment(payload));
-
-    // Reset fields
     setComment("");
     setSubject("");
+    setRating(0);
     if (!isLoggedIn) {
       setName("");
       setEmail("");
@@ -91,28 +83,36 @@ const BlogDetails = () => {
             {new Date(selectedBlog.date).toLocaleDateString()} • {selectedBlog.category}
           </p>
           <div className="text-gray-700 leading-relaxed space-y-4 mb-10">
-            <p>{selectedBlog.content}</p>
+            {selectedBlog.content.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
 
           {/* 💬 Comments */}
           <div className="border-t pt-6">
-            <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">
-              Comments
-            </h3>
+            <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">Comments</h3>
             {selectedBlog.comments?.length > 0 ? (
               <div className="space-y-4 mb-6">
                 {selectedBlog.comments.map((c, idx) => (
                   <div key={idx} className="border rounded p-3">
                     <p className="text-sm font-semibold text-[#0e3477]">{c.name}</p>
                     <p className="text-sm text-gray-700 mt-1">{c.text}</p>
+                    {c.rating && (
+                      <div className="flex items-center mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <FaStar
+                            key={i}
+                            className={i < c.rating ? "text-yellow-400" : "text-gray-300"}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
             ) : (
               <p className="text-gray-600 mb-6">No comments yet. Be the first!</p>
             )}
-
-            {/* 📝 Comment Form */}
             <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">Leave a Comment</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLoggedIn && (
@@ -152,6 +152,19 @@ const BlogDetails = () => {
                 onChange={(e) => setComment(e.target.value)}
                 required
               />
+              <div className="flex items-center gap-1">
+                <span className="text-sm mr-2">Rating:</span>
+                {[...Array(5)].map((_, i) => (
+                  <FaStar
+                    key={i}
+                    onClick={() => setRating(i + 1)}
+                    className={`cursor-pointer ${
+                      i < rating ? "text-yellow-400" : "text-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+
               <button
                 type="submit"
                 className="bg-[#0e3477] text-white px-6 py-2 rounded hover:bg-[#092759]"
@@ -161,8 +174,6 @@ const BlogDetails = () => {
             </form>
           </div>
         </div>
-
-        {/* Sidebar */}
         <div className="lg:col-span-1 h-fit">
           <div className="sticky top-20">
             <Sidebar latestPosts={blogs} maxNumber={5} />

@@ -37,14 +37,16 @@ export const fetchBlogById = createAsyncThunk("blog/fetchBlogById", async (id, {
   }
 });
 
+// ✅ Updated: includes rating in payload and request
 export const addComment = createAsyncThunk(
   "blog/addComment",
-  async ({ blogId, name, email, text }, { rejectWithValue }) => {
+  async ({ blogId, name, email, text, rating }, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.post(`/blogs/${blogId}/comment`, {
         name,
         email,
         text,
+        rating,
       });
       return { blogId, comments: res.data.comments };
     } catch (err) {
@@ -70,7 +72,6 @@ const blogSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch blogs
       .addCase(fetchBlogs.fulfilled, (state, action) => {
         state.blogs = action.payload;
         state.status = "succeeded";
@@ -80,8 +81,6 @@ const blogSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-
-      // Create blog
       .addCase(createBlog.fulfilled, (state, action) => {
         state.blogs.unshift(action.payload);
         state.status = "succeeded";
@@ -91,8 +90,6 @@ const blogSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-
-      // Fetch blog by ID
       .addCase(fetchBlogById.fulfilled, (state, action) => {
         state.selectedBlog = action.payload;
         state.status = "succeeded";
@@ -104,12 +101,14 @@ const blogSlice = createSlice({
       })
       .addCase(addComment.fulfilled, (state, action) => {
         const { blogId, comments } = action.payload;
+
         if (state.selectedBlog?._id === blogId) {
           state.selectedBlog.comments = comments;
         }
-        const blogIndex = state.blogs.findIndex((blog) => blog._id === blogId);
-        if (blogIndex !== -1) {
-          state.blogs[blogIndex].comments = comments;
+
+        const index = state.blogs.findIndex((b) => b._id === blogId);
+        if (index !== -1) {
+          state.blogs[index].comments = comments;
         }
 
         state.status = "succeeded";
@@ -137,5 +136,10 @@ const blogSlice = createSlice({
   },
 });
 
-export const { clearBlogError, clearSelectedBlog, setBlogStatusIdle } = blogSlice.actions;
+export const {
+  clearBlogError,
+  clearSelectedBlog,
+  setBlogStatusIdle,
+} = blogSlice.actions;
+
 export default blogSlice.reducer;

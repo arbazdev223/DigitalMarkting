@@ -203,31 +203,31 @@ const Header = () => {
           <div className="md:hidden   mt-2 h-[calc(100vh-4rem)] space-y-2 pb-4 border-t pt-4">
             <Link
               to="/"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/services"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
             >
               Services
             </Link>
             <Link
               to="/about"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]" onClick={() => setIsOpen(false)}
             >
               Contact
             </Link>
             <Link
               to="/blog"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
             >
               Blog
             </Link>
@@ -239,7 +239,7 @@ const Header = () => {
                 onMouseLeave={handleCartMouseLeave}
               >
                 <button
-                  type="button"
+                  type="button"  onClick={() => setIsOpen(false)}
                   className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
                 >
                   <MdShoppingCart className="text-2xl" />
@@ -258,7 +258,7 @@ const Header = () => {
               {!isLoggedIn ? (
                 <Link
                   to="/auth"
-                  className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+                  className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
                 >
                   Login/Signup
                 </Link>
@@ -284,19 +284,19 @@ const Header = () => {
                           <img
                             src={user.profileImage}
                             alt="Profile"
-                            className="w-6 h-6 rounded-full object-cover border border-gray-300"
+                            className="w-6 h-6 rounded-full object-cover border border-gray-300"  onClick={() => setIsOpen(false)}
                           />
                         ) : (
-                          <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold border border-gray-300">
+                          <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold border border-gray-300"  onClick={() => setIsOpen(false)}>
                             {getInitials(user?.name)}
                           </div>
                         )}
                         Profile
                       </button>
                       {profileDropdown && (
-                        <div className="mt-2 w-full bg-white border border-gray-200 rounded-md shadow-md z-50">
+                        <div className="mt-2 w-full bg-white border border-gray-200 rounded-md shadow-md z-50"  onClick={() => setIsOpen(false)}>
                           <button
-                            onClick={handleLogout}
+                            onClick={handleLogout} 
                             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#f3f4f6] hover:text-red-600"
                           >
                             Logout

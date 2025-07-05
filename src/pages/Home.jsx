@@ -16,36 +16,25 @@ import TopCompanies from "../components/TopCompanies";
 import FeatureSummary from "../components/FeatureSummary";
 
 import { accordionItems } from "../../data";
-import {
-  fetchCourses,
-  // selectCourses,
-  selectCourseStatus,
-} from "../store/courseSlice";
-
-import {
-  fetchBlogs,
-  clearBlogError,
-} from "../store/blogSlice";
+import { fetchCourses, selectCourseStatus } from "../store/courseSlice";
+import { fetchBlogs, clearBlogError } from "../store/blogSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
 
-  // const courses = useSelector(selectCourses);
   const courseStatus = useSelector(selectCourseStatus);
-
   const { blogs, status: blogStatus, error: blogError } = useSelector((state) => state.blog);
 
   useEffect(() => {
+    dispatch(fetchBlogs());
     if (courseStatus === "idle") {
       dispatch(fetchCourses());
     }
-    if (blogStatus === "idle") {
-      dispatch(fetchBlogs());
-    }
+
     return () => {
       dispatch(clearBlogError());
     };
-  }, [dispatch, courseStatus, blogStatus]);
+  }, [dispatch, courseStatus]);
 
   return (
     <>

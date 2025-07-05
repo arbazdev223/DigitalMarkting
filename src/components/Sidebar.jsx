@@ -1,13 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { submitForm } from "../store/formSlice";
 
 const Sidebar = ({
   latestPosts = [],
-  maxNumber = 5, 
+  maxNumber = 5,
   bannerTitle = "Boost Your Skills!",
   bannerDesc = "Join our premium courses and get certified today.",
   showForm = true,
 }) => {
-  const displayedPosts = latestPosts.slice(0, maxNumber); 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Replace this with your actual auth selector
+  const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn); // Adjust based on your state
+  const user = useSelector((state) => state.auth?.user); // Optional: access user data
+
+  const [formData, setFormData] = useState({
+    name: user?.name || "",
+    phone: "",
+    course: "",
+    email: user?.email || "",
+    message: "",
+    formHeading: "Blog Enquiry",
+  });
+
+  const { formSubmitStatus, formSubmitError } = useSelector((state) => state.form);
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(submitForm(formData));
+    setFormData((prev) => ({
+      ...prev,
+      phone: "",
+      course: "",
+      message: "",
+    }));
+  };
+
+  const displayedPosts = [...latestPosts]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, maxNumber);
 
   return (
     <aside className="space-y-10 sticky top-20 h-fit">
@@ -18,7 +59,11 @@ const Sidebar = ({
           </h3>
           <div className="space-y-4">
             {displayedPosts.map((item) => (
-              <div key={item.id} className="border-b pb-3">
+              <div
+                key={item._id}
+                className="border-b pb-3 cursor-pointer hover:text-[#0e3477]"
+                onClick={() => navigate(`/blog/${item._id}`)}
+              >
                 <h4 className="font-bold text-gray-800">{item.title}</h4>
                 <p className="text-sm text-gray-600">
                   {item.excerpt?.slice(0, 60)}...
@@ -39,25 +84,71 @@ const Sidebar = ({
           <h4 className="text-lg font-semibold mb-4 text-[#0e3477]">
             Get in Touch
           </h4>
-          <form className="space-y-3">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full p-2 border rounded focus:outline-none"
-            />
-            <input
-              type="email"
-              placeholder="Your Email"
-              className="w-full p-2 border rounded focus:outline-none"
-            />
+          <form className="space-y-3" onSubmit={handleSubmit}>
+            {!isLoggedIn && (
+              <>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none"
+                  required
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Your Phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none"
+                />
+                <input
+                  type="text"
+                  name="course"
+                  placeholder="Course Interested"
+                  value={formData.course}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none"
+                />
+              </>
+            )}
+
+            {/* Subject & Message for both logged-in and not */}
             <textarea
-              placeholder="Message"
+              name="message"
+              placeholder="Your Message"
+              value={formData.message}
+              onChange={handleChange}
               className="w-full p-2 border rounded focus:outline-none"
-              rows="3"
+              rows="4"
+              required
             ></textarea>
-            <button className="bg-[#0e3477] text-white px-4 py-2 rounded hover:bg-[#092759]">
-              Submit
+
+            <button
+              type="submit"
+              className="bg-[#0e3477] text-white px-4 py-2 rounded hover:bg-[#092759]"
+              disabled={formSubmitStatus === "loading"}
+            >
+              {formSubmitStatus === "loading" ? "Submitting..." : "Submit"}
             </button>
+
+            {formSubmitStatus === "succeeded" && (
+              <p className="text-green-600 text-sm mt-2">Form submitted successfully!</p>
+            )}
+            {formSubmitError && (
+              <p className="text-red-600 text-sm mt-2">{formSubmitError}</p>
+            )}
           </form>
         </div>
       )}

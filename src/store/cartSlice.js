@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Utility: Save/Load from localStorage
 const STORAGE_KEY = "course_cart";
 
 const saveCartToStorage = (cart) => {

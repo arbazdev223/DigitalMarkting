@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { MdDownload } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../store/cartSlice";
+import {
+  addToCart,
+  selectCartItems,
+} from "../store/cartSlice";
 import {
   fetchCourseById,
   selectSelectedCourse,
@@ -18,29 +21,29 @@ const CourseDetails = () => {
   const course = useSelector(selectSelectedCourse);
   const allCourses = useSelector(selectCourses);
   const status = useSelector(selectCourseStatus);
-  const cartItems = useSelector((state) => state.cart.cart) || [];
-  const userType = useSelector((state) => state.auth.user?.type);
+  const cartItems = useSelector(selectCartItems) || [];
 
-  const isInCart = cartItems.some((item) => item.id === course?.id);
+  const isInCart = cartItems.some(
+    (item) =>
+      item.id === course?.id ||
+      item._id === course?.id ||
+      item.id === course?._id ||
+      item._id === course?._id
+  );
 
   useEffect(() => {
-    if (courseId) {
-      dispatch(fetchCourseById(courseId));
-    }
-  }, [dispatch, courseId, userType]); 
+    if (courseId) dispatch(fetchCourseById(courseId));
+  }, [dispatch, courseId]);
 
   const handleAddToCart = () => {
-    if (course && !isInCart) {
-      dispatch(addToCart(course));
-    }
+    if (!course || isInCart) return;
+    dispatch(addToCart(course));
   };
 
-const handleBuyNow = () => {
-  if (!isInCart && course) {
-    dispatch(addToCart(course));
-  }
-  navigate("/checkout");
-};
+  const handleBuyNow = () => {
+    if (!isInCart && course) handleAddToCart();
+    navigate("/checkout");
+  };
 
   if (status === "loading" || !course) {
     return <div className="text-center py-10">Loading...</div>;
@@ -57,6 +60,7 @@ const handleBuyNow = () => {
 
   return (
     <div className="w-full bg-gray-50 min-h-screen pb-20">
+      {/* Banner */}
       <div className="bg-gradient-to-br from-[#0e3477] to-[#1e4d9c] text-white px-2 py-10">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 items-center">
           <div>
@@ -79,7 +83,10 @@ const handleBuyNow = () => {
           </div>
         </div>
       </div>
+
+      {/* Content & Sidebar */}
       <div className="max-w-5xl mx-auto mt-10 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Description */}
         <div className="lg:col-span-2 space-y-8">
           {course.whatYouWillLearn?.length > 0 && (
             <section>
@@ -91,6 +98,7 @@ const handleBuyNow = () => {
               </ul>
             </section>
           )}
+
           {course.requirements?.length > 0 && (
             <section>
               <h3 className="text-xl font-bold text-[#0e3477] mb-2">Requirements</h3>
@@ -101,54 +109,7 @@ const handleBuyNow = () => {
               </ul>
             </section>
           )}
-          {/* <section>
-            <h3 className="text-xl font-bold mb-3 text-[#0e3477]">
-              Curriculum
-            </h3>
-            <div className="border rounded-md divide-y">
-              {course.curriculum.map((section, idx) => (
-                <div key={idx}>
-                  <button
-                    onClick={() =>
-                      setOpenSection(openSection === idx ? null : idx)
-                    }
-                    className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200 text-left"
-                  >
-                    <span className="font-semibold text-gray-800">
-                      {section.section}
-                    </span>
-                    <svg
-                      className={`w-5 h-5 transform transition-transform duration-200 ${
-                        openSection === idx ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  {openSection === idx && (
-                    <ul className="list-disc list-inside gap-2 text-gray-600 px-4 py-2">
-                      {section.lectures.map((lec, i) => (
-                        <li key={i} className="flex justify-between">
-                          <span>{lec.title}</span>
-                          <span className="text-xs text-gray-400 ml-2">
-                            ({lec.duration})
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section> */}
+
           <section>
             <h3 className="text-xl font-bold text-[#0e3477] mb-2">Description</h3>
             <p className="text-gray-700 whitespace-pre-line leading-relaxed">
@@ -156,6 +117,8 @@ const handleBuyNow = () => {
             </p>
           </section>
         </div>
+
+        {/* Sticky Sidebar */}
         <div className="sticky top-24 h-fit bg-white shadow rounded border overflow-hidden">
           {course.previewVideo && (
             <video src={course.previewVideo} controls className="w-full h-56 object-cover" />
@@ -167,42 +130,44 @@ const handleBuyNow = () => {
                 <li key={idx}>• {item}</li>
               ))}
             </ul>
-        <div className="flex flex-col gap-3">
-  <button
-    onClick={handleBuyNow}
-    className="bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]"
-  >
-  Buy Now
-  </button>
 
-  {isInCart ? (
-    <Link
-      to="/cart"
-      className="text-center bg-white border border-[#0e3477] text-[#0e3477] py-2 rounded hover:bg-[#0e3477] hover:text-white"
-    >
-      Go to Cart
-    </Link>
-  ) : (
-    <button
-      onClick={handleAddToCart}
-      className="bg-white border border-[#0e3477] text-[#0e3477] py-2 rounded hover:bg-[#0e3477] hover:text-white"
-    >
-      Add to Cart
-    </button>
-  )}
-</div>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleBuyNow}
+                className="bg-[#0e3477] text-white py-2 rounded hover:bg-[#092653]"
+              >
+                Buy Now
+              </button>
 
+              {isInCart ? (
+                <Link
+                  to="/cart"
+                  className="text-center bg-white border border-[#0e3477] text-[#0e3477] py-2 rounded hover:bg-[#0e3477] hover:text-white"
+                >
+                  Go to Cart
+                </Link>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-white border border-[#0e3477] text-[#0e3477] py-2 rounded hover:bg-[#0e3477] hover:text-white"
+                >
+                  Add to Cart
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Related Courses */}
       {relatedCourses.length > 0 && (
         <div className="max-w-6xl mx-auto mt-16 px-4">
           <h3 className="text-2xl font-bold text-[#0e3477] mb-6">Related Courses You Might Like</h3>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
             {relatedCourses.map((related) => (
               <Link
-                key={related.courseId}
-    to={`/course/${related.courseId}`}
+                key={related.courseId || related._id}
+                to={`/course/${related.courseId || related._id}`}
                 className="bg-white border shadow rounded hover:shadow-xl transform hover:-translate-y-2.5 transition"
               >
                 <img

@@ -5,6 +5,7 @@ import {
   fetchBlogById,
   clearSelectedBlog,
   addComment,
+  fetchBlogs, // ✅ fetch blogs for Sidebar
 } from "../store/blogSlice";
 import Sidebar from "../components/Sidebar";
 import { FaStar } from "react-icons/fa";
@@ -21,11 +22,15 @@ const BlogDetails = () => {
   const [subject, setSubject] = useState("");
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
-
   useEffect(() => {
     if (id) dispatch(fetchBlogById(id));
     return () => dispatch(clearSelectedBlog());
   }, [dispatch, id]);
+  useEffect(() => {
+    if (blogs.length === 0) {
+      dispatch(fetchBlogs());
+    }
+  }, [dispatch, blogs.length]);
 
   useEffect(() => {
     if (isLoggedIn && user) {
@@ -174,6 +179,8 @@ const BlogDetails = () => {
             </form>
           </div>
         </div>
+
+        {/* ✅ Sidebar with always-updated blog list */}
         <div className="lg:col-span-1 h-fit">
           <div className="sticky top-20">
             <Sidebar latestPosts={blogs} maxNumber={5} />

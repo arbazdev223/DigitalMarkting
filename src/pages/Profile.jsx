@@ -7,6 +7,7 @@ import { HiOutlineMenu, HiX } from "react-icons/hi";
 import TestPage from "./TestPage";
 import CertificatePage from "./CertificatePage";
 import { loadUser } from "../store/authSlice";
+import PaymentForm from "../components/PaymentForm";
 
 const tabs = ["Profile", "Course", "Test", "Payment", "Certificate"];
 
@@ -33,7 +34,7 @@ const Profile = () => {
     Profile: <ProfileForm user={user} />,
     Course: <CourseList courses={courseData} />,
     Test: <TestPage onCertificateEarned={() => setActiveTab("Certificate")} />,
-    Payment: <p className="text-gray-600">This is the Payment section (Coming Soon).</p>,
+    Payment: <PaymentForm />,
     Certificate: <CertificatePage />,
   };
 

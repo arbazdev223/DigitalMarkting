@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  FaCheckCircle, FaFilePdf, FaFileImage, FaFileAudio, FaFileVideo
-} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllCourseStudents,
-  selectCourseStudents
+  selectStudentCourseById,
+  selectStudentCourseProgressPercent,
+  selectStudentCourseAssignmentsCount,
+  selectStudentCourseTestsCount,
+  selectStudentCourseTestQuestionsCount,
+  getProgressColor
 } from "../store/courseStudentSlice";
 import QuizContainer from "../components/QuizContainer";
+import TestPage from "./TestPage";
 import { useBlobUrl } from "../utils/useBlobUrl";
+import {
+  FaCheckCircle,
+  FaFilePdf,
+  FaFileImage,
+  FaFileAudio,
+  FaFileVideo
+} from "react-icons/fa";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi";
 
-// Utility to render correct icon
 const getContentIcon = (type) => {
   switch (type) {
     case "video": return <FaFileVideo className="text-blue-500 mr-2" />;
@@ -21,90 +31,105 @@ const getContentIcon = (type) => {
     default: return <span className="mr-2">📄</span>;
   }
 };
-const selectStudentCourseById = (state, courseId) => {
-  const students = selectCourseStudents(state);
-  for (const student of students) {
-    const match = student.enrolledCourses?.find(c => String(c.courseId) === String(courseId));
-    if (match) return match;
-  }
-  return null;
-};
 
 const CourseResumePage = () => {
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+
   const course = useSelector((state) => selectStudentCourseById(state, courseId));
+  const progressPercent = useSelector((state) => selectStudentCourseProgressPercent(state, courseId));
+  const totalAssignments = useSelector((state) => selectStudentCourseAssignmentsCount(state, courseId));
+  const totalTests = useSelector((state) => selectStudentCourseTestsCount(state, courseId));
+  const totalQuestions = useSelector((state) => selectStudentCourseTestQuestionsCount(state, courseId));
 
   const [activeModule, setActiveModule] = useState(null);
-  const [openTopic, setOpenTopic] = useState({});
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedContent, setSelectedContent] = useState(null);
+  const [openTopic, setOpenTopic] = useState({});
   const [completedContent, setCompletedContent] = useState({});
 
   useEffect(() => {
     dispatch(fetchAllCourseStudents());
   }, [dispatch]);
 
-  if (!course || !course.modules) {
-    return <div className="text-center py-10 text-gray-500">Course not found or not enrolled.</div>;
-  }
+  useEffect(() => {
+    if (course?.lastWatched) {
+      const { moduleIndex, topicIndex, contentIndex } = course.lastWatched;
+      setActiveModule(moduleIndex);
+      setSelectedTopic(topicIndex);
+      setSelectedContent(contentIndex);
+    }
+  }, [course]);
 
   const markContentComplete = (mIdx, tIdx, cIdx) => {
-    const key = `${mIdx}-${tIdx}-${cIdx}`;
-    setCompletedContent((prev) => ({ ...prev, [key]: true }));
+    setCompletedContent((prev) => ({ ...prev, [`${mIdx}-${tIdx}-${cIdx}`]: true }));
   };
 
   const isContentCompleted = (mIdx, tIdx, cIdx) => completedContent[`${mIdx}-${tIdx}-${cIdx}`];
 
+  const isTopicCompleted = (mIdx, tIdx) =>
+    course?.modules?.[mIdx]?.topics?.[tIdx]?.contents?.every((_, cIdx) =>
+      isContentCompleted(mIdx, tIdx, cIdx)
+    );
+
+  const isModuleCompleted = (mIdx) =>
+    course?.modules?.[mIdx]?.topics?.every((_, tIdx) => isTopicCompleted(mIdx, tIdx));
+
   const getModuleProgress = (mIdx) => {
-    const module = course.modules[mIdx];
-    const total = module.topics.reduce((sum, t) => sum + (t.contents?.length || 0), 0);
-    const done = module.topics.reduce(
+    const mod = course?.modules?.[mIdx];
+    const total = mod?.topics?.reduce((sum, t) => sum + (t.contents?.length || 0), 0);
+    const completed = mod?.topics?.reduce(
       (sum, t, tIdx) =>
-        sum + t.contents.filter((_, cIdx) => isContentCompleted(mIdx, tIdx, cIdx)).length,
+        sum + (t.contents?.filter((_, cIdx) => isContentCompleted(mIdx, tIdx, cIdx))?.length || 0),
       0
     );
-    return total === 0 ? 0 : Math.round((done / total) * 100);
+    return total ? Math.round((completed / total) * 100) : 0;
   };
 
-  const progressPercent = course.totalHours && course.watchedHours
-    ? Math.round((course.watchedHours / course.totalHours) * 100)
-    : 0;
-
-  const getProgressColor = (percent) => {
-    if (percent < 60) return "text-red-500 border-red-500";
-    if (percent < 85) return "text-yellow-400 border-yellow-400";
-    return "text-green-400 border-green-400";
-  };
-
-  const activeMod = course.modules?.[activeModule];
+  const activeMod = course?.modules?.[activeModule];
   const selectedTopicObj = activeMod?.topics?.[selectedTopic];
   const selectedContentObj = selectedTopicObj?.contents?.[selectedContent];
   const blobUrl = useBlobUrl(selectedContentObj?.url);
 
+  if (!course) return <div className="p-6">Course not found.</div>;
+
   return (
     <div className="bg-gray-100 min-h-screen">
-      <div className="bg-[#001932] text-white py-6">
-        <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      <div className="bg-[#001932] text-white py-8">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <h1 className="text-2xl font-bold">{course.title}</h1>
-            <p className="text-sm text-gray-300">{course.level} • {course.duration}</p>
+            <span className="bg-gray-700 px-3 py-1 text-xs rounded-full mb-2 inline-block">{course.badge}</span>
+            <h1 className="text-3xl font-bold">{course.title}</h1>
+            <p className="mt-2 text-gray-200">{course.description || "No description available."}</p>
+            <div className="flex gap-4 flex-wrap mt-4 text-sm text-gray-300">
+              <span>⏱️ {Math.round(course.totalHours || 0)}+ hours</span>
+              <span>📝 {totalTests} Assessments</span>
+              <span>📎 {totalAssignments} Assignments</span>
+              <span>❓ {totalQuestions} Questions</span>
+              <span>⚡ {course.level || "Beginner"}</span>
+            </div>
           </div>
           <div className="text-center">
-            <div className={`w-20 h-20 rounded-full border-[6px] flex items-center justify-center ${getProgressColor(progressPercent)}`}>
-              <div className="text-lg font-bold">{progressPercent}%</div>
+            <p className="text-sm text-gray-400 mb-1">Your Performance</p>
+            <div className={`w-24 h-24 rounded-full border-[6px] flex items-center justify-center ${getProgressColor(progressPercent)}`}>
+              <div className="text-lg font-bold">
+                {progressPercent}%
+                <p className="text-xs font-normal text-white">Completed</p>
+              </div>
             </div>
-            <p className="text-xs">Progress</p>
           </div>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto p-6 flex flex-col lg:flex-row gap-6">
-        <div className="w-full lg:w-1/3">
-          {course.modules.map((mod, mIdx) => (
+      <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col lg:flex-row gap-6">
+        <div className="w-full lg:w-1/3 bg-white border rounded p-4">
+          <h2 className="text-xl font-bold mb-4">Modules</h2>
+          {course.modules?.map((mod, mIdx) => (
             <div key={mIdx} className="mb-2">
               <button
-                className={`w-full flex justify-between items-center p-3 border rounded ${activeModule === mIdx ? "bg-blue-100" : "bg-white"}`}
+                className={`w-full flex justify-between items-center text-left font-medium py-2 px-3 rounded ${
+                  activeModule === mIdx ? "bg-blue-100 text-[#0e3477]" : "bg-gray-100 hover:bg-gray-200"
+                }`}
                 onClick={() => {
                   setActiveModule(mIdx);
                   setOpenTopic({});
@@ -112,35 +137,57 @@ const CourseResumePage = () => {
                   setSelectedContent(null);
                 }}
               >
-                <span>{mod.moduleTitle}</span>
-                <span className="text-xs text-gray-500">{getModuleProgress(mIdx)}%</span>
+                <span>
+                  {mod.moduleTitle}
+                  {isModuleCompleted(mIdx) && <FaCheckCircle className="inline ml-1 text-green-500" />}
+                </span>
+                <span className="text-xs text-gray-600 flex items-center gap-2">
+                  <span className="w-20 h-2 bg-gray-300 rounded overflow-hidden">
+                    <span className="block h-2 bg-blue-500" style={{ width: `${getModuleProgress(mIdx)}%` }}></span>
+                  </span>
+                  {getModuleProgress(mIdx)}%
+                  {activeModule === mIdx ? <HiChevronUp /> : <HiChevronDown />}
+                </span>
               </button>
 
-              {activeModule === mIdx && mod.topics.map((topic, tIdx) => (
-                <div key={tIdx} className="pl-4 mt-1">
+              {activeModule === mIdx && mod.topics?.map((topic, tIdx) => (
+                <div key={tIdx} className="pl-3 mt-1">
                   <button
-                    className="w-full text-left text-sm font-medium py-1"
-                    onClick={() => {
-                      setOpenTopic((prev) => ({ ...prev, [tIdx]: !prev[tIdx] }));
-                      setSelectedTopic(tIdx);
-                      setSelectedContent(0);
-                    }}
+                    onClick={() => setOpenTopic((prev) => ({ ...prev, [tIdx]: !prev[tIdx] }))}
+                    className={`w-full flex justify-between items-center py-1 px-2 rounded ${
+                      openTopic[tIdx] ? "bg-blue-50 text-blue-800 font-semibold" : "hover:bg-gray-100"
+                    }`}
                   >
-                    {topic.topicTitle}
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedTopic(tIdx);
+                        setSelectedContent(0);
+                      }}
+                      className={`cursor-pointer flex-1 text-left ${
+                        selectedTopic === tIdx ? "underline font-bold" : ""
+                      }`}
+                    >
+                      {topic.topicTitle}
+                    </span>
+                    {openTopic[tIdx] ? <HiChevronUp /> : <HiChevronDown />}
                   </button>
+
                   {openTopic[tIdx] && (
                     <ul className="pl-4">
-                      {topic.contents.map((content, cIdx) => (
+                      {topic.contents?.map((content, cIdx) => (
                         <li
                           key={cIdx}
-                          className="cursor-pointer text-xs py-1 text-gray-700 flex items-center"
-                          onClick={() => setSelectedContent(cIdx)}
+                          className={`flex items-center text-xs py-1 cursor-pointer ${
+                            selectedTopic === tIdx && selectedContent === cIdx ? "text-blue-700 font-semibold" : "text-gray-600"
+                          }`}
+                          onClick={() => {
+                            setSelectedTopic(tIdx);
+                            setSelectedContent(cIdx);
+                          }}
                         >
                           {getContentIcon(content.type)}
                           {content.name}
-                          {isContentCompleted(mIdx, tIdx, cIdx) && (
-                            <FaCheckCircle className="ml-1 text-green-500 text-[10px]" />
-                          )}
                         </li>
                       ))}
                     </ul>
@@ -150,45 +197,66 @@ const CourseResumePage = () => {
             </div>
           ))}
         </div>
-        <div className="w-full lg:w-2/3 bg-white rounded shadow p-4">
+        <div className="w-full lg:w-2/3 bg-white p-6 shadow rounded min-h-[300px]">
           {selectedContentObj ? (
-            <>
-              <h3 className="font-semibold mb-2">{selectedContentObj.name}</h3>
-              {selectedContentObj.type === "video" && blobUrl && (
-                <video
-                  src={blobUrl}
-                  controls
-                  className="w-full rounded"
-                  onEnded={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
-                />
+            <div>
+              <h3 className="text-lg font-bold mb-2">{selectedContentObj.name}</h3>
+              {selectedContentObj.type === "test" ? (
+                selectedContentObj.isFinalTest ? (
+                  <TestPage
+                    finalTestQuestions={selectedContentObj.questions}
+                    courseTitle={course.title}
+                    isFinalTest={true}
+                  />
+                ) : (
+                  <QuizContainer
+                    quizId={`quiz-${selectedContentObj.name}`}
+                    quizName={selectedContentObj.name}
+                    testQuestions={selectedContentObj.questions}
+                    userId={user?.email || "guest"}
+                  />
+                )
+              ) : (
+                <>
+                  {selectedContentObj.type === "video" && blobUrl && (
+                    <video
+                      src={blobUrl}
+                      controls
+                      controlsList="nodownload"
+                      className="w-full rounded"
+                      onEnded={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
+                    />
+                  )}
+                  {selectedContentObj.type === "audio" && blobUrl && (
+                    <audio
+                      src={blobUrl}
+                      controls
+                      controlsList="nodownload"
+                      className="w-full rounded"
+                      onEnded={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
+                    />
+                  )}
+                  {selectedContentObj.type === "pdf" && blobUrl && (
+                    <iframe
+                      src={blobUrl}
+                      title={selectedContentObj.name}
+                      className="w-full h-[500px] border rounded"
+                      onLoad={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
+                    />
+                  )}
+                  {selectedContentObj.type === "image" && blobUrl && (
+                    <img
+                      src={blobUrl}
+                      alt={selectedContentObj.name}
+                      className="w-full rounded"
+                      onLoad={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
+                    />
+                  )}
+                </>
               )}
-              {selectedContentObj.type === "image" && blobUrl && (
-                <img
-                  src={blobUrl}
-                  alt="Preview"
-                  className="w-full rounded"
-                  onLoad={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
-                />
-              )}
-              {selectedContentObj.type === "pdf" && blobUrl && (
-                <iframe
-                  src={blobUrl}
-                  className="w-full h-[500px] border rounded"
-                  title={selectedContentObj.name}
-                  onLoad={() => markContentComplete(activeModule, selectedTopic, selectedContent)}
-                />
-              )}
-              {selectedContentObj.type === "test" && (
-                <QuizContainer
-                  quizId={`quiz-${course.courseId}-${activeModule}-${selectedTopic}-${selectedContent}`}
-                  quizName={selectedContentObj.name}
-                  testQuestions={selectedContentObj.questions}
-                  userId={user?.email || user?.id || "guest"}
-                />
-              )}
-            </>
+            </div>
           ) : (
-            <p className="text-sm text-gray-500">Select a topic and content to begin.</p>
+            <p className="text-gray-500 italic">Select a topic and content to view it.</p>
           )}
         </div>
       </div>

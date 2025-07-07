@@ -1,25 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { removeFromCart } from "../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  removeFromCart,
+  selectCartItems,
   selectCartTotalOriginal,
   selectCartTotalSale,
   selectCartDiscount,
 } from "../store/cartSlice";
 
+const CartPopup = ({ isOpen, onClose }) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems) || [];
+  const totalOriginal = useSelector(selectCartTotalOriginal);
+  const totalSale = useSelector(selectCartTotalSale);
+  const discount = useSelector(selectCartDiscount);
 
-
-const CartPopup = ({ cartItems = [], isOpen, onClose }) => {
-  if (!isOpen) return null;
-const totalOriginal = useSelector(selectCartTotalOriginal);
-const totalSale = useSelector(selectCartTotalSale);
-const discount = useSelector(selectCartDiscount);
- 
-   const dispatch = useDispatch();
   const handleRemove = (id) => {
     dispatch(removeFromCart(id));
   };
+
+  if (!isOpen) return null;
+
   return (
     <div className="absolute z-50 right-0 mt-2 w-80 bg-white shadow-xl rounded-lg border">
       <div className="max-h-64 overflow-y-auto">
@@ -47,29 +49,29 @@ const discount = useSelector(selectCartDiscount);
                   <span className="text-xs line-through text-gray-400">
                     ₹{item.price}
                   </span>
-                  <div className="text-xs text-[#0e3477] space-x-4">
-                      <button
-                        className="hover:underline"
-                        onClick={() => handleRemove(item.id)}
-                      >
-                        Remove
-                      </button>
-                    </div>
+                </div>
+                <div className="text-xs text-[#0e3477] mt-1">
+                  <button
+                    className="hover:underline"
+                    onClick={() => handleRemove(item.id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             </div>
           ))
         )}
       </div>
+
       {cartItems.length > 0 && (
         <div className="px-4 py-3 flex justify-between items-center border-t">
           <div>
-            <span className="font-semibold text-black">
-              Total: ₹{totalSale}
-            </span>
-            <span className="text-xs text-gray-400 ml-2 line-through">
-              ₹{totalOriginal}
-            </span>
+            <span className="font-semibold text-black">Total: ₹{totalSale}</span>
+            <span className="text-xs text-gray-400 ml-2 line-through">₹{totalOriginal}</span>
+            {discount > 0 && (
+              <span className="text-xs text-green-600 ml-2">({discount}% OFF)</span>
+            )}
           </div>
           <Link
             to="/cart"

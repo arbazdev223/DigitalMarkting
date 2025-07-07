@@ -52,27 +52,28 @@ const Sidebar = ({
 
   return (
     <aside className="space-y-10 sticky top-20 h-fit">
-      {displayedPosts.length > 0 && (
-        <div>
-          <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">
-            Latest Posts
-          </h3>
-          <div className="space-y-4">
-            {displayedPosts.map((item) => (
-              <div
-                key={item._id}
-                className="border-b pb-3 cursor-pointer hover:text-[#0e3477]"
-                onClick={() => navigate(`/blog/${item._id}`)}
-              >
-                <h4 className="font-bold text-gray-800">{item.title}</h4>
-                <p className="text-sm text-gray-600">
-                  {item.excerpt?.slice(0, 60)}...
-                </p>
-              </div>
-            ))}
-          </div>
+  {displayedPosts.length > 0 ? (
+  <div>
+    <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">Latest Posts</h3>
+    <div className="space-y-4">
+      {displayedPosts.map((item) => (
+        <div
+          key={item._id}
+          className="border-b pb-3 cursor-pointer hover:text-[#0e3477]"
+          onClick={() => navigate(`/blog/${item._id}`)}
+        >
+          <h4 className="font-bold text-gray-800">{item.title}</h4>
+          <p className="text-sm text-gray-600">
+            {item.excerpt?.slice(0, 60)}...
+          </p>
         </div>
-      )}
+      ))}
+    </div>
+  </div>
+) : (
+  <p className="text-gray-500">Loading recent posts...</p>
+)}
+
 
       <div className="bg-[#0e3477] text-white p-6 rounded-lg shadow-lg text-center">
         <h4 className="text-lg font-semibold mb-2">{bannerTitle}</h4>

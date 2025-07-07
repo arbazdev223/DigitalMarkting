@@ -27,6 +27,7 @@ import CertificatePage from "./pages/CertificatePage";
 import { loadUser } from "./store/authSlice";
 import { fetchCourses } from "./store/courseSlice"; 
 
+
 const App = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, user, status } = useSelector((state) => state.auth);
@@ -64,11 +65,12 @@ const App = () => {
         <Route path="/blog/:id" element={<BlogDetails />} />
         <Route path="/course/:courseId" element={<CourseDetails />} />
         <Route path="/service/:id" element={<ServiceDetailPage />} />
-        <Route path="/courseStudent/:id" element={<CourseResumePage />} />
+        <Route path="/courseStudent/:courseId" element={<CourseResumePage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/certificate" element={<CertificatePage />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+
         <Route
           path="/auth"
           element={

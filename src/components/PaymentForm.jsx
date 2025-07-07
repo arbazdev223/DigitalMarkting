@@ -1,116 +1,84 @@
-import React from "react";
-import { CheckCircle } from "lucide-react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "../config";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPaymentsByUser } from "../store/paymentSlice";
 
 const PaymentForm = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const cart = useSelector((state) => state.cart.cart);
-  const totalPrice = useSelector((state) => state.cart.totalPrice); // or compute total
+  const pastPayments = useSelector((state) => state.payment.pastPayments);
+  const loading = useSelector((state) => state.payment.fetchStatus === "loading");
 
-  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      if (window.Razorpay) {
-        resolve(true);
-        return;
-      }
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
-  const handlePayment = async () => {
-    const res = await loadRazorpayScript();
-    if (!res) {
-      alert("Failed to load payment SDK");
-      return;
+  useEffect(() => {
+    if (user?._id) {
+      dispatch(fetchPaymentsByUser(user._id));
     }
+  }, [dispatch, user]);
 
-    try {
-      const orderRes = await axiosInstance.post("/payment/create-order", {
-        amount: totalPrice * 100, 
-      });
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCourses = pastPayments.flatMap(p => 
+    p.courses.map(course => ({
+      ...course,
+      paymentMethod: p.paymentMethod,
+      orderId: p.orderId,
+    }))
+  ).slice(startIndex, startIndex + itemsPerPage);
 
-      const { order } = orderRes.data;
-
-      const options = {
-        key: "YOUR_RAZORPAY_KEY_ID",
-        amount: order.amount,
-        currency: order.currency,
-        name: "Your App / Company Name",
-        description: "Course Payment",
-        order_id: order.id,
-        handler: function (response) {
-
-          console.log("Payment success:", response);
-          navigate("/profile");
-        },
-        prefill: {
-          name: user?.name || "",
-          email: user?.email || "",
-        },
-        theme: {
-          color: "#0e3477",
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      console.error(err);
-      alert("Payment failed");
-    }
-  };
+  const totalCourses = pastPayments.reduce((acc, p) => acc + p.courses.length, 0);
+  const totalPages = Math.ceil(totalCourses / itemsPerPage);
 
   return (
-    <div className="space-y-4">
-      {user && (
-        <h4 className="text-sm sm:text-md flex items-center space-x-2 border-t pt-4 font-medium text-[#444444]">
-          Account Details:
-          <span className="text-xs text-gray-600">({user.email})</span>
-          <CheckCircle className="text-green-500 w-4 h-4" />
-        </h4>
-      )}
-      <h2 className="text-xl font-semibold text-[#0e3477] border-t pt-4">
-        Select Payment Method
-      </h2>
-      <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="country" className="block mb-1 text-sm font-medium text-[#444444]">
-            Country
-          </label>
-          <input
-            id="country"
-            type="text"
-            placeholder="Country"
-            className="w-full md:w-[80%] px-4 py-2 border rounded-md focus:outline-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="state" className="block mb-1 text-sm font-medium text-[#444444]">
-            State
-          </label>
-          <input
-            id="state"
-            type="text"
-            placeholder="State"
-            className="w-full md:w-[80%] px-4 py-2 border rounded-md focus:outline-none"
-          />
-        </div>
-      </form>
-      {user && cart.length > 0 && (
-        <button
-          onClick={handlePayment}
-          className="mt-4 bg-[#0e3477] text-white px-6 py-2 rounded hover:bg-[#092653]"
-        >
-          Pay ₹{totalPrice}
-        </button>
+    <div className="mt-10 p-4 border rounded shadow bg-white">
+      {loading ? (
+        <p>Loading payment history...</p>
+      ) : currentCourses.length === 0 ? (
+        <p>No purchases found.</p>
+      ) : (
+        <>
+          <table className="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr className="bg-[#f1f5f9] text-[#0e3477]">
+                <th className="p-2 border">S.No.</th>
+                <th className="p-2 border">Image</th>
+                <th className="p-2 border">Title</th>
+                <th className="p-2 border">Amount</th>
+                <th className="p-2 border">Method</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentCourses.map((course, index) => (
+                <tr key={index} className="hover:bg-gray-50">
+                  <td className="p-2 border">{startIndex + index + 1}</td>
+                  <td className="p-2 border">
+                    <img src={course.image} alt={course.title} className="w-14 h-14 object-cover rounded" />
+                  </td>
+                  <td className="p-2 border">{course.title}</td>
+                  <td className="p-2 border">₹{course.price}</td>
+                  <td className="p-2 border capitalize">{course.paymentMethod}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center mt-4 gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+                <button
+                  key={num}
+                  onClick={() => setCurrentPage(num)}
+                  className={`px-3 py-1 rounded border ${
+                    currentPage === num
+                      ? "bg-[#0e3477] text-white"
+                      : "bg-white text-[#0e3477] border-[#0e3477]"
+                  }`}
+                >
+                  {num}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

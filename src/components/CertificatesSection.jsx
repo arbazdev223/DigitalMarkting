@@ -40,7 +40,7 @@ const CertificatesSection = () => {
   const visibleSlides = getVisibleCertificates();
 
   return (
-    <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-16 py-16">
+    <section className="max-w-6xl  mx-auto px-4 sm:px-6 lg:px-16 py-16">
       <h2 className="text-3xl md:text-5xl font-bold text-center text-gray-800 font-opens mb-12">
         Student Certificates
       </h2>

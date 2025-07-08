@@ -79,6 +79,7 @@ export const updateUser = createAsyncThunk(
       const res = await axiosInstance.put("/user/update-profile", allowedData, {
         withCredentials: true,
       });
+
       if (res.data.success && res.data.user) {
         return res.data.user;
       }
@@ -88,6 +89,7 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
 
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
@@ -152,11 +154,19 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.user = null;
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.status = "succeeded";
-        state.error = null;
-      })
+    .addCase(updateUser.pending, (state) => {
+  state.status = "loading";
+  state.error = null;
+})
+.addCase(updateUser.fulfilled, (state, action) => {
+  state.user = action.payload;
+  state.status = "succeeded";
+  state.error = null;
+})
+.addCase(updateUser.rejected, (state, action) => {
+  state.status = "failed";
+  state.error = action.payload || "Update failed";
+})
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isLoggedIn = false;

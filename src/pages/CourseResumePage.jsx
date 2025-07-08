@@ -335,7 +335,7 @@ const CourseResumePage = () => {
                     <iframe
                       src={blobUrl}
                       title={selectedContentObj.name}
-                      className="w-full h-[500px] border rounded"
+                      className="w-full h-[500px]  border rounded"
                       onLoad={() =>
                         markContentComplete(
                           activeModule,

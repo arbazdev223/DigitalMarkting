@@ -103,7 +103,11 @@ const CheckoutPage = () => {
             amountPaid: verifyRes?.amountPaid,
             courses: verifyRes?.courses, 
           });
-
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith("rzp_")) {
+      localStorage.removeItem(key);
+    }
+  });
           setModalVisible(true);
           dispatch(resetPaymentState());
           dispatch(clearCart());

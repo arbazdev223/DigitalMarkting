@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../config";
 
-// Create payment order
+// Create Razorpay order
 export const createPaymentOrder = createAsyncThunk(
   "payment/createPaymentOrder",
   async ({ amount, userId, cartItems }, { rejectWithValue }) => {
@@ -9,20 +9,20 @@ export const createPaymentOrder = createAsyncThunk(
       const res = await axiosInstance.post("/payment/create-order", {
         amount,
         userId,
-        cartItems, // ✅ cartItems must include image
+        cartItems,
       });
-      return res.data; // includes orderId, amount, currency
+      return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Order creation failed");
     }
   }
 );
 
-// Verify payment
+// Verify Razorpay payment
 export const verifyPayment = createAsyncThunk(
   "payment/verifyPayment",
   async (
-    { razorpay_order_id, razorpay_payment_id, razorpay_signature },
+    { razorpay_order_id, razorpay_payment_id, razorpay_signature, amountPaid, userId, cartItems },
     { rejectWithValue }
   ) => {
     try {
@@ -30,22 +30,24 @@ export const verifyPayment = createAsyncThunk(
         razorpay_order_id,
         razorpay_payment_id,
         razorpay_signature,
+        amountPaid,
+        userId,
+        cartItems,
       });
-
-      return res.data.paymentDetails; // ✅ contains image in each course
+      return res.data.paymentDetails;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Verification failed");
     }
   }
 );
 
-// Fetch past payments for profile
+// Get past payments by user ID
 export const fetchPaymentsByUser = createAsyncThunk(
   "payment/fetchPaymentsByUser",
   async (userId, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get(`/payment/user/${userId}`);
-      return res.data.payments; // ✅ contains image in each course
+      return res.data.payments;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Fetch payments failed");
     }
@@ -56,6 +58,7 @@ const initialState = {
   order: null,
   verificationResult: null,
   pastPayments: [],
+  orderSummary: null,
 
   orderStatus: "idle",
   verificationStatus: "idle",
@@ -71,45 +74,51 @@ const paymentSlice = createSlice({
   initialState,
   reducers: {
     resetPaymentState: () => initialState,
+    setOrderSummary: (state, action) => {
+      state.orderSummary = action.payload;
+    },
+    clearOrderSummary: (state) => {
+      state.orderSummary = null;
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Order
+      // Create Order
       .addCase(createPaymentOrder.pending, (state) => {
         state.orderStatus = "loading";
         state.orderError = null;
       })
       .addCase(createPaymentOrder.fulfilled, (state, action) => {
         state.orderStatus = "succeeded";
-        state.order = action.payload; // contains orderId, amount, etc.
+        state.order = action.payload;
       })
       .addCase(createPaymentOrder.rejected, (state, action) => {
         state.orderStatus = "failed";
         state.orderError = action.payload;
       })
 
-      // Verification
+      // Verify Payment
       .addCase(verifyPayment.pending, (state) => {
         state.verificationStatus = "loading";
         state.verificationError = null;
       })
       .addCase(verifyPayment.fulfilled, (state, action) => {
         state.verificationStatus = "succeeded";
-        state.verificationResult = action.payload; // ✅ includes image in course list
+        state.verificationResult = action.payload;
       })
       .addCase(verifyPayment.rejected, (state, action) => {
         state.verificationStatus = "failed";
         state.verificationError = action.payload;
       })
 
-      // Fetch past payments
+      // Fetch Past Payments
       .addCase(fetchPaymentsByUser.pending, (state) => {
         state.fetchStatus = "loading";
         state.fetchError = null;
       })
       .addCase(fetchPaymentsByUser.fulfilled, (state, action) => {
         state.fetchStatus = "succeeded";
-        state.pastPayments = action.payload; 
+        state.pastPayments = action.payload;
       })
       .addCase(fetchPaymentsByUser.rejected, (state, action) => {
         state.fetchStatus = "failed";
@@ -118,5 +127,10 @@ const paymentSlice = createSlice({
   },
 });
 
-export const { resetPaymentState } = paymentSlice.actions;
+export const {
+  resetPaymentState,
+  setOrderSummary,
+  clearOrderSummary,
+} = paymentSlice.actions;
+
 export default paymentSlice.reducer;

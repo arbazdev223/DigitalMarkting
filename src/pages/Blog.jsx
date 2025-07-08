@@ -7,7 +7,6 @@ import { fetchBlogs, clearBlogError, setBlogStatusIdle } from "../store/blogSlic
 const Blog = () => {
   const dispatch = useDispatch();
   const { blogs, status, error } = useSelector((state) => state.blog);
-
   useEffect(() => {
     dispatch(fetchBlogs());
 

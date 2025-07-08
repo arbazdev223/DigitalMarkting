@@ -6,7 +6,7 @@ const ServicesSection = () => {
   const lastService = services[services.length - 1];
 
   return (
-    <section className="bg-[#3646a3] py-12 px-4">
+    <section className="bg-primary py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-4 gap-6 items-start">
           <div className="md:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

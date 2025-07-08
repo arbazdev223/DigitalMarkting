@@ -83,7 +83,7 @@ const CourseCard = ({ courseId }) => {
           {percent > 0 ? (
             <span className="text-green-600 font-semibold text-sm">Resume Learning →</span>
           ) : (
-            <span className="bg-blue-600 text-white px-4 py-1 rounded text-sm">
+            <span className="bg-primary text-white px-4 py-1 rounded text-sm">
               Get Started
             </span>
           )}

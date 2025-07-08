@@ -15,7 +15,7 @@ const WhyChooseUs = () => {
         <div>
           <h2 className="text-3xl md:text-5xl font-bold font-opens text-[#444444] mb-4">
             {whyChooseData.heading}{" "}
-            <span className="text-[#0e3477]">{whyChooseData.highlight}</span>
+            <span className="text-primary">{whyChooseData.highlight}</span>
           </h2>
           <p className="text-gray-700 mb-6 font-nunito">
             {whyChooseData.paragraph}
@@ -23,7 +23,7 @@ const WhyChooseUs = () => {
           <ul className="space-y-3">
             {features12.map((item, index) => (
               <li key={index} className="flex items-start gap-3">
-                <FaCheckCircle className="text-[#0e3477] mt-1 text-lg" />
+                <FaCheckCircle className="text-primary mt-1 text-lg" />
                 <span className="text-gray-800 font-medium">{item}</span>
               </li>
             ))}

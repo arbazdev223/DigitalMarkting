@@ -4,7 +4,7 @@ import { FaPaperPlane } from "react-icons/fa";
 
 const ContactBanner = () => {
   return (
-    <section className="bg-[#0e3477] text-white py-16">
+    <section className="bg-primary text-white py-16">
       <div className="max-w-6xl w-full mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 font-opensans">

@@ -3,7 +3,7 @@ import { logos } from "../../data";
 
 const OurClients = () => {
   return (
-    <div className="py-16 bg-[#0e3477]">
+    <div className="py-16 bg-primary">
       <div className="text-center mb-10 px-4">
         <h2 className="text-4xl md:text-5xl font-extrabold text-white font-opens">
           OUR CLIENTS

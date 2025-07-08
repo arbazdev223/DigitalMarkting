@@ -29,13 +29,13 @@ const TestimonialSlider = () => {
           <h3 className="text-2xl md:text-3xl font-bold text-black uppercase tracking-wide mb-4">
             What our valued clients are saying about us
           </h3>
-          <p className="text-lg font-semibold mb-2 text-[#0e3477]">
+          <p className="text-lg font-semibold mb-2 text-primary">
             “{testimonials[currentIndex].quoteTitle}”
           </p>
           <p className="text-sm lg:text-lg text-gray-600 mb-6">
             {testimonials[currentIndex].quoteText}
           </p>
-          <div className="flex justify-center md:justify-start text-[#0e3477] mb-2">
+          <div className="flex justify-center md:justify-start text-primary mb-2">
             {Array(testimonials[currentIndex].rating)
               .fill()
               .map((_, idx) => (
@@ -68,7 +68,7 @@ const TestimonialSlider = () => {
                 key={i}
                 onClick={() => setCurrentIndex(i)}
                 className={`w-4 h-4 rounded-full cursor-pointer transition ${
-                  currentIndex === i ? "bg-[#0e3477]" : "bg-gray-400"
+                  currentIndex === i ? "bg-primary" : "bg-gray-400"
                 }`}
               />
             ))}

@@ -12,7 +12,7 @@ const CourseRoadmap = () => {
           <p className="text-gray-500 mb-6 text-sm font-nunito">
             Your Roadmap to Become a Full-Stack Digital Marketer
           </p>
-          <button className="bg-[#0e3477] hover:bg-[#0e3477] text-white px-6 py-2 rounded-md text-md font-semibold w-fit">
+          <button className="bg-primary hover:bg-primary text-white px-6 py-2 rounded-md text-md font-semibold w-fit">
             Apply Now
           </button>
         </div>
@@ -22,7 +22,7 @@ const CourseRoadmap = () => {
             const isOdd = !isEven;
             
             const renderAngleIcon = () => {
-              const iconProps = "absolute text-[#0e3477] text-xl";
+              const iconProps = "absolute text-primary text-xl";
 
               switch (index) {
                 case 0: 
@@ -63,7 +63,7 @@ const CourseRoadmap = () => {
   `}
 >
   <div
-    className="absolute inset-0 rounded-[30px] pointer-events-none border-2 border-[#0e3477] border-dashed z-0"
+    className="absolute inset-0 rounded-[30px] pointer-events-none border-2 border-primary border-dashed z-0"
     style={{
       clipPath: isOdd
         ? "polygon(0% 0%, 96% 0%, -47% 173%, 100% 100%, 0% 100%, 0% 0%)"

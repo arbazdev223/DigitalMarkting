@@ -54,7 +54,7 @@ const discount = useSelector(selectCartDiscount);
                     {item.instructor}
                   </p>
                   <div className="flex items-center justify-between mt-3">
-                    <div className="text-sm text-[#0e3477] space-x-4">
+                    <div className="text-sm text-primary space-x-4">
                       <button
                         className="hover:underline"
                         onClick={() => handleRemove(item.id)}
@@ -63,7 +63,7 @@ const discount = useSelector(selectCartDiscount);
                       </button>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg font-semibold text-[#0e3477]">
+                      <p className="text-lg font-semibold text-primary">
                         ₹{item.salePrice || item.price}
                       </p>
                       <p className="line-through text-sm text-gray-500">
@@ -79,7 +79,7 @@ const discount = useSelector(selectCartDiscount);
         <div className="w-full lg:w-80 border p-5 rounded shadow-md h-[200px] flex flex-col justify-between">
           <div>
             <h2 className="text-lg font-bold mb-2">Total:</h2>
-            <p className="text-2xl font-bold text-[#0e3477]">₹{totalPrice}</p>
+            <p className="text-2xl font-bold text-primary">₹{totalPrice}</p>
             <p className="text-sm line-through text-gray-500">
               ₹{totalOriginalPrice}
             </p>
@@ -88,7 +88,7 @@ const discount = useSelector(selectCartDiscount);
 
           <div>
             <button
-              className="w-full bg-[#0e3477] hover:bg-[#0e3477] text-white py-2 rounded font-semibold mb-3 transition"
+              className="w-full bg-primary hover:bg-primary text-white py-2 rounded font-semibold mb-3 transition"
               onClick={handleCheckout}
             >
               Proceed to Checkout

@@ -45,7 +45,7 @@ const AuthFormCard = ({
         <button
           className={`w-1/2 py-2 font-semibold transition ${
             activeTab === "signup"
-              ? "text-[#0e3477] border-b-2 border-[#0e3477]"
+              ? "text-primary border-b-2 border-primary"
               : "text-gray-500"
           }`}
           onClick={() => setActiveTab("signup")}
@@ -55,7 +55,7 @@ const AuthFormCard = ({
         <button
           className={`w-1/2 py-2 font-semibold transition ${
             activeTab === "signin"
-              ? "text-[#0e3477] border-b-2 border-[#0e3477]"
+              ? "text-primary border-b-2 border-primary"
               : "text-gray-500"
           }`}
           onClick={() => setActiveTab("signin")}
@@ -64,7 +64,7 @@ const AuthFormCard = ({
         </button>
       </div>
       <div className="mb-6 text-center">
-        <h2 className="text-2xl font-semibold text-[#0e3477] font-opensans">
+        <h2 className="text-2xl font-semibold text-primary font-opensans">
           {activeTab === "signup" ? "Create an Account" : "Enter Your Details"}
         </h2>
         <p className="text-sm text-gray-500 font-nunito mt-1">
@@ -109,7 +109,7 @@ const AuthFormCard = ({
           />
           <button
             type="submit"
-            className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
+            className="w-full bg-primary text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
             disabled={status === "loading"}
           >
             {status === "loading" && currentAction === "signup"
@@ -137,7 +137,7 @@ const AuthFormCard = ({
           />
           <button
             type="submit"
-            className="w-full bg-[#0e3477] text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
+            className="w-full bg-primary text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
             disabled={status === "loading"}
           >
             {status === "loading" && currentAction === "signin"

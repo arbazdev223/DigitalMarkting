@@ -50,7 +50,7 @@ const CartPopup = ({ isOpen, onClose }) => {
                     ₹{item.price}
                   </span>
                 </div>
-                <div className="text-xs text-[#0e3477] mt-1">
+                <div className="text-xs text-primary mt-1">
                   <button
                     className="hover:underline"
                     onClick={() => handleRemove(item.id)}
@@ -75,7 +75,7 @@ const CartPopup = ({ isOpen, onClose }) => {
           </div>
           <Link
             to="/cart"
-            className="bg-[#0e3477] hover:bg-[#092653] text-white text-xs px-3 py-2 rounded font-semibold"
+            className="bg-primary hover:bg-[#092653] text-white text-xs px-3 py-2 rounded font-semibold"
             onClick={onClose}
           >
             Go to Cart

@@ -6,7 +6,7 @@ const StrategyComparison = () => {
   return (
     <section className="bg-white py-16 px-4">
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#0e3477]">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary">
           Why You Need to Start With Strategy
         </h2>
         <p className="text-gray-600 text-lg mt-2">

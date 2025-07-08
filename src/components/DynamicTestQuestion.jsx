@@ -26,7 +26,7 @@ const DynamicTestQuestion = ({
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-[#0e3477]">
+        <h2 className="text-xl font-bold text-primary">
           Question {currentQuestionIndex + 1} of {testQuestions.length}
         </h2>
         <div className="text-sm font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded">
@@ -46,7 +46,7 @@ const DynamicTestQuestion = ({
                 key={idx}
                 className={`block border px-4 py-2 rounded cursor-pointer ${
                   selected
-                    ? "bg-[#e0ebff] border-[#0e3477]"
+                    ? "bg-[#e0ebff] border-primary"
                     : "hover:bg-gray-50 border-gray-300"
                 }`}
               >

@@ -54,7 +54,7 @@ const ImpactCounter = ({ end, suffix, isDecimal = false }) => {
 
 const ImpactSection = () => {
   return (
-    <div className="w-full bg-[#0e3477] text-white sm:py-20 py-10 px-4 ">
+    <div className="w-full bg-primary text-white sm:py-20 py-10 px-4 ">
       <div className="max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <TypingHeading text="We Build Web Experiences That Deliver Results" speed={100} />

@@ -46,7 +46,7 @@ const HeroSection = () => {
           <span className="block">Design and Marketing</span>
           <span className="block">Campaigns</span>
         </h1>
-        <div className="flex flex-col sm:flex-col md:flex-row items-center bg-[#0e3477] rounded-[120px] overflow-hidden w-full max-w-xl h-auto md:h-56 mb-8 shadow-lg mx-auto md:mx-0">
+        <div className="flex flex-col sm:flex-col md:flex-row items-center bg-primary rounded-[120px] overflow-hidden w-full max-w-xl h-auto md:h-56 mb-8 shadow-lg mx-auto md:mx-0">
           <div className="w-full md:w-1/2 flex flex-col items-center justify-center text-center px-6 py-6">
             <p className="text-white text-5xl sm:text-6xl font-bold">
               {currentImage.stat}
@@ -72,7 +72,7 @@ const HeroSection = () => {
                 key={index}
                 onClick={() => handleDotClick(index)}
                 className={`w-4 h-4 rounded-full transition ${
-                  currentIndex === index ? "bg-[#0e3477]" : "bg-gray-400"
+                  currentIndex === index ? "bg-primary" : "bg-gray-400"
                 }`}
               ></button>
             ))}

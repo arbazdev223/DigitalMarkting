@@ -56,7 +56,7 @@ const Office = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Name"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
+              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <input
               type="text"
@@ -64,13 +64,13 @@ const Office = () => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
+              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <select
               name="course"
               value={formData.course}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
+              className="w-full border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">Course</option>
               {courseOptions.map((course, index) => (
@@ -85,7 +85,7 @@ const Office = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email Address"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
+              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <textarea
               name="message"
@@ -93,12 +93,12 @@ const Office = () => {
               onChange={handleChange}
               placeholder="Message"
               rows="4"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-[#0e3477]"
+              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <button
               type="submit"
               disabled={formSubmitStatus === "loading"}
-              className="bg-[#0076FF] hover:bg-[#0e3477] text-white font-semibold px-6 py-2 rounded-md transition w-fit ml-auto block"
+              className="bg-[#0076FF] hover:bg-primary text-white font-semibold px-6 py-2 rounded-md transition w-fit ml-auto block"
             >
               {formSubmitStatus === "loading" ? "Submitting..." : "Apply Now"}
             </button>

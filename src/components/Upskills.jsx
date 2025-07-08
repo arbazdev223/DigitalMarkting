@@ -8,7 +8,7 @@ const Upskills = () => {
         <div className="text-center mb-10">
           <h2 className="text-2xl md:text-3xl font-semibold font-opensans text-[#444444]">
             Upskill Your Career with{" "}
-            <span className="text-[#0e3477]">Digital Marketing Course</span>
+            <span className="text-primary">Digital Marketing Course</span>
           </h2>
           <p className="mt-4 text-gray-700 max-w-3xl mx-auto font-nunito">
             You can become a digital marketer & marketing specialist without leaving your job.
@@ -29,10 +29,10 @@ const Upskills = () => {
                 <div
                   className="transform transition-transform duration-500 group-hover:translate-y-10"
                 >
-                  <Icon className="text-[#0e3477] text-4xl lg:text-7xl" />
+                  <Icon className="text-primary text-4xl lg:text-7xl" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-sm lg:text-xl text-[#0e3477] font-opensans">
+                  <h3 className="font-extrabold text-sm lg:text-xl text-primary font-opensans">
                     {title}
                   </h3>
                   <p className="lg:text-md text-sm mt-1 font-semibold font-nunito text-[#444444]">

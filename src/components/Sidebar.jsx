@@ -54,12 +54,12 @@ const Sidebar = ({
     <aside className="space-y-10 sticky top-20 h-fit">
   {displayedPosts.length > 0 ? (
   <div>
-    <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">Latest Posts</h3>
+    <h3 className="text-xl font-semibold mb-4 text-primary">Latest Posts</h3>
     <div className="space-y-4">
       {displayedPosts.map((item) => (
         <div
           key={item._id}
-          className="border-b pb-3 cursor-pointer hover:text-[#0e3477]"
+          className="border-b pb-3 cursor-pointer hover:text-primary"
           onClick={() => navigate(`/blog/${item._id}`)}
         >
           <h4 className="font-bold text-gray-800">{item.title}</h4>
@@ -75,14 +75,14 @@ const Sidebar = ({
 )}
 
 
-      <div className="bg-[#0e3477] text-white p-6 rounded-lg shadow-lg text-center">
+      <div className="bg-primary text-white p-6 rounded-lg shadow-lg text-center">
         <h4 className="text-lg font-semibold mb-2">{bannerTitle}</h4>
         <p className="text-sm">{bannerDesc}</p>
       </div>
 
       {showForm && (
         <div className="bg-white p-6 rounded-lg shadow border">
-          <h4 className="text-lg font-semibold mb-4 text-[#0e3477]">
+          <h4 className="text-lg font-semibold mb-4 text-primary">
             Get in Touch
           </h4>
           <form className="space-y-3" onSubmit={handleSubmit}>
@@ -138,7 +138,7 @@ const Sidebar = ({
 
             <button
               type="submit"
-              className="bg-[#0e3477] text-white px-4 py-2 rounded hover:bg-[#092759]"
+              className="bg-primary text-white px-4 py-2 rounded hover:bg-[#092759]"
               disabled={formSubmitStatus === "loading"}
             >
               {formSubmitStatus === "loading" ? "Submitting..." : "Submit"}

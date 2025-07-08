@@ -3,7 +3,7 @@ import { FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 
 const TopBar = () => {
   return (
-    <div className="bg-[#0e3477] w-full overflow-hidden">
+    <div className="bg-primary w-full overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-sm text-white">
         <a
           href="tel:+919876543210"

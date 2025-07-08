@@ -3,7 +3,7 @@ import { topCompanies } from "../../data";
 
 const TopCompanies = () => {
   return (
-    <section className="bg-[#001a60] py-6 overflow-hidden">
+    <section className="bg-primary py-6 overflow-hidden">
       <div className="text-center text-white font-medium mb-6 text-sm md:text-xl">
         Our learners work at top companies
       </div>

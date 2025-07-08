@@ -7,7 +7,7 @@ const InnerFaqItem = ({ question, answer }) => {
     <div className="border border-gray-200 rounded p-3">
       <button
         onClick={() => setOpen(!open)}
-        className="flex justify-between w-full text-left text-sm text-[#0e3477] font-semibold"
+        className="flex justify-between w-full text-left text-sm text-primary font-semibold"
       >
         <span>{question}</span>
         <FaChevronRight
@@ -33,7 +33,7 @@ const FaqItem = ({ title, faqs = [], content = [], question, answer }) => {
     <div className="border-b border-gray-300">
       <button
         onClick={toggle}
-        className="flex justify-between items-center w-full py-3 text-left text-[#0e3477] font-semibold"
+        className="flex justify-between items-center w-full py-3 text-left text-primary font-semibold"
       >
         <span>{title || question}</span>
         <FaChevronRight

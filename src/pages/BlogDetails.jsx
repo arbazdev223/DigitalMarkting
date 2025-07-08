@@ -81,7 +81,7 @@ const BlogDetails = () => {
             alt={selectedBlog.title}
             className="w-full h-[400px] object-cover rounded-lg mb-6"
           />
-          <h1 className="text-3xl md:text-4xl font-bold text-[#0e3477] mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-2">
             {selectedBlog.title}
           </h1>
           <p className="text-sm text-gray-500 mb-4">
@@ -95,12 +95,12 @@ const BlogDetails = () => {
 
           {/* 💬 Comments */}
           <div className="border-t pt-6">
-            <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">Comments</h3>
+            <h3 className="text-xl font-semibold mb-4 text-primary">Comments</h3>
             {selectedBlog.comments?.length > 0 ? (
               <div className="space-y-4 mb-6">
                 {selectedBlog.comments.map((c, idx) => (
                   <div key={idx} className="border rounded p-3">
-                    <p className="text-sm font-semibold text-[#0e3477]">{c.name}</p>
+                    <p className="text-sm font-semibold text-primary">{c.name}</p>
                     <p className="text-sm text-gray-700 mt-1">{c.text}</p>
                     {c.rating && (
                       <div className="flex items-center mt-1">
@@ -118,7 +118,7 @@ const BlogDetails = () => {
             ) : (
               <p className="text-gray-600 mb-6">No comments yet. Be the first!</p>
             )}
-            <h3 className="text-xl font-semibold mb-4 text-[#0e3477]">Leave a Comment</h3>
+            <h3 className="text-xl font-semibold mb-4 text-primary">Leave a Comment</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLoggedIn && (
                 <>
@@ -172,7 +172,7 @@ const BlogDetails = () => {
 
               <button
                 type="submit"
-                className="bg-[#0e3477] text-white px-6 py-2 rounded hover:bg-[#092759]"
+                className="bg-primary text-white px-6 py-2 rounded hover:bg-[#092759]"
               >
                 Post Comment
               </button>

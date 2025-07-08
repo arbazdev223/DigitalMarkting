@@ -30,7 +30,7 @@ const ServiceDetailPage = () => {
           <FeatureBlock item={item1} />
         </div>
         <div className="max-w-6xl mx-auto text-center mt-10">
-          <h2 className="text-2xl text-[#444444] font-opens font-extrabold md:text-3xl font-bold text-[#0e3477] mb-6">
+          <h2 className="text-2xl text-[#444444] font-opens font-extrabold md:text-3xl font-bold text-primary mb-6">
             {item1.heading}
           </h2>
           <p className="text-gray-600 text-base md:text-lg mb-4">
@@ -57,8 +57,8 @@ const ServiceDetailPage = () => {
             key={key}
             className={`px-4 py-2 rounded font-semibold border ${
               selectedFaqKey === key
-                ? "bg-[#0e3477] text-white"
-                : "bg-white text-[#0e3477] border-[#0e3477]"
+                ? "bg-primary text-white"
+                : "bg-white text-primary border-primary"
             } transition`}
             onClick={() => setSelectedFaqKey(key)}
           >

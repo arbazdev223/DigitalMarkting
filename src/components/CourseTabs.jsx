@@ -15,7 +15,7 @@ import FormControl from "../components/FormControl";
 const CourseTabs = ({
   heading = (
     <>
-      Choose the Course that <span className="text-[#0e3477]">Interests you the Most</span>
+      Choose the Course that <span className="text-primary">Interests you the Most</span>
     </>
   ),
   paragraph = `Choose the right path tailored to your learning journey or team needs. Whether you're a student or a business, our programs are crafted to boost your growth with practical skills.`,
@@ -69,7 +69,7 @@ const CourseTabs = ({
   return (
     <div className="py-10 px-4">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-[24px] sm:text-[30px] lg:text-[36px] font-bold mb-4 text-[#333] hover:text-[#0e3477] transition">{heading}</h2>
+        <h2 className="text-[24px] sm:text-[30px] lg:text-[36px] font-bold mb-4 text-[#333] hover:text-primary transition">{heading}</h2>
         <p className="text-gray-600 text-sm sm:text-[15px] mb-8 max-w-3xl mx-auto">{paragraph}</p>
       </div>
 
@@ -85,8 +85,8 @@ const CourseTabs = ({
               }}
               className={`px-5 py-2 text-sm font-semibold border ${
                 userType === type
-                  ? "bg-[#0e3477] text-white"
-                  : "bg-white text-[#0e3477] border-[#0e3477]"
+                  ? "bg-primary text-white"
+                  : "bg-white text-primary border-primary"
               }`}
             >
               {type}
@@ -104,7 +104,7 @@ const CourseTabs = ({
                 >
                   <img src={course.image} alt={course.title} className="w-full h-48 object-cover hover:scale-105 transition-transform" />
                   <div className="p-4">
-                    <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">{course.title}</h3>
+                    <h3 className="font-bold text-lg text-center text-primary mb-2">{course.title}</h3>
                     <hr className="mb-3" />
                     <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
                       {course.includes.map((point, i) => <li key={i}>{point}</li>)}
@@ -113,7 +113,7 @@ const CourseTabs = ({
                       {course.downloadBrochure && (
                         <button
                           onClick={() => handleBrochureClick(course)}
-                          className="flex-1 min-w-[140px] max-w-[180px] flex items-center justify-center bg-gray-100 text-[#0e3477] px-2 py-2 text-xs font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white"
+                          className="flex-1 min-w-[140px] max-w-[180px] flex items-center justify-center bg-gray-100 text-primary px-2 py-2 text-xs font-semibold rounded border border-primary hover:bg-primary hover:text-white"
                         >
                           <MdDownload className="mr-1" /> <span>Download Brochure</span>
                         </button>
@@ -123,7 +123,7 @@ const CourseTabs = ({
                           dispatch(clearFormError());
                           setEnquirePopup({ open: true, course });
                         }}
-                        className="flex-1 min-w-[140px] max-w-[180px] bg-[#0e3477] text-white px-2 py-2 text-xs font-semibold rounded"
+                        className="flex-1 min-w-[140px] max-w-[180px] bg-primary text-white px-2 py-2 text-xs font-semibold rounded"
                       >
                         Enquire
                       </button>
@@ -138,14 +138,14 @@ const CourseTabs = ({
                 >
                   <img src={course.image} alt={course.title} className="w-full h-48 object-cover hover:scale-105 transition-transform" />
                   <div className="p-4">
-                    <h3 className="font-bold text-lg text-center text-[#0e3477] mb-2">{course.title}</h3>
+                    <h3 className="font-bold text-lg text-center text-primary mb-2">{course.title}</h3>
                     <hr className="mb-3" />
                     <ul className="text-sm text-gray-600 mb-4 space-y-1 list-disc list-inside">
                       {course.includes.map((point, i) => <li key={i}>{point}</li>)}
                     </ul>
                     <div className="flex gap-3">
-                      <span className="flex-1 text-center bg-[#0e3477] text-white px-2 py-2 text-xs font-semibold rounded">View</span>
-                      <div className="flex-1 flex items-center justify-center bg-gray-100 text-[#0e3477] px-2 py-2 text-xs font-semibold rounded border border-[#0e3477] hover:bg-[#0e3477] hover:text-white">
+                      <span className="flex-1 text-center bg-primary text-white px-2 py-2 text-xs font-semibold rounded">View</span>
+                      <div className="flex-1 flex items-center justify-center bg-gray-100 text-primary px-2 py-2 text-xs font-semibold rounded border border-primary hover:bg-primary hover:text-white">
                         <span>₹{course.salePrice}</span>
                         {course.price && <span className="line-through ml-1">₹{course.price}</span>}
                       </div>
@@ -161,7 +161,7 @@ const CourseTabs = ({
 
         {label && visibleCount < filteredCourses.length && (
           <div className="mt-10 text-center">
-            <button onClick={handleLoadMore} className="bg-[#0e3477] text-white text-sm font-semibold px-6 py-3 rounded hover:bg-[#092653]">
+            <button onClick={handleLoadMore} className="bg-primary text-white text-sm font-semibold px-6 py-3 rounded hover:bg-[#092653]">
               {label}
             </button>
           </div>
@@ -170,7 +170,7 @@ const CourseTabs = ({
 
       {popupForm.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="bg-[#0e3477] text-white relative w-full max-w-md rounded-xl overflow-hidden shadow-xl">
+          <div className="bg-primary text-white relative w-full max-w-md rounded-xl overflow-hidden shadow-xl">
             <div className="p-6 sm:p-8 text-center">
               <button onClick={() => { dispatch(clearFormError()); setPopupForm({ open: false, course: null }); }} className="absolute top-3 right-3 text-lg font-bold hover:text-red-200">✕</button>
               {popupForm.course?.title && <p className="text-sm mb-4">For: <span className="font-semibold">{popupForm.course.title}</span></p>}
@@ -199,15 +199,15 @@ const CourseTabs = ({
 
       {enquirePopup.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="bg-[#0e3477] text-white relative w-full max-w-md rounded-xl overflow-hidden shadow-xl">
+          <div className="bg-primary text-white relative w-full max-w-md rounded-xl overflow-hidden shadow-xl">
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/20 bg-[#092653]">
               <h3 className="text-lg font-bold">{enquirePopup.course?.title || "Enquire Now"}</h3>
               <button onClick={() => { dispatch(clearFormError()); setEnquirePopup({ open: false, course: null }); }} className="text-lg font-bold hover:text-red-200">✕</button>
             </div>
             <div className="p-6 sm:p-8 text-center">
               <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mt-4">
-                <a href="tel:+918800505151" className="flex items-center justify-center gap-2 bg-white text-[#0e3477] px-4 py-2 rounded font-semibold text-sm hover:bg-gray-200 w-full sm:w-auto"><FiPhoneCall /> +91-8800505151</a>
-                <a href="mailto:info@didm.in" className="flex items-center justify-center gap-2 bg-white text-[#0e3477] px-4 py-2 rounded font-semibold text-sm hover:bg-gray-200 w-full sm:w-auto"><MdEmail /> info@didm.in</a>
+                <a href="tel:+918800505151" className="flex items-center justify-center gap-2 bg-white text-primary px-4 py-2 rounded font-semibold text-sm hover:bg-gray-200 w-full sm:w-auto"><FiPhoneCall /> +91-8800505151</a>
+                <a href="mailto:info@didm.in" className="flex items-center justify-center gap-2 bg-white text-primary px-4 py-2 rounded font-semibold text-sm hover:bg-gray-200 w-full sm:w-auto"><MdEmail /> info@didm.in</a>
               </div>
             </div>
           </div>

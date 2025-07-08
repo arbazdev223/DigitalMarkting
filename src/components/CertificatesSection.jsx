@@ -60,7 +60,7 @@ const CertificatesSection = () => {
             key={index}
             onClick={() => goToSlide(index)}
             className={`h-3 w-3 rounded-full transition-colors duration-300 ${
-              current === index ? "bg-blue-600" : "bg-gray-300"
+              current === index ? "bg-primary" : "bg-gray-300"
             }`}
           />
         ))}

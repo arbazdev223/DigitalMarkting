@@ -172,7 +172,7 @@ const CheckoutPage = () => {
                       {item.instructor}
                     </p>
                     <div className="text-right mt-2">
-                      <p className="text-lg font-semibold text-[#0e3477]">
+                      <p className="text-lg font-semibold text-primary">
                         ₹{item.salePrice || item.price}
                       </p>
                       <p className="line-through text-sm text-gray-500">
@@ -219,7 +219,7 @@ const CheckoutPage = () => {
           <button
             onClick={handlePayment}
             disabled={orderStatus === "loading"}
-            className="mt-4 w-full bg-[#0e3477] text-white px-4 py-2 rounded hover:bg-[#0c2d63]"
+            className="mt-4 w-full bg-primary text-white px-4 py-2 rounded hover:bg-[#0c2d63]"
           >
             {orderStatus === "loading" ? "Processing..." : `Pay ₹${totalPrice}`}
           </button>
@@ -230,7 +230,7 @@ const CheckoutPage = () => {
       {modalVisible && orderSummary && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">
-            <h2 className="text-xl font-bold text-[#0e3477] text-center">
+            <h2 className="text-xl font-bold text-primary text-center">
               Payment Successful 🎉
             </h2>
 
@@ -242,7 +242,7 @@ const CheckoutPage = () => {
             </div>
 
             <div>
-              <h3 className="text-md font-semibold text-[#0e3477] mt-2">Courses:</h3>
+              <h3 className="text-md font-semibold text-primary mt-2">Courses:</h3>
               <ul className="list-none text-sm text-gray-700 mt-2 space-y-3">
                 {orderSummary.courses.map((course) => (
                   <li
@@ -262,7 +262,7 @@ const CheckoutPage = () => {
 
             <button
               onClick={handleModalClose}
-              className="mt-4 bg-[#0e3477] text-white px-4 py-2 rounded hover:bg-[#0c2d63] w-full"
+              className="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-[#0c2d63] w-full"
             >
               Go to Profile
             </button>

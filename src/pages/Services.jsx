@@ -6,7 +6,7 @@ const Services = () => {
   return (
     <>
 <CourseTabs
-  heading={<><span className="text-[#0e3477]">Career Courses</span></>}
+  heading={<><span className="text-primary">Career Courses</span></>}
   paragraph="We offer tailored courses to help students and businesses excel."
   maxCount={6}
   label="Load More Courses"

@@ -73,10 +73,10 @@ const BlogHeroSection = () => {
           className="md:w-1/2 w-full flex flex-col justify-center p-6 cursor-pointer"
           onClick={handleNavigate}
         >
-          <span className="text-xs md:text-sm font-bold text-[#0e3477] uppercase mb-2 tracking-wide font-nunito">
+          <span className="text-xs md:text-sm font-bold text-primary uppercase mb-2 tracking-wide font-nunito">
             {post.category}
           </span>
-          <h1 className="text-3xl md:text-3xl font-bold text-[#0e3477] mb-4 font-opensans">
+          <h1 className="text-3xl md:text-3xl font-bold text-primary mb-4 font-opensans">
             {post.title}
           </h1>
           <p className="text-md text-gray-700 mb-6 font-nunito">{post.excerpt}</p>
@@ -96,14 +96,14 @@ const BlogHeroSection = () => {
           {/* <div className="flex gap-2 mt-2">
             <button
               onClick={prevPost}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-[#0e3477] font-bold"
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-primary font-bold"
               aria-label="Previous"
             >
               &#8592;
             </button>
             <button
               onClick={nextPost}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-[#0e3477] font-bold"
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-primary font-bold"
               aria-label="Next"
             >
               &#8594;
@@ -129,7 +129,7 @@ const BlogHeroSection = () => {
             key={idx}
             onClick={() => goTo(idx)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              current === idx ? "bg-[#0e3477]" : "bg-gray-300"
+              current === idx ? "bg-primary" : "bg-gray-300"
             }`}
             aria-label={`Go to slide ${idx + 1}`}
           ></button>

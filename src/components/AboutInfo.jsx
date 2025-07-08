@@ -26,7 +26,7 @@ const AboutInfo = () => {
           <h4 className="text-sm uppercase font-semibold text-gray-500">
             {aboutInfo.headingTop}
           </h4>
-          <h2 className="text-2xl md:text-3xl font-opensans font-bold text-[#0e3477] leading-tight">
+          <h2 className="text-2xl md:text-3xl font-opensans font-bold text-primary leading-tight">
             {aboutInfo.mainHeading}
           </h2>
           <p className="text-sm text-gray-700 font-nunito">
@@ -43,11 +43,11 @@ const AboutInfo = () => {
                   onClick={() => toggleAccordion(idx)}
                   className="flex justify-between items-center w-full p-4 text-left"
                 >
-                  <h3 className="font-semibold text-[#0e3477] text-base font-opensans">
+                  <h3 className="font-semibold text-primary text-base font-opensans">
                     {card.title}
                   </h3>
                   <FaChevronRight
-                    className={`text-[#0e3477] transition-transform duration-300 ${
+                    className={`text-primary transition-transform duration-300 ${
                       openIndex === idx ? "rotate-90" : ""
                     }`}
                   />

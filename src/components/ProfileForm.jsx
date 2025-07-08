@@ -95,7 +95,7 @@ const ProfileForm = ({ user }) => {
           ) : (
             <div
               onClick={() => isEditing && imageRef.current.click()}
-              className="w-20 h-20 rounded-full flex items-center justify-center bg-[#0e3477] text-white text-2xl font-bold font-nunito select-none cursor-pointer"
+              className="w-20 h-20 rounded-full flex items-center justify-center bg-primary text-white text-2xl font-bold font-nunito select-none cursor-pointer"
             >
               {getInitials(formData.name)}
             </div>

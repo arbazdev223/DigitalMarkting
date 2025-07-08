@@ -39,7 +39,7 @@ const PaymentForm = () => {
         <>
           <table className="w-full text-sm text-left border-collapse">
             <thead>
-              <tr className="bg-[#f1f5f9] text-[#0e3477]">
+              <tr className="bg-[#f1f5f9] text-primary">
                 <th className="p-2 border">S.No.</th>
                 <th className="p-2 border">Image</th>
                 <th className="p-2 border">Title</th>
@@ -69,8 +69,8 @@ const PaymentForm = () => {
                   onClick={() => setCurrentPage(num)}
                   className={`px-3 py-1 rounded border ${
                     currentPage === num
-                      ? "bg-[#0e3477] text-white"
-                      : "bg-white text-[#0e3477] border-[#0e3477]"
+                      ? "bg-primary text-white"
+                      : "bg-white text-primary border-primary"
                   }`}
                 >
                   {num}

@@ -92,7 +92,7 @@ const ContactSlideForm = () => {
           </label>
           <button
             type="submit"
-            className="w-full bg-[#0e3477] hover:bg-[#0e3477]/60 text-white py-3 font-bold text-lg rounded"
+            className="w-full bg-primary hover:bg-primary/60 text-white py-3 font-bold text-lg rounded"
           >
             SUBMIT
           </button>

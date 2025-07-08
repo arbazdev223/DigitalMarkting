@@ -130,7 +130,7 @@ const FormControl = ({ courseTitle = "" }) => {
 
         <button
           type="submit"
-          className="w-full bg-white text-[#0e3477] font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
+          className="w-full bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
           disabled={formSubmitStatus === "loading"}
         >
           {formSubmitStatus === "loading" ? "Submitting..." : "Submit"}

@@ -79,31 +79,31 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-6">
             <Link
               to="/"
-              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+              className="hover:text-gray-600 font-semibold text-primary"
             >
               Home
             </Link>
             <Link
               to="/services"
-              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+              className="hover:text-gray-600 font-semibold text-primary"
             >
               Services
             </Link>
             <Link
               to="/about"
-              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+              className="hover:text-gray-600 font-semibold text-primary"
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+              className="hover:text-gray-600 font-semibold text-primary"
             >
               Contact
             </Link>
             <Link
               to="/blog"
-              className="hover:text-gray-600 font-semibold text-[#0e3477]"
+              className="hover:text-gray-600 font-semibold text-primary"
             >
               Blog
             </Link>
@@ -117,7 +117,7 @@ const Header = () => {
             >
               <button
                 type="button"
-                className="relative flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
+                className="relative flex items-center gap-2 text-gray-600 font-semibold hover:text-primary focus:outline-none"
               >
                 <MdShoppingCart className="text-2xl" />
                 {cartTotalQuantity > 0 && (
@@ -135,7 +135,7 @@ const Header = () => {
             {!isLoggedIn ? (
               <Link
                 to="/auth"
-                className="text-gray-600 font-semibold hover:text-[#0e3477]"
+                className="text-gray-600 font-semibold hover:text-primary"
               >
                 Login/Signup
               </Link>
@@ -144,7 +144,7 @@ const Header = () => {
                 {user?.role === "admin" ? (
                   <Link
                     to="/admin"
-                    className="text-gray-600 font-semibold hover:text-[#0e3477]"
+                    className="text-gray-600 font-semibold hover:text-primary"
                   >
                     Admin Dashboard
                   </Link>
@@ -166,7 +166,7 @@ const Header = () => {
                           className="w-6 h-6 rounded-full object-cover border border-gray-300"
                         />
                       ) : (
-                        <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold border border-gray-300">
+                        <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold border border-gray-300">
                           {getInitials(user?.name)}
                         </div>
                       )}
@@ -189,7 +189,7 @@ const Header = () => {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="text-gray-600 hover:text-[#0e3477] focus:outline-none"
+              className="text-gray-600 hover:text-primary focus:outline-none"
             >
               {isOpen ? (
                 <HiX className="w-6 h-6" />
@@ -203,31 +203,31 @@ const Header = () => {
           <div className="md:hidden   mt-2 h-[calc(100vh-4rem)] space-y-2 pb-4 border-t pt-4">
             <Link
               to="/"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
+              className="block text-gray-600 font-semibold hover:text-primary"  onClick={() => setIsOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/services"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
+              className="block text-gray-600 font-semibold hover:text-primary"  onClick={() => setIsOpen(false)}
             >
               Services
             </Link>
             <Link
               to="/about"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
+              className="block text-gray-600 font-semibold hover:text-primary"  onClick={() => setIsOpen(false)}
             >
               About
             </Link>
             <Link
               to="/contact"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]" onClick={() => setIsOpen(false)}
+              className="block text-gray-600 font-semibold hover:text-primary" onClick={() => setIsOpen(false)}
             >
               Contact
             </Link>
             <Link
               to="/blog"
-              className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
+              className="block text-gray-600 font-semibold hover:text-primary"  onClick={() => setIsOpen(false)}
             >
               Blog
             </Link>
@@ -240,7 +240,7 @@ const Header = () => {
               >
                 <button
                   type="button"  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477] focus:outline-none"
+                  className="flex items-center gap-2 text-gray-600 font-semibold hover:text-primary focus:outline-none"
                 >
                   <MdShoppingCart className="text-2xl" />
                   {cartTotalQuantity > 0 && (
@@ -258,7 +258,7 @@ const Header = () => {
               {!isLoggedIn ? (
                 <Link
                   to="/auth"
-                  className="block text-gray-600 font-semibold hover:text-[#0e3477]"  onClick={() => setIsOpen(false)}
+                  className="block text-gray-600 font-semibold hover:text-primary"  onClick={() => setIsOpen(false)}
                 >
                   Login/Signup
                 </Link>
@@ -267,7 +267,7 @@ const Header = () => {
                   {user?.role === "admin" ? (
                     <Link
                       to="/admin"
-                      className="block text-gray-600 font-semibold hover:text-[#0e3477]"
+                      className="block text-gray-600 font-semibold hover:text-primary"
                     >
                       Admin Dashboard
                     </Link>
@@ -278,7 +278,7 @@ const Header = () => {
                           handleProfileClick();
                           toggleDropdownClick();
                         }}
-                        className="flex items-center gap-2 text-gray-600 font-semibold hover:text-[#0e3477]"
+                        className="flex items-center gap-2 text-gray-600 font-semibold hover:text-primary"
                       >
                         {user?.profileImage ? (
                           <img
@@ -287,7 +287,7 @@ const Header = () => {
                             className="w-6 h-6 rounded-full object-cover border border-gray-300"  onClick={() => setIsOpen(false)}
                           />
                         ) : (
-                          <div className="w-6 h-6 rounded-full bg-[#0e3477] text-white flex items-center justify-center text-xs font-bold border border-gray-300"  onClick={() => setIsOpen(false)}>
+                          <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold border border-gray-300"  onClick={() => setIsOpen(false)}>
                             {getInitials(user?.name)}
                           </div>
                         )}

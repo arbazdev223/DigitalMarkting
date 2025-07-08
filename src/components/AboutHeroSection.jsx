@@ -118,7 +118,7 @@ const AboutHeroSection = () => {
             >
               {item.title}
               <FaChevronDown
-  className={`ml-2 transition-transform duration-300 text-[#0e3477] ${
+  className={`ml-2 transition-transform duration-300 text-primary ${
     activeIndex === index ? "rotate-180" : "rotate-0"
   }`}
 />

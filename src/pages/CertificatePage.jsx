@@ -39,7 +39,7 @@ const CertificatePage = () => {
 
   return (
     <div className="py-8 bg-gray-100 min-h-screen max-w-5xl mx-auto p-4 sm:p-6">
-      <h2 className="text-2xl font-bold text-center mb-8 text-[#0e3477]">
+      <h2 className="text-2xl font-bold text-center mb-8 text-primary">
         Your Certificates
       </h2>
       {certificates.length === 0 ? (
@@ -64,7 +64,7 @@ const CertificatePage = () => {
                   </div>
                   <button
                     onClick={() => handleDownload(globalIndex)}
-                    className="mt-4 bg-[#0e3477] text-white px-4 py-2 rounded shadow hover:bg-[#092963] font-semibold"
+                    className="mt-4 bg-primary text-white px-4 py-2 rounded shadow hover:bg-[#092963] font-semibold"
                   >
                     Download Certificate
                   </button>

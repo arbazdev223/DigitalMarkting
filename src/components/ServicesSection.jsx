@@ -18,7 +18,7 @@ const ServicesSection = () => {
                     alt={service.title}
                     className="w-12 h-12 mx-auto mb-3 hover:translate-y-2 transition"
                   />
-                  <h4 className="text-md font-bold text-[#0e3477] mb-1 font-[Open_Sans]">
+                  <h4 className="text-md font-bold text-primary mb-1 font-[Open_Sans]">
                     {service.title}
                   </h4>
                   <p className="text-sm text-[#444444] font-[Nunito] leading-relaxed">
@@ -45,7 +45,7 @@ const ServicesSection = () => {
                     alt={lastService.title}
                     className="w-12 h-12 mx-auto mb-3 hover:translate-y-2 transition"
                   />
-                  <h4 className="text-md font-bold text-[#0e3477] mb-1 font-[Open_Sans]">
+                  <h4 className="text-md font-bold text-primary mb-1 font-[Open_Sans]">
                     {lastService.title}
                   </h4>
                   <p className="text-sm text-[#444444] font-[Nunito] leading-relaxed">

@@ -19,7 +19,7 @@ const AlmuniSlider = () => {
   const slideWidth = 100 / visibleCount;
 
   return (
-    <section className="bg-[#0e3477] py-16 px-4 font-nunito">
+    <section className="bg-primary py-16 px-4 font-nunito">
       <div className="max-w-5xl mx-auto text-center">
         <p className="text-sm uppercase tracking-widest text-gray-300 mb-2">
           Testimonials

@@ -6,7 +6,7 @@ const FeatureBlock = ({ item, reverse }) => {
       }`}
     >
       <div>
-        <h3 className="text-2xl md:text-3xl font-bold text-[#0e3477] mb-3">
+        <h3 className="text-2xl md:text-3xl font-bold text-primary mb-3">
           {item.heading}
         </h3>
         <p className="text-gray-600 text-base md:text-lg font-medium mb-2">

@@ -158,7 +158,7 @@ const TestPage = (props) => {
 
     return (
       <div className="max-w-3xl mx-auto p-6 text-center relative">
-        <h2 className="text-2xl font-bold mb-4 text-[#0e3477]">Test Result</h2>
+        <h2 className="text-2xl font-bold mb-4 text-primary">Test Result</h2>
         <p className="text-lg mb-4 text-gray-700">
           You got <strong>{score}</strong> out of <strong>{totalQ}</strong>{" "}
           correct (<strong>{percent}%</strong>).
@@ -173,7 +173,7 @@ const TestPage = (props) => {
         {percent < 95 && attempts > 0 && (
           <button
             onClick={resetTest}
-            className="bg-[#0e3477] text-white px-4 py-2 rounded shadow hover:bg-[#092963]"
+            className="bg-primary text-white px-4 py-2 rounded shadow hover:bg-[#092963]"
           >
             Retry Test ({attempts} attempt{attempts > 1 ? "s" : ""} left)
           </button>

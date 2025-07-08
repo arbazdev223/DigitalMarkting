@@ -199,7 +199,7 @@ const CourseResumePage = () => {
               <button
                 className={`w-full flex justify-between items-center text-left font-medium py-2 px-3 rounded ${
                   activeModule === mIdx
-                    ? "bg-blue-100 text-[#0e3477]"
+                    ? "bg-blue-100 text-primary"
                     : "bg-gray-100 hover:bg-gray-200"
                 }`}
                 onClick={() => {

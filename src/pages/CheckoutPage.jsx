@@ -82,7 +82,7 @@ const CheckoutPage = () => {
         amount,
         currency,
         order_id: orderId,
-        name: "EduCorp Academy",
+        name: "BANARAS DIGITAL SOLUTION",
         description: "Course Purchase",
         handler: async function (response) {
           const paymentData = {
@@ -101,7 +101,7 @@ const CheckoutPage = () => {
             email: verifyRes?.email,
             orderId: verifyRes?.orderId,
             amountPaid: verifyRes?.amountPaid,
-            courses: verifyRes?.courses, // includes images now
+            courses: verifyRes?.courses, 
           });
 
           setModalVisible(true);
@@ -188,7 +188,7 @@ const CheckoutPage = () => {
       </div>
 
       {/* Right */}
-      <div className="w-full md:w-1/4 bg-white shadow-md p-4 rounded-md flex flex-col justify-between">
+      <div className="w-full md:w-1/4 h-56 bg-white shadow-md p-4 rounded-md flex flex-col justify-between">
         <div>
           <h4 className="text-xl font-bold border-b pb-3 text-[#444444] text-center mb-4">
             Order Summary

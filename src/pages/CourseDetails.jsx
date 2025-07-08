@@ -60,7 +60,6 @@ const CourseDetails = () => {
 
   return (
     <div className="w-full bg-gray-50 min-h-screen pb-20">
-      {/* Banner */}
       <div className="bg-gradient-to-br from-primary to-[#1e4d9c] text-white px-2 py-10">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 items-center">
           <div>
@@ -83,10 +82,7 @@ const CourseDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Content & Sidebar */}
       <div className="max-w-5xl mx-auto mt-10 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Description */}
         <div className="lg:col-span-2 space-y-8">
           {course.whatYouWillLearn?.length > 0 && (
             <section>
@@ -117,8 +113,6 @@ const CourseDetails = () => {
             </p>
           </section>
         </div>
-
-        {/* Sticky Sidebar */}
         <div className="sticky top-24 h-fit bg-white shadow rounded border overflow-hidden">
           {course.previewVideo && (
             <video src={course.previewVideo} controls className="w-full h-56 object-cover" />
@@ -158,8 +152,6 @@ const CourseDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Related Courses */}
       {relatedCourses.length > 0 && (
         <div className="max-w-6xl mx-auto mt-16 px-4">
           <h3 className="text-2xl font-bold text-primary mb-6">Related Courses You Might Like</h3>

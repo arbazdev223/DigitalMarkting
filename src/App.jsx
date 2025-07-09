@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,7 +14,6 @@ import Footer from "./components/Footer";
 import CallToAction from "./components/CallToAction";
 import AuthTabs from "./components/AuthTabs";
 import Profile from "./pages/Profile";
-import AdminDashboard from "./pages/AdminDashboard";
 import TopBar from "./components/TopBar";
 import BlogDetails from "./pages/BlogDetails";
 import CourseDetails from "./pages/CourseDetails";
@@ -87,7 +86,6 @@ const App = () => {
             isLoggedIn && user ? <Profile /> : <Navigate to="/auth" replace />
           }
         />
-        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
       <Footer />
       <ToastContainer />

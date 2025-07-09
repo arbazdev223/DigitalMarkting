@@ -79,12 +79,17 @@ const handleSubmit = async (e) => {
     facebook: formData.facebook,
     instagram: formData.instagram,
   };
+
   if (
-    formData.oldPassword || 
-    formData.newPassword || 
+    formData.oldPassword ||
+    formData.newPassword ||
     formData.confirmNewPassword
   ) {
-    if (!formData.oldPassword || !formData.newPassword || !formData.confirmNewPassword) {
+    if (
+      !formData.oldPassword ||
+      !formData.newPassword ||
+      !formData.confirmNewPassword
+    ) {
       toast.error("All password fields are required.");
       return;
     }
@@ -103,10 +108,12 @@ const handleSubmit = async (e) => {
 
   if (updateUser.fulfilled.match(result)) {
     toast.success("Profile updated successfully!");
+    setIsEditing(false); 
   } else {
     toast.error(result.payload || "Update failed");
   }
 };
+
 
 
 

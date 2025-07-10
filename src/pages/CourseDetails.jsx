@@ -67,11 +67,11 @@ const CourseDetails = () => {
             <p className="text-base mb-3 opacity-90">{course.subtitle}</p>
             <p className="text-sm text-gray-200 mb-1">
               <strong>Category:</strong> {course.category} |{" "}
-              <strong>Last Updated:</strong> {course.lastUpdated}
+              <strong>Last Updated:</strong> {new Date(course.updatedAt).toLocaleDateString()}
             </p>
-            <p className="text-sm text-gray-300">
+            {/* <p className="text-sm text-gray-300">
               {course.rating} ⭐ ({course.reviewsCount} reviews) | {course.studentsEnrolled}+ enrolled
-            </p>
+            </p> */}
           </div>
           <div className="hidden md:block">
             <img

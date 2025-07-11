@@ -1,2 +1,0 @@
-# BDI-Web
-Banaras Digital

@@ -5,7 +5,7 @@ import {
   fetchBlogById,
   clearSelectedBlog,
   addComment,
-  fetchBlogs, // ✅ fetch blogs for Sidebar
+  fetchBlogs, 
 } from "../store/blogSlice";
 import Sidebar from "../components/Sidebar";
 import { FaStar } from "react-icons/fa";
@@ -88,8 +88,8 @@ const BlogDetails = () => {
             {new Date(selectedBlog.date).toLocaleDateString()} • {selectedBlog.category}
           </p>
           <div className="text-gray-700 leading-relaxed space-y-4 mb-10">
-            {selectedBlog.content.map((p, i) => (
-              <p key={i}>{p}</p>
+            {selectedBlog.content.map((p, _id) => (
+              <p key={_id}>{p}</p>
             ))}
           </div>
 

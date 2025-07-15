@@ -62,8 +62,6 @@ const CourseResumePage = () => {
   const [openTopic, setOpenTopic] = useState({});
   const [completedContent, setCompletedContent] = useState({});
   const fetched = useRef(false);
-
-  // ✅ Fetch enrolled courses on first mount (on refresh too)
   useEffect(() => {
     if (token && isLoggedIn && !fetched.current) {
       dispatch(getPurchasedEnrolledCoursesByUser());
@@ -74,7 +72,6 @@ const CourseResumePage = () => {
     }
   }, [dispatch, token, isLoggedIn]);
 
-  // ✅ Fetch resume once course is available
   useEffect(() => {
     if (token && courseId && course) {
       dispatch(getCourseResume(courseId)).finally(() => setResumeFetched(true));
@@ -191,7 +188,6 @@ const CourseResumePage = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col lg:flex-row gap-6">
-        {/* Left Sidebar */}
         <div className="w-full lg:w-1/3 bg-white border rounded p-4">
           <h2 className="text-xl font-bold mb-4">Modules</h2>
           {course.modules?.map((mod, mIdx) => (
@@ -278,8 +274,6 @@ const CourseResumePage = () => {
             </div>
           ))}
         </div>
-
-        {/* Right Content Panel */}
         <div className="w-full lg:w-2/3 bg-white p-6 shadow rounded min-h-[300px]">
           {selectedContentObj ? (
             <div>

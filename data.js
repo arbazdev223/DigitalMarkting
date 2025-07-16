@@ -21,65 +21,65 @@ import {
 } from "react-icons/fa";
 //WhyChooseUs section images
 import { FaCheckCircle } from "react-icons/fa";
-import img1 from "./src/assets/web.jpg";
-import img2 from "./src/assets/web.jpg";
-import img3 from "./src/assets/web.jpg";
-import img4 from "./src/assets/web.jpg";
+import img1 from "/assets/web.jpg";
+import img2 from "/assets/web.jpg";
+import img3 from "/assets/web.jpg";
+import img4 from "/assets/web.jpg";
 //Course data file pdf video
-import CourseVideo from "./src/assets/course.mp4";
-import coursePdf from "./src/assets/testpdf.pdf";
+import CourseVideo from "/assets/course.mp4";
+import coursePdf from "/assets/testpdf.pdf";
 
 
 // Award images About us section
-import award1 from "./src/assets/award1.webp";
-import award2 from "./src/assets/award1.webp";
-import award3 from "./src/assets/award1.webp";
-import award4 from "./src/assets/award1.webp";
+import award1 from "/assets/award1.webp";
+import award2 from "/assets/award1.webp";
+import award3 from "/assets/award1.webp";
+import award4 from "/assets/award1.webp";
 // certificate image
-import Cert1 from "./src/assets/certificate1.jpg";
-import Cert2 from "./src/assets/certificate2.jpg";
-import Cert3 from "./src/assets/certificate3.jpg";
-import Cert4 from "./src/assets/certificate3.jpg";
-import Cert5 from "./src/assets/certificate3.jpg";
+import Cert1 from "/assets/certificate1.jpg";
+import Cert2 from "/assets/certificate2.jpg";
+import Cert3 from "/assets/certificate3.jpg";
+import Cert4 from "/assets/certificate3.jpg";
+import Cert5 from "/assets/certificate3.jpg";
 //company logo
-import Google from "./src/assets/google.jpg";
-import Walmart from "./src/assets/walmart.jpg";
-import AirBnb from "./src/assets/airbnb.png";
-import MamaEarth from "./src/assets/mamaearth.png";
-import Accenture from "./src/assets/accenture.jpg";
+import Google from "/assets/google.jpg";
+import Walmart from "/assets/walmart.jpg";
+import AirBnb from "/assets/airbnb.png";
+import MamaEarth from "/assets/mamaearth.png";
+import Accenture from "/assets/accenture.jpg";
 
 // TestimonialSlider data
-import Banner from "./src/assets/adm.webp";
-import Banner1 from "./src/assets/mdm.webp";
-import Banner2 from "./src/assets/pdm.webp";
+import Banner from "/assets/adm.webp";
+import Banner1 from "/assets/mdm.webp";
+import Banner2 from "/assets/pdm.webp";
 
 // MiniCard data
-import DM from "./src/assets/1dm.png";
-import DM1 from "./src/assets/1dm.png";
-import DM2 from "./src/assets/1dm.png";
-import DM3 from "./src/assets/1dm.png";
-import DM4 from "./src/assets/1dm.png";
-import DM5 from "./src/assets/1dm.png";
+import DM from "/assets/1dm.png";
+import DM1 from "/assets/1dm.png";
+import DM2 from "/assets/1dm.png";
+import DM3 from "/assets/1dm.png";
+import DM4 from "/assets/1dm.png";
+import DM5 from "/assets/1dm.png";
 
 // BlogSection data
-import blog1 from "./src/assets/web.jpg";
-import blog2 from "./src/assets/design.jpg";
-import blog3 from "./src/assets/digital.jpg";
+import blog1 from "/assets/web.jpg";
+import blog2 from "/assets/design.jpg";
+import blog3 from "/assets/digital.jpg";
 
 // OurClients data
-import Logo from "./src/assets/logo.png";
+import Logo from "/assets/logo.png";
 
 // HeroSection data
-import BannerHS from "./src/assets/Aboutbgacc.webp";
+import BannerHS from "/assets/Aboutbgacc.webp";
 //AboutBanner image
-import AboutBanner from "./src/assets/Digital5.jpeg";
+import AboutBanner from "/assets/Digital5.jpeg";
 // AboutHeroSection data
-import sampleImage from "./src/assets/Aboutbgacc.webp";
+import sampleImage from "/assets/Aboutbgacc.webp";
 
 // CourseTabs data
-import BannerC1 from "./src/assets/mdm.webp";
-import BannerC2 from "./src/assets/pdm.webp";
-import BannerC3 from "./src/assets/adm.webp";
+import BannerC1 from "/assets/mdm.webp";
+import BannerC2 from "/assets/pdm.webp";
+import BannerC3 from "/assets/adm.webp";
 
 // ImpactSection data
 export const testimonials = [

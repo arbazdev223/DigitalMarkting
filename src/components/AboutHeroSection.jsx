@@ -1,6 +1,6 @@
 import { useState, useRef, useLayoutEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
-import sampleImage from "../assets/Aboutbgacc.webp";
+import sampleImage from "/assets/Aboutbgacc.webp";
 
 const accordionItems = [
   {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import banner1 from "../assets/Digital1.jpeg";
-import banner2 from "../assets/Digital2.jpeg";
-import banner3 from "../assets/Digital3.jpeg";
-import banner4 from "../assets/Digital4.jpeg";
-import banner5 from "../assets/Digital5.jpeg";
+import banner2 from "/assets/Digital2.jpeg";
+import banner3 from "/assets/Digital3.jpeg";
+import banner4 from "/assets/Digital4.jpeg";
+import banner5 from "/assets/Digital5.jpeg";
+import banner1 from "/assets/Digital1.jpeg";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const images = [banner1, banner2, banner3,banner4, banner5];

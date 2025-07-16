@@ -1,6 +1,6 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import studentIcon1 from "../assets/4dm.png";
+import studentIcon1 from "/assets/4dm.png";
 
 const HeroMain = () => {
   return (

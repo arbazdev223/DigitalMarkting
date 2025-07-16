@@ -5,7 +5,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from 'react-icons/fa';
-import logo from '../assets/logo.png';
+import logo from '/assets/logo.png';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitForm, clearFormError } from '../store/formSlice';

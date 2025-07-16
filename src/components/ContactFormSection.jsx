@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
-import Logo from "../assets/logo.png"
+import Logo from "/assets/logo.png"
 import FormControl from "./FormControl";
 const contactPoints = [
   {

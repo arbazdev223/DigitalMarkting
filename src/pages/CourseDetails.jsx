@@ -170,9 +170,9 @@ const CourseDetails = () => {
                 <div className="p-4">
                   <h4 className="text-lg font-semibold text-primary mb-1">{related.title}</h4>
                   <p className="text-sm text-gray-600 mb-2 line-clamp-2">{related.subtitle}</p>
-                  <div className="text-sm text-gray-500 mb-4">
+                  {/* <div className="text-sm text-gray-500 mb-4">
                     ⭐ {related.rating} | {related.studentsEnrolled}+ enrolled
-                  </div>
+                  </div> */}
                   {related.downloadBrochure ? (
                     <div className="flex gap-3">
                       <span className="w-1/4 text-center bg-primary text-white px-4 py-2 text-sm font-semibold rounded">

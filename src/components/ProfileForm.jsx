@@ -178,7 +178,6 @@ const handleSubmit = async (e) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Basic Fields */}
         {["name", "phone", "address"].map((field) => (
           <div key={field}>
             <label className="block text-sm font-medium font-nunito capitalize">{field}</label>

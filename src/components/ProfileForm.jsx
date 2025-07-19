@@ -57,28 +57,40 @@ const togglePasswordVisibility = (field) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prev) => ({ ...prev, profileImage: reader.result }));
-    };
-    reader.readAsDataURL(file);
+const handleImageUpload = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  setFormData((prev) => ({
+    ...prev,
+    profileImage: file, 
+  }));
+  const reader = new FileReader();
+  reader.onloadend = () => {
+    setFormData((prev) => ({
+      ...prev,
+      profileImagePreview: reader.result,
+    }));
   };
+  reader.readAsDataURL(file);
+};
+
 
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const data = {
-    name: formData.name,
-    phone: formData.phone,
-    address: formData.address,
-    profileImage: formData.profileImage,
-    linkedin: formData.linkedin,
-    facebook: formData.facebook,
-    instagram: formData.instagram,
-  };
+  const formDataToSend = new FormData();
+
+  formDataToSend.append("name", formData.name);
+  formDataToSend.append("phone", formData.phone);
+  formDataToSend.append("address", formData.address);
+  formDataToSend.append("linkedin", formData.linkedin);
+  formDataToSend.append("facebook", formData.facebook);
+  formDataToSend.append("instagram", formData.instagram);
+
+  if (formData.profileImage instanceof File) {
+    formDataToSend.append("profileImage", formData.profileImage);
+  }
 
   if (
     formData.oldPassword ||
@@ -99,44 +111,46 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    data.oldPassword = formData.oldPassword;
-    data.newPassword = formData.newPassword;
-    data.confirmNewPassword = formData.confirmNewPassword;
+    formDataToSend.append("oldPassword", formData.oldPassword);
+    formDataToSend.append("newPassword", formData.newPassword);
+    formDataToSend.append("confirmNewPassword", formData.confirmNewPassword);
   }
 
-  const result = await dispatch(updateUser(data));
+  const result = await dispatch(updateUser(formDataToSend));
 
   if (updateUser.fulfilled.match(result)) {
     toast.success("Profile updated successfully!");
-    setIsEditing(false); 
+    setIsEditing(false);
   } else {
     toast.error(result.payload || "Update failed");
   }
 };
 
-
-
-
-
   return (
     <div className="bg-white p-6 rounded-md shadow-md">
       <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between mb-6 gap-4">
         <div className="flex items-center space-x-4 w-full">
-          {formData.profileImage ? (
-            <img
-              src={formData.profileImage}
-              alt="Profile"
-              onClick={() => isEditing && imageRef.current.click()}
-              className="w-20 h-20 rounded-full object-cover border cursor-pointer"
-            />
-          ) : (
-            <div
-              onClick={() => isEditing && imageRef.current.click()}
-              className="w-20 h-20 rounded-full flex items-center justify-center bg-primary text-white text-2xl font-bold font-nunito select-none cursor-pointer"
-            >
-              {getInitials(formData.name)}
-            </div>
-          )}
+        {formData.profileImagePreview || formData.profileImage ? (
+  <img
+    src={
+      formData.profileImagePreview ||
+      (formData.profileImage instanceof File
+        ? URL.createObjectURL(formData.profileImage)
+        : formData.profileImage)
+    }
+    alt="Profile"
+    onClick={() => isEditing && imageRef.current.click()}
+    className="w-20 h-20 rounded-full object-cover border cursor-pointer"
+  />
+) : (
+  <div
+    onClick={() => isEditing && imageRef.current.click()}
+    className="w-20 h-20 rounded-full flex items-center justify-center bg-primary text-white text-2xl font-bold font-nunito select-none cursor-pointer"
+  >
+    {getInitials(formData.name)}
+  </div>
+)}
+
 
           <div className="flex-1">
             <h2 className="text-xl font-bold font-nunito">

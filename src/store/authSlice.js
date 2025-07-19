@@ -75,14 +75,23 @@ export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (userData, { rejectWithValue }) => {
     try {
-      const { email, ...allowedData } = userData;
-      const res = await axiosInstance.put("/user/update-profile", allowedData, {
-        withCredentials: true,
-      });
+      const isFormData = userData instanceof FormData;
+
+      const res = await axiosInstance.put(
+        "/user/update-profile",
+        userData,
+        {
+          headers: isFormData
+            ? { "Content-Type": "multipart/form-data" }
+            : undefined,
+          withCredentials: true,
+        }
+      );
 
       if (res.data.success && res.data.user) {
         return res.data.user;
       }
+
       return rejectWithValue(res.data.message || "Update failed");
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Update failed");

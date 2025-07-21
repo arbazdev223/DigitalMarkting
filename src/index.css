@@ -49,3 +49,8 @@
     transform: translateX(-50%);
   }
 }
+.prose img {
+  border-radius: 0.5rem;
+  max-height: 400px;
+  object-fit: cover;
+}

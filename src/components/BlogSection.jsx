@@ -80,13 +80,13 @@ const BlogSection = ({
                 onClick={() => navigate(`/blog/${blog._id}`)}
               >
                 <img
-                  src={blog.img}
+                  src={blog.coverImage}
                   alt={blog.title}
                   className="w-full h-52 object-cover"
                 />
                 <div className="p-5">
                   <p className="text-xs text-gray-500 mb-1">
-                    {new Date(blog.date).toLocaleDateString()}
+                    {new Date(blog.createdAt).toLocaleDateString()}
                   </p>
                   <h3 className="text-md font-bold mb-2">{blog.title}</h3>
                   <p className="text-sm text-gray-600">{blog.excerpt}</p>

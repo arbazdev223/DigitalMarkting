@@ -90,7 +90,7 @@ const BlogHeroSection = () => {
               {post?.author?.name || "Admin"}
             </span>
             <span className="ml-4 text-sm text-gray-500 font-nunito">
-              {new Date(post.date).toLocaleDateString()}
+              {new Date(post.createdAt).toLocaleDateString()}
             </span>
           </div>
           {/* <div className="flex gap-2 mt-2">
@@ -116,7 +116,7 @@ const BlogHeroSection = () => {
           onClick={handleNavigate}
         >
           <img
-            src={post.img}
+            src={post.coverImage}
             alt={post.title}
             className="w-full h-56 md:h-80 object-cover rounded-xl"
           />

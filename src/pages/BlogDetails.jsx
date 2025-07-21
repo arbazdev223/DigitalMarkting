@@ -9,6 +9,7 @@ import {
 } from "../store/blogSlice";
 import Sidebar from "../components/Sidebar";
 import { FaStar } from "react-icons/fa";
+import { transformHTML } from "../utils/transformHTML";
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -16,6 +17,27 @@ const BlogDetails = () => {
 
   const { selectedBlog, blogs, status, error } = useSelector((state) => state.blog);
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+const [selectedBlogContent, setSelectedBlogContent] = useState("");
+useEffect(() => {
+  if (selectedBlog?.content?.length > 0) {
+    const rawHTML = selectedBlog.content
+      .map((item) => {
+        if (!item?.type || !item?.value) return "";
+
+        if (item.type === "image") {
+          return `<img src="${item.value}" alt="blog image"/>`;
+        }
+
+        // Default to wrapping content in original tag
+        return `<${item.type}>${item.value}</${item.type}>`;
+      })
+      .join("<br/>");
+
+    const transformed = transformHTML(rawHTML); // applies tagMap logic
+    setSelectedBlogContent(transformed);
+  }
+}, [selectedBlog]);
+
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -77,7 +99,7 @@ const BlogDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <img
-            src={selectedBlog.img}
+            src={selectedBlog.coverImage}
             alt={selectedBlog.title}
             className="w-full h-[400px] object-cover rounded-lg mb-6"
           />
@@ -85,13 +107,13 @@ const BlogDetails = () => {
             {selectedBlog.title}
           </h1>
           <p className="text-sm text-gray-500 mb-4">
-            {new Date(selectedBlog.date).toLocaleDateString()} • {selectedBlog.category}
+            {new Date(selectedBlog.createdAt).toLocaleDateString()} • {selectedBlog.category}
           </p>
-          <div className="text-gray-700 leading-relaxed space-y-4 mb-10">
-            {selectedBlog.content.map((p, _id) => (
-              <p key={_id}>{p}</p>
-            ))}
-          </div>
+       <div
+  className="text-gray-700 leading-relaxed space-y-4 mb-10 prose prose-lg max-w-none"
+  dangerouslySetInnerHTML={{ __html: selectedBlogContent }}
+></div>
+
 
           {/* 💬 Comments */}
           <div className="border-t pt-6">

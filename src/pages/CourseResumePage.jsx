@@ -19,7 +19,7 @@ import {
   FaFileVideo,
 } from "react-icons/fa";
 import { HiChevronDown, HiChevronUp } from "react-icons/hi";
-
+import { debounce } from "lodash";
 // Helpers
 const getProgressColor = (percent) => {
   if (percent >= 80) return "border-green-500 text-green-500";
@@ -92,28 +92,31 @@ const CourseResumePage = () => {
     }
   }, [resumeFetched, resume]);
 
-  const markContentComplete = (mIdx, tIdx, cIdx) => {
-    const key = `${mIdx}-${tIdx}-${cIdx}`;
-    if (completedContent[key]) return;
 
-    const watchedHours = resume?.watchedHours || 0;
-    const prevCompleted = resume?.completedContent || [];
 
-    dispatch(
-      updateCourseResume({
-        courseId,
-        lastWatched: {
-          moduleIndex: mIdx,
-          topicIndex: tIdx,
-          contentIndex: cIdx,
-        },
-        watchedHours: watchedHours + 0.25,
-        completedContent: [...new Set([...prevCompleted, key])],
-      })
-    );
+const debouncedResumeUpdate = debounce((payload) => {
+  dispatch(updateCourseResume(payload));
+}, 1000); 
 
-    setCompletedContent((prev) => ({ ...prev, [key]: true }));
-  };
+const markContentComplete = (mIdx, tIdx, cIdx) => {
+  const key = `${mIdx}-${tIdx}-${cIdx}`;
+  if (completedContent[key]) return;
+
+  const watchedHours = resume?.watchedHours || 0;
+  const prevCompleted = resume?.completedContent || [];
+
+  const updatedCompleted = [...new Set([...prevCompleted, key])];
+
+  debouncedResumeUpdate({
+    courseId,
+    lastWatched: { moduleIndex: mIdx, topicIndex: tIdx, contentIndex: cIdx },
+    watchedHours: watchedHours + 0.25,
+    completedContent: updatedCompleted,
+  });
+
+  setCompletedContent((prev) => ({ ...prev, [key]: true }));
+};
+
 
   const isContentCompleted = (mIdx, tIdx, cIdx) =>
     !!completedContent[`${mIdx}-${tIdx}-${cIdx}`];
@@ -300,7 +303,7 @@ const CourseResumePage = () => {
                       src={blobUrl}
                       controls
                       controlsList="nodownload"
-                      className="w-full rounded"
+                      className="w-full h-[400px] rounded"
                       onEnded={() =>
                         markContentComplete(
                           activeModule,
@@ -315,7 +318,7 @@ const CourseResumePage = () => {
                       src={blobUrl}
                       controls
                       controlsList="nodownload"
-                      className="w-full rounded"
+                      className="w-full h-[400px] rounded"
                       onEnded={() =>
                         markContentComplete(
                           activeModule,
@@ -329,7 +332,7 @@ const CourseResumePage = () => {
                     <iframe
                       src={blobUrl}
                       title={selectedContentObj.name}
-                      className="w-full h-[500px]  border rounded"
+                      className="w-full h-[400px]  border rounded"
                       onLoad={() =>
                         markContentComplete(
                           activeModule,
@@ -343,7 +346,7 @@ const CourseResumePage = () => {
                     <img
                       src={blobUrl}
                       alt={selectedContentObj.name}
-                      className="w-full rounded"
+                      className="w-full h-[400px] rounded"
                       onLoad={() =>
                         markContentComplete(
                           activeModule,

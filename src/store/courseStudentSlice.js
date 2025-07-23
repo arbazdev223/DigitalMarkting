@@ -44,20 +44,21 @@ export const getCourseResume = createAsyncThunk(
 
 // ✅ Update course resume
 export const updateCourseResume = createAsyncThunk(
-  "courseStudent/updateCourseResume",
-  async ({ courseId, lastWatched, watchedHours }, { rejectWithValue }) => {
+  "courseResume/update",
+  async ({ courseId, lastWatched, watchedHours, completedContent }, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.put(`/courseStudent/${courseId}`, {
+      const { data } = await axios.put(`/courseStudent/${courseId}`, {
         lastWatched,
         watchedHours,
+        completedContent,
       });
-      return { courseId, resume: res.data.resume };
+      return data.resume;
     } catch (err) {
-      console.error("❌ Resume Update Error:", err?.response?.data || err.message);
-      return rejectWithValue(err?.response?.data?.message || "Failed to update resume");
+      return rejectWithValue(err.response?.data?.message || "Failed to update course resume.");
     }
   }
 );
+
 
 // ✅ Initial State
 const initialState = {

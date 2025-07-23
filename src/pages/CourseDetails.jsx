@@ -115,7 +115,13 @@ const CourseDetails = () => {
         </div>
         <div className="sticky top-24 h-fit bg-white shadow rounded border overflow-hidden">
           {course.previewVideo && (
-            <video src={course.previewVideo} controls className="w-full h-56 object-cover" />
+          <video
+  src={course.previewVideo}
+  controls
+  controlsList="nodownload noplaybackrate"
+  className="w-full h-56 object-cover"
+  disablePictureInPicture
+/>
           )}
           <div className="p-4">
             <h4 className="text-lg font-bold text-primary mb-2">{course.title}</h4>

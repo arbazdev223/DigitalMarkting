@@ -372,8 +372,9 @@ const CourseResumePage = () => {
                 finalTestQuestions={course.questions}
                 courseTitle={course?.title}
                 courseId={course.courseId}
-                allModulesCompleted={true}
+                allModulesCompleted={false}
                 isFinalTest={true}
+                showFinalTestRegardless={true}
               />
             </>
           ) : selectedContentObj ? (

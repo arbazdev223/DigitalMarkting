@@ -12,6 +12,7 @@ import formReducer from "./formSlice";
 import blogReducer from './blogSlice';
 import courseStudentReducer from './courseStudentSlice';
 import paymentReducer from './paymentSlice';
+import quizReducer from './quizSlice';
 const authTransform = createTransform(
   (inboundState) => ({
     ...inboundState,
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   blog:blogReducer,
   courseStudent:courseStudentReducer,
   payment: paymentReducer,
+  quiz:quizReducer,
 });
 
 export const store = configureStore({

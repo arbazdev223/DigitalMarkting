@@ -11,8 +11,8 @@ import {
   selectResumeData,
   setPagination,
   selectStudentCourseById,
-  selectStudentCourseProgressPercent,
   resetCourseStudentState,
+  selectProgressPercentByCourseId,
 } from "../store/courseStudentSlice";
 import Pagination from "./Pagination";
 
@@ -40,20 +40,28 @@ const HalfCircleProgress = ({ percent }) => {
   );
 };
 
+
 // ✅ CourseCard
 const CourseCard = ({ courseId }) => {
   const dispatch = useDispatch();
   const course = useSelector((state) => selectStudentCourseById(state, courseId));
-  const percent = useSelector((state) => selectStudentCourseProgressPercent(state, courseId));
+  const percent = useSelector((state) => selectProgressPercentByCourseId(state, courseId));
   const resumeData = useSelector(selectResumeData);
+  const resume = resumeData[courseId] || {};
+
+  const fetched = useRef(false);
 
   useEffect(() => {
-    if (courseId && !resumeData[courseId]) {
+    if (courseId && !resumeData[courseId] && !fetched.current) {
       dispatch(getCourseResume(courseId));
+      fetched.current = true;
     }
   }, [dispatch, courseId, resumeData]);
 
   if (!course) return null;
+
+  const watched = resume.watchedHours ?? course.watchedHours ?? 0;
+  const total = course.totalHours ?? 0;
 
   return (
     <Link
@@ -70,11 +78,11 @@ const CourseCard = ({ courseId }) => {
           <div>
             <h3 className="font-semibold text-lg">{course.title}</h3>
             <p className="text-sm text-gray-600">
-              {course.duration || `${course.totalHours}h`} • {course.level} •{" "}
+              {course.duration || `${total}h`} • {course.level} •{" "}
               {course.tags?.join(", ")}
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              Watched: {resumeData[courseId]?.watchedHours ?? course.watchedHours}h / {course.totalHours}h
+              Watched: {watched.toFixed(1)}h / {total}h
             </p>
           </div>
         </div>
@@ -92,6 +100,8 @@ const CourseCard = ({ courseId }) => {
     </Link>
   );
 };
+
+
 
 // ✅ Main CourseList Component
 const CourseList = () => {

@@ -4,16 +4,24 @@ import { axiosInstance } from "../config";
 // Create Razorpay order
 export const createPaymentOrder = createAsyncThunk(
   "payment/createPaymentOrder",
-  async ({ amount, userId, cartItems }, { rejectWithValue }) => {
+  async (
+    { amount, userId, cartItems, coupon, discountPercentage },
+    { rejectWithValue }
+  ) => {
     try {
-      const res = await axiosInstance.post("/payment/create-order", {
+      const payload = {
         amount,
         userId,
         cartItems,
-      });
+        ...(coupon ? { coupon, discountPercentage } : {}),
+      };
+
+      const res = await axiosInstance.post("/payment/create-order", payload);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Order creation failed");
+      return rejectWithValue(
+        err.response?.data?.message || "Order creation failed"
+      );
     }
   }
 );
@@ -22,7 +30,14 @@ export const createPaymentOrder = createAsyncThunk(
 export const verifyPayment = createAsyncThunk(
   "payment/verifyPayment",
   async (
-    { razorpay_order_id, razorpay_payment_id, razorpay_signature, amountPaid, userId, cartItems },
+    {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      amountPaid,
+      userId,
+      cartItems,
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -36,7 +51,9 @@ export const verifyPayment = createAsyncThunk(
       });
       return res.data.paymentDetails;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Verification failed");
+      return rejectWithValue(
+        err.response?.data?.message || "Verification failed"
+      );
     }
   }
 );
@@ -49,7 +66,9 @@ export const fetchPaymentsByUser = createAsyncThunk(
       const res = await axiosInstance.get(`/payment/user/${userId}`);
       return res.data.payments;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Fetch payments failed");
+      return rejectWithValue(
+        err.response?.data?.message || "Fetch payments failed"
+      );
     }
   }
 );
@@ -83,15 +102,17 @@ const paymentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Create Order
-      .addCase(createPaymentOrder.pending, (state) => {
-        state.orderStatus = "loading";
-        state.orderError = null;
-      })
       .addCase(createPaymentOrder.fulfilled, (state, action) => {
         state.orderStatus = "succeeded";
         state.order = action.payload;
+        const { coupon, discountPercentage } = action.meta.arg;
+
+        state.orderSummary = {
+          ...action.payload,
+          ...(coupon ? { coupon, discountPercentage } : {}),
+        };
       })
+
       .addCase(createPaymentOrder.rejected, (state, action) => {
         state.orderStatus = "failed";
         state.orderError = action.payload;
@@ -127,10 +148,7 @@ const paymentSlice = createSlice({
   },
 });
 
-export const {
-  resetPaymentState,
-  setOrderSummary,
-  clearOrderSummary,
-} = paymentSlice.actions;
+export const { resetPaymentState, setOrderSummary, clearOrderSummary } =
+  paymentSlice.actions;
 
 export default paymentSlice.reducer;

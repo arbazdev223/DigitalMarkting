@@ -25,6 +25,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CertificatePage from "./pages/CertificatePage";
 import { loadUser } from "./store/authSlice";
 import { fetchCourses } from "./store/courseSlice"; 
+import CouponManager from "./pages/CouponManager";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 
 const App = () => {
@@ -67,6 +69,7 @@ const App = () => {
         <Route path="/courseStudent/:courseId" element={<CourseResumePage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/couponPage21" element={<CouponManager />} />
         <Route path="/certificate" element={<CertificatePage />} />
         <Route path="/privacypolicy" element={<PrivacyPolicy />} />
 
@@ -88,6 +91,7 @@ const App = () => {
         />
       </Routes>
       <Footer />
+      <ScrollToTopButton />
       <ToastContainer />
     </>
   );

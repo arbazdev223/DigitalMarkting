@@ -16,11 +16,14 @@ import {
   verifyPayment,
   resetPaymentState,
 } from "../store/paymentSlice";
+import { validateCoupon, resetCoupon } from "../store/couponSlice";
 
 const CheckoutPage = () => {
   const [activeTab, setActiveTab] = useState("signup");
   const [modalVisible, setModalVisible] = useState(false);
   const [orderSummary, setOrderSummary] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  const coupon = useSelector((state) => state.coupon);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,23 +31,25 @@ const CheckoutPage = () => {
   const cart = useSelector((state) => state.cart.cart);
   const user = useSelector((state) => state.auth.user);
   const totalOriginalPrice = useSelector(selectCartTotalOriginal);
-  const totalPrice = useSelector(selectCartTotalSale);
+  const baseTotalPrice = useSelector(selectCartTotalSale);
   const discount = useSelector(selectCartDiscount);
   const orderStatus = useSelector((state) => state.payment.orderStatus);
+
+  const totalPrice = Math.round(
+    baseTotalPrice * (1 - (coupon.isValid ? coupon.discount : 0) / 100)
+  );
 
   useEffect(() => {
     dispatch(getDataFromLocalStorage());
   }, [dispatch]);
 
-  const loadRazorpayScript = () =>
-    new Promise((resolve, reject) => {
-      if (window.Razorpay) return resolve(true);
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => reject("Razorpay SDK failed to load");
-      document.body.appendChild(script);
-    });
+  const handleApplyCoupon = () => {
+    if (!couponCode.trim()) return;
+
+    dispatch(
+      validateCoupon({ code: couponCode.trim(), cartLength: cart.length })
+    );
+  };
 
   const onSignup = (e) => {
     e.preventDefault();
@@ -62,6 +67,15 @@ const CheckoutPage = () => {
     );
     dispatch(signin({ email, password }));
   };
+  const loadRazorpayScript = () =>
+    new Promise((resolve, reject) => {
+      if (window.Razorpay) return resolve(true);
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => reject("Razorpay SDK failed to load");
+      document.body.appendChild(script);
+    });
 
   const handlePayment = async () => {
     try {
@@ -92,6 +106,8 @@ const CheckoutPage = () => {
             amountPaid: totalPrice,
             userId: user._id,
             cartItems: cart,
+            coupon: couponCode.trim() || "",
+            couponDiscount: coupon.discount,
           };
 
           const verifyRes = await dispatch(verifyPayment(paymentData)).unwrap();
@@ -101,13 +117,15 @@ const CheckoutPage = () => {
             email: verifyRes?.email,
             orderId: verifyRes?.orderId,
             amountPaid: verifyRes?.amountPaid,
-            courses: verifyRes?.courses, 
+            courses: verifyRes?.courses,
           });
-  Object.keys(localStorage).forEach((key) => {
-    if (key.startsWith("rzp_")) {
-      localStorage.removeItem(key);
-    }
-  });
+
+          Object.keys(localStorage).forEach((key) => {
+            if (key.startsWith("rzp_")) {
+              localStorage.removeItem(key);
+            }
+          });
+
           setModalVisible(true);
           dispatch(resetPaymentState());
           dispatch(clearCart());
@@ -134,98 +152,137 @@ const CheckoutPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 md:px-12 py-10 flex flex-col md:flex-row gap-6 relative">
-      {/* Left */}
       <div className="w-full md:w-3/4">
-        <h1 className="text-3xl font-bold text-[#444444] mb-3">Checkout</h1>
+        <div className="w-full md:w-3/4">
+          <h1 className="text-3xl font-bold text-[#444444] mb-3">Checkout</h1>
 
-        {user ? (
-          <h4 className="text-sm sm:text-md flex border-b items-center space-x-2 border-t py-4 font-medium text-[#444444]">
-            Account Details:
-            <span className="text-xs text-gray-600">({user.email})</span>
-            <CheckCircle className="text-green-500 w-4 h-4" />
-          </h4>
-        ) : (
-          <AuthFormCard
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            handleSignup={onSignup}
-            handleSignin={onSignin}
-          />
-        )}
+          {user ? (
+            <h4 className="text-sm sm:text-md flex border-b items-center space-x-2 border-t py-4 font-medium text-[#444444]">
+              Account Details:
+              <span className="text-xs text-gray-600">({user.email})</span>
+              <CheckCircle className="text-green-500 w-4 h-4" />
+            </h4>
+          ) : (
+            <AuthFormCard
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              handleSignup={onSignup}
+              handleSignin={onSignin}
+            />
+          )}
 
-        {/* Order Items */}
-        <div className="mt-4">
-          <h4 className="text-md font-medium text-[#444444]">Order Details:</h4>
-          <div className="space-y-6 mt-3">
-            {cart.length === 0 ? (
-              <p className="text-gray-500">Your cart is empty.</p>
-            ) : (
-              cart.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex flex-col md:flex-row gap-4 border-b pb-3"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full md:w-40 h-25 rounded"
-                  />
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold">{item.title}</h2>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {item.instructor}
-                    </p>
-                    <div className="text-right mt-2">
-                      <p className="text-lg font-semibold text-primary">
-                        ₹{item.salePrice || item.price}
+          {/* Order Items */}
+          <div className="mt-4">
+            <h4 className="text-md font-medium text-[#444444]">
+              Order Details:
+            </h4>
+            <div className="space-y-6 mt-3">
+              {cart.length === 0 ? (
+                <p className="text-gray-500">Your cart is empty.</p>
+              ) : (
+                cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-col md:flex-row gap-4 border-b pb-3"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full md:w-40 h-25 rounded"
+                    />
+                    <div className="flex-1">
+                      <h2 className="text-lg font-semibold">{item.title}</h2>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {item.instructor}
                       </p>
-                      <p className="line-through text-sm text-gray-500">
-                        ₹{item.price}
-                      </p>
+                      <div className="text-right mt-2">
+                        <p className="text-lg font-semibold text-primary">
+                          ₹{item.salePrice || item.price}
+                        </p>
+                        <p className="line-through text-sm text-gray-500">
+                          ₹{item.price}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="w-full md:w-1/4 h-56 bg-white shadow-md p-4 rounded-md flex flex-col justify-between">
-        <div>
-          <h4 className="text-xl font-bold border-b pb-3 text-[#444444] text-center mb-4">
-            Order Summary
-          </h4>
-          {cart.length > 0 && (
-            <div className="space-y-4">
-              <div className="pb-3 space-y-2">
-                <div className="flex justify-between">
-                  <p className="text-sm text-gray-600">Original Price</p>
-                  <p className="line-through text-sm text-gray-500">
-                    ₹{totalOriginalPrice}
-                  </p>
+      <div className="w-full md:w-1/4 h-fit bg-white shadow-md p-4 rounded-md flex flex-col justify-between">
+        <h4 className="text-xl font-bold border-b pb-3 text-[#444444] text-center mb-4">
+          Order Summary
+        </h4>
+
+        {cart.length > 0 && (
+          <>
+            <div className="space-y-2 mb-4">
+              <div className="flex justify-between text-sm text-gray-600">
+                <p>Original Price</p>
+                <p className="line-through text-gray-500">
+                  ₹{totalOriginalPrice}
+                </p>
+              </div>
+              <div className="flex justify-between text-sm text-green-600">
+                <p>Base Discount</p>
+                <p>{discount}%</p>
+              </div>
+              {coupon.isValid && (
+                <div className="flex justify-between text-sm text-green-600">
+                  <p>Coupon Discount</p>
+                  <p>{coupon.discount}%</p>
                 </div>
-                <div className="flex justify-between">
-                  <p className="text-sm text-gray-600">Discount</p>
-                  <p className="text-green-600">{discount}%</p>
-                </div>
-                <div className="flex justify-between">
-                  <p className="font-medium">Total</p>
-                  <p className="font-medium">₹{totalPrice}</p>
-                </div>
+              )}
+              <div className="flex justify-between font-medium">
+                <p>Total</p>
+                <p>₹{totalPrice}</p>
               </div>
             </div>
-          )}
-        </div>
 
-        {user && cart.length > 0 && (
-          <button
-            onClick={handlePayment}
-            disabled={orderStatus === "loading"}
-            className="mt-4 w-full bg-primary text-white px-4 py-2 rounded hover:bg-[#0c2d63]"
-          >
-            {orderStatus === "loading" ? "Processing..." : `Pay ₹${totalPrice}`}
-          </button>
+            <div className="space-y-1">
+              <input
+                type="text"
+                className="w-full border px-2 py-1 rounded"
+                placeholder="Enter coupon code"
+                value={couponCode}
+                onChange={(e) => {
+                  setCouponCode(e.target.value);
+                  if (e.target.value === "") {
+                    dispatch(resetCoupon());
+                  }
+                }}
+              />
+              <button
+                className="w-full bg-primary text-white px-2 py-1 rounded"
+                onClick={handleApplyCoupon}
+              >
+                Apply Coupon
+              </button>
+
+              {coupon.message && (
+                <p
+                  className={`text-sm ${
+                    coupon.isValid ? "text-green-600" : "text-red-500"
+                  }`}
+                >
+                  {coupon.message}
+                </p>
+              )}
+            </div>
+
+            <button
+              onClick={handlePayment}
+              disabled={orderStatus === "loading"}
+              className="mt-4 w-full bg-primary text-white px-4 py-2 rounded hover:bg-[#0c2d63]"
+            >
+              {orderStatus === "loading"
+                ? "Processing..."
+                : `Pay ₹${totalPrice}`}
+            </button>
+          </>
         )}
       </div>
       {modalVisible && orderSummary && (
@@ -236,14 +293,24 @@ const CheckoutPage = () => {
             </h2>
 
             <div className="text-sm space-y-1 text-gray-700">
-              <p><strong>User:</strong> {orderSummary.username}</p>
-              <p><strong>Email:</strong> {orderSummary.email}</p>
-              <p><strong>Order ID:</strong> {orderSummary.orderId}</p>
-              <p><strong>Amount Paid:</strong> ₹{orderSummary.amountPaid}</p>
+              <p>
+                <strong>User:</strong> {orderSummary.username}
+              </p>
+              <p>
+                <strong>Email:</strong> {orderSummary.email}
+              </p>
+              <p>
+                <strong>Order ID:</strong> {orderSummary.orderId}
+              </p>
+              <p>
+                <strong>Amount Paid:</strong> ₹{orderSummary.amountPaid}
+              </p>
             </div>
 
             <div>
-              <h3 className="text-md font-semibold text-primary mt-2">Courses:</h3>
+              <h3 className="text-md font-semibold text-primary mt-2">
+                Courses:
+              </h3>
               <ul className="list-none text-sm text-gray-700 mt-2 space-y-3">
                 {orderSummary.courses.map((course) => (
                   <li

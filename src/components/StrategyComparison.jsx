@@ -22,7 +22,7 @@ const StrategyComparison = () => {
           <ul className="space-y-2 text-left">
             {strategyData.withStrategy.points.map((point, idx) => (
               <li key={idx} className="flex items-start gap-2 text-gray-800">
-                <FaCheckCircle className="text-blue-600 mt-1" />
+                <FaCheckCircle className="text-green-600 mt-1" />
                 <span>{point}</span>
               </li>
             ))}

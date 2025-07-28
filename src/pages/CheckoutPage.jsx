@@ -191,7 +191,6 @@ const CheckoutPage = () => {
         </div>
       </div>
 
-      {/* Right */}
       <div className="w-full md:w-1/4 h-56 bg-white shadow-md p-4 rounded-md flex flex-col justify-between">
         <div>
           <h4 className="text-xl font-bold border-b pb-3 text-[#444444] text-center mb-4">
@@ -229,8 +228,6 @@ const CheckoutPage = () => {
           </button>
         )}
       </div>
-
-      {/* Success Modal */}
       {modalVisible && orderSummary && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg space-y-4">

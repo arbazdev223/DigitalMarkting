@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import { axiosInstance } from "../config";
 
-// ✅ Fetch All Course Students (admin purpose maybe)
+// ✅ Fetch All Course Students (admin use)
 export const fetchAllCourseStudents = createAsyncThunk(
   "courseStudent/fetchAll",
   async () => {
@@ -16,7 +16,6 @@ export const getPurchasedEnrolledCoursesByUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("/courseStudent/getCourseByUser");
-      // validate structure
       if (!res.data || !Array.isArray(res.data.enrolledCourses)) {
         throw new Error("Invalid course data structure");
       }
@@ -33,37 +32,33 @@ export const getCourseResume = createAsyncThunk(
   "courseStudent/getCourseResume",
   async (courseId, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get(`/courseStudent/${courseId}`); 
+      const res = await axiosInstance.get(`/courseStudent/${courseId}`);
       return { courseId, resume: res.data.resume };
     } catch (err) {
-      console.error("❌ Resume Fetch Error:", err.response?.data || err.message);
-      return rejectWithValue(err.response?.data?.message || "Failed to fetch resume");
+      console.error("❌ Resume Fetch Error:", err?.response?.data || err.message);
+      return rejectWithValue(err?.response?.data?.message || "Failed to fetch resume");
     }
   }
 );
 
 // ✅ Update course resume
 export const updateCourseResume = createAsyncThunk(
-  "courseResume/update",
-  async ({ courseId, lastWatched, watchedHours, completedContent }, { rejectWithValue }) => {
+  "courseStudent/updateCourseResume",
+  async (payload, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`/courseStudent/${courseId}`, {
-        lastWatched,
-        watchedHours,
-        completedContent,
-      });
-      return data.resume;
+      const res = await axiosInstance.put(`/courseStudent/resume`, payload);
+      return { courseId: payload.courseId, resume: res.data.resume };
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || "Failed to update course resume.");
+      console.error("❌ Resume Update Error:", err.response?.data || err.message);
+      return rejectWithValue(err.response?.data?.message || "Failed to update resume");
     }
   }
 );
 
-
 // ✅ Initial State
 const initialState = {
   enrolledCourses: [],
-  resumeData: {}, 
+  resumeData: {}, // key: courseId
   status: "idle",
   error: null,
   message: null,
@@ -105,7 +100,7 @@ const courseStudentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // ✅ Get resume
+      // ✅ Resume fetch
       .addCase(getCourseResume.fulfilled, (state, action) => {
         const { courseId, resume } = action.payload;
         state.resumeData[courseId] = resume;
@@ -114,10 +109,10 @@ const courseStudentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // ✅ Update resume
+      // ✅ Resume update
       .addCase(updateCourseResume.fulfilled, (state, action) => {
         const { courseId, resume } = action.payload;
-        state.resumeData[courseId] = resume;
+        state.resumeData[courseId] = { ...(state.resumeData[courseId] || {}), ...resume };
         state.message = "Resume updated successfully";
       })
       .addCase(updateCourseResume.rejected, (state, action) => {
@@ -134,25 +129,58 @@ export const selectCourseStudentPagination = (state) => state.courseStudent.pagi
 export const selectEnrolledCourses = (state) => state.courseStudent.enrolledCourses;
 export const selectResumeData = (state) => state.courseStudent.resumeData;
 
-// 🔎 Select by ID
+// 🔎 Select by Course ID
 export const selectStudentCourseById = createSelector(
   [selectEnrolledCourses, (_, courseId) => courseId],
   (courses, courseId) => courses.find((c) => c.courseId === courseId) || null
 );
 
-// 📊 Select progress percent
-export const selectStudentCourseProgressPercent = createSelector(
-  [selectStudentCourseById, selectResumeData, (_, courseId) => courseId],
-  (course, resumeData, courseId) => {
-    const resume = resumeData[courseId];
-    const watched = resume?.watchedHours ?? course?.watchedHours ?? 0;
-    const total = course?.totalHours ?? 0;
-    const percent = total > 0 ? (watched / total) * 100 : 0;
-    return Math.round(Math.min(percent, 100));
+// 📄 Select resume by Course ID
+export const selectResumeByCourseId = createSelector(
+  [selectResumeData, (_, courseId) => courseId],
+  (resumeData, courseId) => resumeData[courseId] || {}
+);
+
+// ⏱️ Watched Hours
+export const selectWatchedHours = createSelector(
+  [selectResumeByCourseId],
+  (resume) => resume.watchedHours ?? 0
+);
+
+// 📊 Progress Percent
+export const selectProgressPercent = createSelector(
+  [selectResumeByCourseId],
+  (resume) => resume.progressPercent ?? 0
+);
+
+// ✅ Is Course Completed
+export const selectCourseIsCompleted = createSelector(
+  [selectResumeByCourseId],
+  (resume) => resume.isCompleted ?? false
+);
+
+// 🧩 Module Progress Array
+export const selectModuleProgress = createSelector(
+  [selectResumeByCourseId],
+  (resume) => resume.moduleProgress ?? []
+);
+
+// 📦 Combine static course data + dynamic resume progress
+export const selectCourseWithProgress = createSelector(
+  [selectStudentCourseById, selectResumeByCourseId],
+  (course, resume) => {
+    if (!course) return null;
+    return {
+      ...course,
+      progressPercent: resume.progressPercent ?? 0,
+      watchedHours: resume.watchedHours ?? 0,
+      isCompleted: resume.isCompleted ?? false,
+      moduleProgress: resume.moduleProgress ?? [],
+    };
   }
 );
 
-// 📚 Paginated
+// 🧾 Paginated Enrolled Courses
 export const selectPaginatedEnrolledCourses = createSelector(
   [selectEnrolledCourses, selectCourseStudentPagination],
   (courses, pagination) => {
@@ -161,6 +189,8 @@ export const selectPaginatedEnrolledCourses = createSelector(
   }
 );
 
-// ✅ Export
+// ✅ Exports
 export const { setPagination, resetCourseStudentState } = courseStudentSlice.actions;
 export default courseStudentSlice.reducer;
+
+

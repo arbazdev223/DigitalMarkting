@@ -168,8 +168,5 @@ export default function CouponManager() {
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a7ac73a6f9c47ff518be28c8312ba6c40f20d582
+

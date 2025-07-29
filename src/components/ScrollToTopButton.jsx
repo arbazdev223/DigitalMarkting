@@ -40,4 +40,8 @@ const ScrollToTopButton = () => {
   );
 };
 
+<<<<<<< HEAD
 export default ScrollToTopButton;
+=======
+export default ScrollToTopButton;
+>>>>>>> a7ac73a6f9c47ff518be28c8312ba6c40f20d582

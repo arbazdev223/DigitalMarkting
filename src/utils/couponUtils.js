@@ -63,4 +63,8 @@ export const listValidCoupons = () => {
     discount: `${c.discount}%`,
     expiresAt: new Date(c.expiresAt).toLocaleString(),
   }));
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> a7ac73a6f9c47ff518be28c8312ba6c40f20d582

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import studentIcon1 from "/assets/4dm.png";
+import studentIcon1 from "/assets/main21.png";
 
 const HeroMain = () => {
   return (
@@ -38,7 +38,7 @@ const HeroMain = () => {
         <img
           src={studentIcon1}
           alt="Hero"
-          className="w-full h-auto object-contain"
+          className="w-full h-auto object-cover"
         />
       </div>
     </section>

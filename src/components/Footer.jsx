@@ -3,8 +3,9 @@ import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
-  FaLinkedinIn,
+  FaWhatsapp,
 } from 'react-icons/fa';
+import { FiYoutube } from "react-icons/fi";
 import logo from '/assets/logo.png';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,10 +43,10 @@ const Footer = () => {
             Ifda is your go-to platform for career-focused digital marketing & technology courses designed for today’s job market.
           </p>
           <div className="flex gap-3 mt-4">
-            <a href="#" className="hover:text-white"><FaFacebookF /></a>
-            <a href="#" className="hover:text-white"><FaTwitter /></a>
-            <a href="#" className="hover:text-white"><FaInstagram /></a>
-            <a href="#" className="hover:text-white"><FaLinkedinIn /></a>
+            <a href="https://www.facebook.com/share/1M9F3B3uDm/" className="hover:text-white"><FaFacebookF /></a>
+            <a href="https://youtube.com/@banarasdigitalhub?si=Uvje_krqowilgqaE" className="hover:text-white"><FiYoutube /></a>
+            <a href="https://www.instagram.com/banaras_digital_solution?igsh=MXBxazRmb3V1Nmdobg==" className="hover:text-white"><FaInstagram /></a>
+            <a href="https://whatsapp.com/channel/0029VbAdEW57z4kYIGQieJ2L" className="hover:text-white"><FaWhatsapp   /></a>
           </div>
         </div>
 
@@ -63,10 +64,10 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="" className="hover:text-white">About Us</Link></li>
-              <li><Link to="" className="hover:text-white">Blog</Link></li>
-              <li><Link to="" className="hover:text-white">Careers</Link></li>
-              <li><Link to="" className="hover:text-white">Contact</Link></li>
+              <li><Link to="/about" className="hover:text-white">About Us</Link></li>
+              <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
+              <li><Link to="/" className="hover:text-white">Careers</Link></li>
+              <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
               <li><Link to="/privacypolicy" className="hover:text-white">Privacy Policy</Link></li>
             </ul>
           </div>
@@ -78,7 +79,7 @@ const Footer = () => {
           <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
             <input
               type="email"
-              placeholder="Your email"
+              placeholder="abc@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

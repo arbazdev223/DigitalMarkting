@@ -5,14 +5,20 @@ import {
   setUserAnswers,
   setScore,
   addAttempt,
+  saveTestData,
   selectAttempts,
   selectMaxScore,
   selectScore,
   selectUserAnswers,
+  selectAttemptCount,
+  selectCorrect,
+  selectIncorrect,
+  selectPercent,
 } from "../store/testSlice";
 
 const QuizContainer = ({
   quizId,
+  courseId,
   quizName,
   testQuestions,
   userId,
@@ -20,11 +26,14 @@ const QuizContainer = ({
   maxAttempts = 3,
 }) => {
   const dispatch = useDispatch();
+
   const attempts = useSelector((state) => selectAttempts(state, quizId));
   const maxScore = useSelector((state) => selectMaxScore(state, quizId));
   const score = useSelector((state) => selectScore(state, quizId));
   const userAnswers = useSelector((state) => selectUserAnswers(state, quizId));
-  //  const attemptCount = useSelector((state) => selectAttemptCount(state, quizId));
+  const attemptCount = useSelector((state) => selectAttemptCount(state, quizId));
+  const quizReports = useSelector((state) => state.test.quizReports);
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [showReport, setShowReport] = useState(false);
@@ -32,12 +41,7 @@ const QuizContainer = ({
   const timerRef = useRef();
 
   const totalQuestions = testQuestions.length;
-  const attemptsLeft = maxAttempts - attempts.length;
-
-  // useEffect(() => {
-  //   dispatch(selectAttemptCount(userId));
-  //   setTimeLeft(90);
-  // }, [userId, quizId]);
+  const attemptsLeft = maxAttempts - (attempts?.length || 0);
 
   useEffect(() => {
     if (showResult) return;
@@ -56,20 +60,78 @@ const QuizContainer = ({
 
   const handleSubmit = () => {
     clearInterval(timerRef.current);
+    const currentUserAnswers = { ...(userAnswers || {}) };
     let newScore = 0;
+
     testQuestions.forEach((q, idx) => {
       const correct = Array.isArray(q.answer)
-        ? q.answer.sort().join(",")
+        ? [...q.answer].sort().join(",")
         : q.answer;
-      const user = Array.isArray(userAnswers[q.id || idx])
-        ? userAnswers[q.id || idx].sort().join(",")
-        : "";
-      if (correct === user) newScore += 1;
+
+      const userRaw = currentUserAnswers[q.id || idx];
+      const user = Array.isArray(userRaw)
+        ? [...userRaw].sort().join(",")
+        : userRaw || "";
+
+      if (correct === user) {
+        newScore += 1;
+      }
     });
 
-    dispatch(setUserAnswers({ quizId, answers: userAnswers }));
+    const correct = newScore;
+    const incorrect = totalQuestions - newScore;
+    const percent = totalQuestions ? Math.round((newScore / totalQuestions) * 100) : 0;
+
+    const updatedAttemptCount = attemptCount + 1;
+
+    const previousReport = quizReports?.[quizId] || {
+      quizName,
+      totalQuestions,
+      attempts: [],
+      maxScore: 0,
+      lastScore: 0,
+      lastUserAnswers: {},
+      correct: 0,
+      incorrect: 0,
+      percent: 0,
+    };
+
+    const updatedReport = {
+      ...previousReport,
+      quizName,
+      totalQuestions,
+      lastScore: newScore,
+      lastUserAnswers: currentUserAnswers,
+      attempts: [...(previousReport.attempts || []), newScore],
+      maxScore: Math.max(previousReport.maxScore || 0, newScore),
+      correct,
+      incorrect,
+      percent,
+    };
+
+    dispatch(setUserAnswers({ quizId, answers: currentUserAnswers }));
     dispatch(setScore({ quizId, score: newScore }));
-    dispatch(addAttempt({ quizId, score: newScore, userId }));
+    dispatch(
+      addAttempt({
+        quizId,
+        score: newScore,
+        userAnswers: currentUserAnswers,
+        quizName,
+        totalQuestions,
+      })
+    );
+    dispatch(
+      saveTestData({
+        userId,
+        courseId,
+        quizId,
+        score: newScore,
+        userAnswers: currentUserAnswers,
+        attempts: updatedAttemptCount,
+        quizReport: updatedReport,
+      })
+    );
+
     setShowResult(true);
   };
 
@@ -83,9 +145,7 @@ const QuizContainer = ({
           ? existing.filter((o) => o !== option)
           : [...existing, option]
         : [option];
-    dispatch(
-      setUserAnswers({ quizId, answers: { ...userAnswers, [id]: updated } })
-    );
+    dispatch(setUserAnswers({ quizId, answers: { ...userAnswers, [id]: updated } }));
   };
 
   const goToNextQuestion = () => {
@@ -122,16 +182,19 @@ const QuizContainer = ({
           <span className="font-bold text-base">
             {attemptsLeft}/{maxAttempts}
           </span>
-          <button
-            className="text-xs text-blue-700 underline mt-1"
-            onClick={() => setShowReport(true)}
-          >
-            View Report
-          </button>
+          {attempts.length > 0 && (
+            <button
+              className="text-xs text-blue-700 underline mt-1"
+              onClick={() => setShowReport(true)}
+            >
+              View Report
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
+
   const ReportScreen = () => {
     const correct = score;
     const incorrect = totalQuestions - score;
@@ -370,6 +433,7 @@ const QuizContainer = ({
   if (showReport) {
     return (
       <div className="p-4">
+        <InfoBar />
         <ReportScreen />
         {attemptsLeft > 0 && (
           <div className="flex justify-end mt-4">
@@ -393,11 +457,13 @@ const QuizContainer = ({
           <button
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
             onClick={() => {
-              dispatch(setUserAnswers({ quizId, answers: {} }));
-              setShowResult(false);
-              setCurrentQuestionIndex(0);
-              setTimeLeft(90);
-            }}
+  dispatch(setUserAnswers({ quizId, answers: {} }));
+  dispatch(setScore({ quizId, score: 0 }));
+  setShowResult(false);
+  setShowReport(false);
+  setCurrentQuestionIndex(0);
+  setTimeLeft(90);
+}}
           >
             Start Test Again
           </button>
@@ -409,7 +475,8 @@ const QuizContainer = ({
       </div>
     );
   }
-  if (attemptsLeft > 0 && !showResult && !showReport) {
+
+  if (attemptsLeft > 0) {
     return (
       <div>
         <DynamicTestQuestion
@@ -425,28 +492,10 @@ const QuizContainer = ({
       </div>
     );
   }
-  if (attemptsLeft === 0) {
-    return (
-      <div>
-        <InfoBar />
-      </div>
-    );
-  }
 
   return (
     <div>
       <InfoBar />
-      {attempts.length > 0}
-      <DynamicTestQuestion
-        currentQuestionIndex={currentQuestionIndex}
-        testQuestions={testQuestions}
-        currentQuestion={testQuestions[currentQuestionIndex]}
-        userAnswers={userAnswers}
-        handleOptionChange={handleOptionChange}
-        goToNextQuestion={goToNextQuestion}
-        handleSubmit={handleSubmit}
-        timeLeft={timeLeft}
-      />
     </div>
   );
 };

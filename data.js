@@ -60,7 +60,18 @@ import DM2 from "/assets/1dm.png";
 import DM3 from "/assets/1dm.png";
 import DM4 from "/assets/1dm.png";
 import DM5 from "/assets/1dm.png";
-
+import DM112 from "/assets/artificial-intellegence.png";
+import DM111 from "/assets/datascience.png";
+import DM21 from "/assets/blockchain.png";
+import DM31 from "/assets/webdevelopment.png";
+import DM41 from "/assets/cybersecurity.png";
+import DM51 from "/assets/robotics.png";
+import DM61 from "/assets/uiuxdesign.png";
+import DM71 from "/assets/app-development.png";
+import DM81 from "/assets/htsoftskills.png";
+import DM91 from "/assets/digitalmarketing.png";
+import DM10 from "/assets/cloudcomputing.png";
+import DM11 from "/assets/businessstrategy.png";
 // BlogSection data
 import blog1 from "/assets/web.jpg";
 import blog2 from "/assets/design.jpg";
@@ -113,18 +124,18 @@ export const testimonials = [
 ];
 
 export const cardData = [
-  { id: 1, image: DM, text: "Artificial Intelligence" },
-  { id: 2, image: DM1, text: "Web Development" },
-  { id: 3, image: DM2, text: "UI/UX Design" },
-  { id: 4, image: DM3, text: "Digital Marketing" },
-  { id: 5, image: DM4, text: "Data Science" },
-  { id: 6, image: DM5, text: "Cyber Security" },
-  { id: 7, image: DM, text: "App Development" },
-  { id: 8, image: DM1, text: "Cloud Computing" },
-  { id: 9, image: DM2, text: "Blockchain" },
-  { id: 10, image: DM3, text: "Robotics" },
-  { id: 11, image: DM4, text: "HR & Soft Skills" },
-  { id: 12, image: DM5, text: "Business Strategy" },
+  { id: 1, image: DM112, text: "Artificial Intelligence" },
+  { id: 2, image: DM111, text: "Web Development" },
+  { id: 3, image: DM21, text: "UI/UX Design" },
+  { id: 4, image: DM31, text: "Digital Marketing" },
+  { id: 5, image: DM41, text: "Data Science" },
+  { id: 6, image: DM51, text: "Cyber Security" },
+  { id: 7, image: DM61, text: "App Development" },
+  { id: 8, image: DM71, text: "Cloud Computing" },
+  { id: 9, image: DM81, text: "Blockchain" },
+  { id: 10, image: DM91, text: "Robotics" },
+  { id: 11, image: DM10, text: "HR & Soft Skills" },
+  { id: 12, image: DM11, text: "Business Strategy" },
 ];
 
 export const blogData = [

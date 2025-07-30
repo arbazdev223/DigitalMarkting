@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import SocialIcons from "./components/SocialIcons";
 import Footer from "./components/Footer";
-import CallToAction from "./components/CallToAction";
 import AuthTabs from "./components/AuthTabs";
 import Profile from "./pages/Profile";
 import TopBar from "./components/TopBar";
@@ -24,13 +23,14 @@ import CheckoutPage from "./pages/CheckoutPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CertificatePage from "./pages/CertificatePage";
 import { loadUser } from "./store/authSlice";
-import { fetchCourses } from "./store/courseSlice"; 
+import { fetchCourses } from "./store/courseSlice";
 import CouponManager from "./pages/CouponManager";
 import ScrollToTopButton from "./components/ScrollToTopButton";
-
+import ProfileInfoPage from "./pages/ProfileInfoPage";
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { isLoggedIn, user, status } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -51,12 +51,14 @@ const App = () => {
     }
   }, [dispatch, isLoggedIn]);
 
+  const isMinimalLayout = location.pathname === "/profileinfo";
+
   return (
     <>
-      <TopBar />
-      <Header />
-      <SocialIcons />
-      {/* <CallToAction /> */}
+      {!isMinimalLayout && <TopBar />}
+      {!isMinimalLayout && <Header />}
+      {!isMinimalLayout && <SocialIcons />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -76,22 +78,24 @@ const App = () => {
         <Route
           path="/auth"
           element={
-            status === "loading"
-              ? null // or <LoadingSpinner />
-              : isLoggedIn && user
-              ? <Navigate to="/" replace />
-              : <AuthTabs />
+            status === "loading" ? null : isLoggedIn && user ? (
+              <Navigate to="/" replace />
+            ) : (
+              <AuthTabs />
+            )
           }
         />
         <Route
           path="/profile"
-          element={
-            isLoggedIn && user ? <Profile /> : <Navigate to="/auth" replace />
-          }
+          element={isLoggedIn && user ? <Profile /> : <Navigate to="/auth" replace />}
         />
+
+        {/* Minimal layout route */}
+        <Route path="/profileinfo" element={<ProfileInfoPage />} />
       </Routes>
-      <Footer />
-      <ScrollToTopButton />
+
+      {!isMinimalLayout && <Footer />}
+      {!isMinimalLayout && <ScrollToTopButton />}
       <ToastContainer />
     </>
   );

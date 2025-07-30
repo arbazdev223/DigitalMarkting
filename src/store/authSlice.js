@@ -140,7 +140,7 @@ const authSlice = createSlice({
         state.status = "succeeded";
         state.error = null;
       })
-      .addCase(signup.fulfilled, (state, action) => {
+      .addCase(signup.fulfilled, (state) => {
         state.user = null;            
         state.token = null;              
         state.isLoggedIn = false;   

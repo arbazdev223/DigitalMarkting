@@ -33,7 +33,7 @@ useEffect(() => {
       })
       .join("<br/>");
 
-    const transformed = transformHTML(rawHTML); // applies tagMap logic
+    const transformed = transformHTML(rawHTML); 
     setSelectedBlogContent(transformed);
   }
 }, [selectedBlog]);

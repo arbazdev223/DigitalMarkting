@@ -54,7 +54,7 @@ const DynamicTestQuestion = ({
                   type={currentQuestion.type === "multi" ? "checkbox" : "radio"}
                   name={`q_${answerKey}`}
                   value={option}
-                  checked={!!selected} // will be false if not selected
+                  checked={!!selected} 
                   onChange={() => handleOptionChange(option)}
                   className="mr-2"
                 />

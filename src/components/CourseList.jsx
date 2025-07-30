@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 import {
   getPurchasedEnrolledCoursesByUser,
   getCourseResume,
-  setPagination,
-  resetCourseStudentState,
   selectCourseStudentStatus,
   selectCourseStudentError,
   selectCourseStudentPagination,
   selectEnrolledCourses,
-  selectResumeByCourseId,
-  selectProgressPercent,
+  selectResumeData,
+  setPagination,
+  selectStudentCourseById,
+  resetCourseStudentState,
+  selectProgressPercentByCourseId,
 } from "../store/courseStudentSlice";
 import Pagination from "./Pagination";
 
@@ -39,36 +40,49 @@ const HalfCircleProgress = ({ percent }) => {
   );
 };
 
+
 // ✅ CourseCard
-const CourseCard = ({ course }) => {
+const CourseCard = ({ courseId }) => {
   const dispatch = useDispatch();
-  const { courseId, title, image, duration, level, tags, totalHours } = course;
+  const course = useSelector((state) => selectStudentCourseById(state, courseId));
+  const percent = useSelector((state) => selectProgressPercentByCourseId(state, courseId));
+  const resumeData = useSelector(selectResumeData);
+  const resume = resumeData[courseId] || {};
 
-  const resume = useSelector((state) => selectResumeByCourseId(state, courseId));
-  const percent = useSelector((state) => selectProgressPercent(state, courseId));
+  const fetched = useRef(false);
 
-// useEffect(() => {
-//   if (courseId && (!resume || !resume.watchedHours)) {
-//     dispatch(getCourseResume(courseId));
-//   }
-// }, [dispatch, courseId, resume]);
+  useEffect(() => {
+    if (courseId && !resumeData[courseId] && !fetched.current) {
+      dispatch(getCourseResume(courseId));
+      fetched.current = true;
+    }
+  }, [dispatch, courseId, resumeData]);
 
-  const watchedHours = resume?.watchedHours ?? 0;
+  if (!course) return null;
+
+  const watched = resume.watchedHours ?? course.watchedHours ?? 0;
+  const total = course.totalHours ?? 0;
+
   return (
     <Link
-      to={`/courseStudent/${courseId}`}
+      to={`/courseStudent/${course.courseId}`}
       className="bg-white p-4 rounded shadow hover:shadow-md transition-shadow duration-200"
     >
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-4 w-full sm:w-auto">
-          <img src={image} alt={title} className="w-24 h-16 object-cover rounded" />
+          <img
+            src={course.image}
+            alt={course.title}
+            className="w-24 h-16 object-cover rounded"
+          />
           <div>
-            <h3 className="font-semibold text-lg">{title}</h3>
+            <h3 className="font-semibold text-lg">{course.title}</h3>
             <p className="text-sm text-gray-600">
-              {duration || `${totalHours}h`} • {level} • {tags?.join(", ")}
+              {course.duration || `${total}h`} • {course.level} •{" "}
+              {course.tags?.join(", ")}
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              Watched: {watchedHours}h / {totalHours}h
+              Watched: {watched.toFixed(1)}h / {total}h
             </p>
           </div>
         </div>
@@ -77,7 +91,9 @@ const CourseCard = ({ course }) => {
           {percent > 0 ? (
             <span className="text-green-600 font-semibold text-sm">Resume Learning →</span>
           ) : (
-            <span className="bg-primary text-white px-4 py-1 rounded text-sm">Get Started</span>
+            <span className="bg-primary text-white px-4 py-1 rounded text-sm">
+              Get Started
+            </span>
           )}
         </div>
       </div>
@@ -85,11 +101,12 @@ const CourseCard = ({ course }) => {
   );
 };
 
-// ✅ CourseList
+
+
+// ✅ Main CourseList Component
 const CourseList = () => {
   const dispatch = useDispatch();
   const fetched = useRef(false);
-
   const { token, isLoggedIn } = useSelector((state) => state.auth);
   const status = useSelector(selectCourseStudentStatus);
   const error = useSelector(selectCourseStudentError);
@@ -101,7 +118,7 @@ const CourseList = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedCourses = enrolledCourses.slice(startIndex, startIndex + itemsPerPage);
 
-  // ✅ Load courses
+  // ✅ Fetch enrolled courses if token exists (no need for status check)
   useEffect(() => {
     if (token && isLoggedIn && !fetched.current) {
       dispatch(getPurchasedEnrolledCoursesByUser());
@@ -112,12 +129,12 @@ const CourseList = () => {
     }
   }, [dispatch, token, isLoggedIn]);
 
-  // ✅ Loading
+  // ✅ Handle loading state
   if (status === "loading") {
     return <p className="text-gray-600 text-center mt-10">Loading courses...</p>;
   }
 
-  // ✅ Error
+  // ✅ Handle API errors
   if (error) {
     if (error.toLowerCase().includes("student not found")) {
       return (
@@ -136,7 +153,7 @@ const CourseList = () => {
     return <p className="text-red-500 text-center mt-10">Error: {error}</p>;
   }
 
-  // ✅ No Courses
+  // ✅ No courses enrolled
   if (!enrolledCourses.length && status === "succeeded") {
     return (
       <div className="text-center text-gray-600 mt-10">
@@ -149,11 +166,11 @@ const CourseList = () => {
     );
   }
 
-  // ✅ Render Course List
+  // ✅ Render course cards
   return (
     <div className="flex-1 flex flex-col gap-4">
       {paginatedCourses.map((course) => (
-        <CourseCard key={course.courseId} course={course} />
+        <CourseCard key={course.courseId} courseId={course.courseId} />
       ))}
 
       {enrolledCourses.length > itemsPerPage && (

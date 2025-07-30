@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import { axiosInstance } from "../config";
 
-// ✅ Fetch All Course Students (admin use)
+// ✅ Fetch all course students (admin)
 export const fetchAllCourseStudents = createAsyncThunk(
   "courseStudent/fetchAll",
   async () => {
@@ -10,7 +10,7 @@ export const fetchAllCourseStudents = createAsyncThunk(
   }
 );
 
-// ✅ Fetch enrolled courses for current user
+// ✅ Fetch enrolled courses for the current user
 export const getPurchasedEnrolledCoursesByUser = createAsyncThunk(
   "courseStudent/getPurchasedEnrolledCoursesByUser",
   async (_, { rejectWithValue }) => {
@@ -27,7 +27,7 @@ export const getPurchasedEnrolledCoursesByUser = createAsyncThunk(
   }
 );
 
-// ✅ Fetch resume data for a specific course
+// ✅ Fetch resume for a specific course
 export const getCourseResume = createAsyncThunk(
   "courseStudent/getCourseResume",
   async (courseId, { rejectWithValue }) => {
@@ -35,8 +35,21 @@ export const getCourseResume = createAsyncThunk(
       const res = await axiosInstance.get(`/courseStudent/${courseId}`);
       return { courseId, resume: res.data.resume };
     } catch (err) {
-      console.error("❌ Resume Fetch Error:", err?.response?.data || err.message);
-      return rejectWithValue(err?.response?.data?.message || "Failed to fetch resume");
+      const status = err.response?.status;
+      if (status === 404) {
+        return {
+          courseId,
+          resume: {
+            watchedHours: 0,
+            completedContent: [],
+            lastWatched: {},
+            progressPercent: 0,
+            moduleProgress: [],
+            isCompleted: false
+          }
+        };
+      }
+      return rejectWithValue(err.response?.data?.message || "Failed to fetch resume");
     }
   }
 );
@@ -44,13 +57,16 @@ export const getCourseResume = createAsyncThunk(
 // ✅ Update course resume
 export const updateCourseResume = createAsyncThunk(
   "courseStudent/updateCourseResume",
-  async (payload, { rejectWithValue }) => {
+  async ({ courseId, lastWatched, watchedHours, completedContent }, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.put(`/courseStudent/resume`, payload);
-      return { courseId: payload.courseId, resume: res.data.resume };
+      const res = await axiosInstance.put(`/courseStudent/${courseId}`, {
+        lastWatched,
+        watchedHours,
+        completedContent
+      });
+      return { courseId, resume: res.data.resume };
     } catch (err) {
-      console.error("❌ Resume Update Error:", err.response?.data || err.message);
-      return rejectWithValue(err.response?.data?.message || "Failed to update resume");
+      return rejectWithValue(err.response?.data?.message || "Failed to update course resume.");
     }
   }
 );
@@ -58,14 +74,14 @@ export const updateCourseResume = createAsyncThunk(
 // ✅ Initial State
 const initialState = {
   enrolledCourses: [],
-  resumeData: {}, // key: courseId
+  resumeData: {}, // courseId => resume
   status: "idle",
   error: null,
   message: null,
   pagination: {
     currentPage: 1,
-    perPage: 10,
-  },
+    perPage: 10
+  }
 };
 
 // ✅ Slice
@@ -82,7 +98,7 @@ const courseStudentSlice = createSlice({
       state.message = null;
       state.resumeData = {};
       state.enrolledCourses = [];
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -100,7 +116,7 @@ const courseStudentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // ✅ Resume fetch
+      // ✅ Course resume fetch
       .addCase(getCourseResume.fulfilled, (state, action) => {
         const { courseId, resume } = action.payload;
         state.resumeData[courseId] = resume;
@@ -109,16 +125,16 @@ const courseStudentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // ✅ Resume update
+      // ✅ Course resume update
       .addCase(updateCourseResume.fulfilled, (state, action) => {
         const { courseId, resume } = action.payload;
-        state.resumeData[courseId] = { ...(state.resumeData[courseId] || {}), ...resume };
+        state.resumeData[courseId] = resume;
         state.message = "Resume updated successfully";
       })
       .addCase(updateCourseResume.rejected, (state, action) => {
         state.error = action.payload;
       });
-  },
+  }
 });
 
 // ✅ Selectors
@@ -129,58 +145,35 @@ export const selectCourseStudentPagination = (state) => state.courseStudent.pagi
 export const selectEnrolledCourses = (state) => state.courseStudent.enrolledCourses;
 export const selectResumeData = (state) => state.courseStudent.resumeData;
 
-// 🔎 Select by Course ID
+// 🔎 Select course by ID
 export const selectStudentCourseById = createSelector(
   [selectEnrolledCourses, (_, courseId) => courseId],
   (courses, courseId) => courses.find((c) => c.courseId === courseId) || null
 );
 
-// 📄 Select resume by Course ID
+// 📊 Select resume by course ID
 export const selectResumeByCourseId = createSelector(
   [selectResumeData, (_, courseId) => courseId],
-  (resumeData, courseId) => resumeData[courseId] || {}
+  (resumeData, courseId) => resumeData[courseId] || null
 );
 
-// ⏱️ Watched Hours
-export const selectWatchedHours = createSelector(
+// 📈 Progress percent by courseId (from resume)
+export const selectProgressPercentByCourseId = createSelector(
   [selectResumeByCourseId],
-  (resume) => resume.watchedHours ?? 0
-);
-
-// 📊 Progress Percent
-export const selectProgressPercent = createSelector(
-  [selectResumeByCourseId],
-  (resume) => resume.progressPercent ?? 0
-);
-
-// ✅ Is Course Completed
-export const selectCourseIsCompleted = createSelector(
-  [selectResumeByCourseId],
-  (resume) => resume.isCompleted ?? false
-);
-
-// 🧩 Module Progress Array
-export const selectModuleProgress = createSelector(
-  [selectResumeByCourseId],
-  (resume) => resume.moduleProgress ?? []
-);
-
-// 📦 Combine static course data + dynamic resume progress
-export const selectCourseWithProgress = createSelector(
-  [selectStudentCourseById, selectResumeByCourseId],
-  (course, resume) => {
-    if (!course) return null;
-    return {
-      ...course,
-      progressPercent: resume.progressPercent ?? 0,
-      watchedHours: resume.watchedHours ?? 0,
-      isCompleted: resume.isCompleted ?? false,
-      moduleProgress: resume.moduleProgress ?? [],
-    };
+  (resume) => {
+    return resume?.progressPercent || 0;
   }
 );
 
-// 🧾 Paginated Enrolled Courses
+// ⏱ Watched hours by courseId (from resume)
+export const selectWatchedHoursByCourseId = createSelector(
+  [selectResumeByCourseId],
+  (resume) => {
+    return resume?.watchedHours || 0;
+  }
+);
+
+// 📚 Paginated enrolled courses
 export const selectPaginatedEnrolledCourses = createSelector(
   [selectEnrolledCourses, selectCourseStudentPagination],
   (courses, pagination) => {
@@ -189,8 +182,6 @@ export const selectPaginatedEnrolledCourses = createSelector(
   }
 );
 
-// ✅ Exports
+// ✅ Export actions and reducer
 export const { setPagination, resetCourseStudentState } = courseStudentSlice.actions;
 export default courseStudentSlice.reducer;
-
-

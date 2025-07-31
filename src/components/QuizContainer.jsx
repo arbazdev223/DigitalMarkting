@@ -14,6 +14,7 @@ import {
   selectCorrect,
   selectIncorrect,
   selectPercent,
+  getTestData,
 } from "../store/testSlice";
 
 const QuizContainer = ({
@@ -26,7 +27,6 @@ const QuizContainer = ({
   maxAttempts = 3,
 }) => {
   const dispatch = useDispatch();
-
   const attempts = useSelector((state) => selectAttempts(state, quizId));
   const maxScore = useSelector((state) => selectMaxScore(state, quizId));
   const score = useSelector((state) => selectScore(state, quizId));
@@ -43,6 +43,11 @@ const QuizContainer = ({
   const totalQuestions = testQuestions.length;
   const attemptsLeft = maxAttempts - (attempts?.length || 0);
 
+
+  
+useEffect(() => {
+  dispatch(getTestData({ userId, courseId }));
+}, [dispatch, userId, courseId]);
   useEffect(() => {
     if (showResult) return;
     timerRef.current = setInterval(() => {
@@ -57,83 +62,113 @@ const QuizContainer = ({
     }, 1000);
     return () => clearInterval(timerRef.current);
   }, [showResult]);
+const handleSubmit = () => {
+  clearInterval(timerRef.current);
+  // if (!userId || !courseId || !quizId) {
+  //   console.error("❌ Missing required identifiers", { userId, courseId, quizId });
+  //   return;
+  // }
 
-  const handleSubmit = () => {
-    clearInterval(timerRef.current);
-    const currentUserAnswers = { ...(userAnswers || {}) };
-    let newScore = 0;
+  const currentUserAnswers = { ...(userAnswers || {}) };
+  let newScore = 0;
 
-    testQuestions.forEach((q, idx) => {
-      const correct = Array.isArray(q.answer)
-        ? [...q.answer].sort().join(",")
-        : q.answer;
+  // ✅ Calculate score
+  testQuestions.forEach((q, idx) => {
+    const correctAnswer = Array.isArray(q.answer)
+      ? [...q.answer].sort().join(",")
+      : (q.answer ?? "");
 
-      const userRaw = currentUserAnswers[q.id || idx];
-      const user = Array.isArray(userRaw)
-        ? [...userRaw].sort().join(",")
-        : userRaw || "";
+    const userAnswerRaw = currentUserAnswers[q.id || idx];
+    const userAnswer = Array.isArray(userAnswerRaw)
+      ? [...userAnswerRaw].sort().join(",")
+      : (userAnswerRaw ?? "");
 
-      if (correct === user) {
-        newScore += 1;
-      }
-    });
+    if (correctAnswer === userAnswer) {
+      newScore += 1;
+    }
+  });
 
-    const correct = newScore;
-    const incorrect = totalQuestions - newScore;
-    const percent = totalQuestions ? Math.round((newScore / totalQuestions) * 100) : 0;
+  const total = Number.isFinite(totalQuestions) && totalQuestions > 0
+    ? totalQuestions
+    : testQuestions.length;
 
-    const updatedAttemptCount = attemptCount + 1;
+  const correct = newScore;
+  const incorrect = total - correct;
+  const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-    const previousReport = quizReports?.[quizId] || {
-      quizName,
-      totalQuestions,
-      attempts: [],
-      maxScore: 0,
-      lastScore: 0,
-      lastUserAnswers: {},
-      correct: 0,
-      incorrect: 0,
-      percent: 0,
-    };
+  const previousReport = quizReports?.[quizId] ?? {};
+  const previousAttempts = Array.isArray(previousReport.attempts)
+    ? previousReport.attempts
+    : [];
 
-    const updatedReport = {
-      ...previousReport,
-      quizName,
-      totalQuestions,
+  const updatedAttemptCount = previousAttempts.length + 1;
+
+  const updatedReport = {
+    quizName: quizName || "Untitled Quiz",
+    totalQuestions: total,
+    attempts: [
+      ...previousAttempts,
+      {
+        score: newScore,
+        timestamp: new Date().toISOString(),
+        userAnswers: currentUserAnswers,
+      },
+    ],
+    maxScore: Math.max(previousReport.maxScore ?? 0, newScore),
+    lastScore: newScore,
+    lastUserAnswers: currentUserAnswers,
+    correct,
+    incorrect,
+    percent,
+  };
+  dispatch(setUserAnswers({ quizId, answers: currentUserAnswers }));
+  dispatch(setScore({ quizId, score: newScore }));
+  dispatch(addAttempt({
+    quizId,
+    score: newScore,
+    userAnswers: currentUserAnswers,
+    quizName: quizName || "Untitled Quiz",
+    totalQuestions: total,
+  }));
+ dispatch(
+  saveTestData({
+    userId,
+    courseId,
+    quizId,
+    score: newScore,
+    userAnswers: currentUserAnswers,
+    attemptCount: updatedAttemptCount,
+    quizReport: {
+      quizName: quizName || "",
+      totalQuestions: total,
+      attempts: [
+        {
+          score: newScore,
+          timestamp: new Date().toISOString(),
+          userAnswers: currentUserAnswers,
+        },
+      ],
+      maxScore: Math.max(previousReport.maxScore ?? 0, newScore),
       lastScore: newScore,
       lastUserAnswers: currentUserAnswers,
-      attempts: [...(previousReport.attempts || []), newScore],
-      maxScore: Math.max(previousReport.maxScore || 0, newScore),
       correct,
       incorrect,
       percent,
-    };
+    },
+  })
+)
+.then((res) => {
+    if (res.error) {
+      console.error("❌ Failed to save test data:", res.error);
+    } else {
+      console.log("✅ Test data saved successfully");
+    }
+  });
 
-    dispatch(setUserAnswers({ quizId, answers: currentUserAnswers }));
-    dispatch(setScore({ quizId, score: newScore }));
-    dispatch(
-      addAttempt({
-        quizId,
-        score: newScore,
-        userAnswers: currentUserAnswers,
-        quizName,
-        totalQuestions,
-      })
-    );
-    dispatch(
-      saveTestData({
-        userId,
-        courseId,
-        quizId,
-        score: newScore,
-        userAnswers: currentUserAnswers,
-        attempts: updatedAttemptCount,
-        quizReport: updatedReport,
-      })
-    );
+  setShowResult(true);
+};
 
-    setShowResult(true);
-  };
+
 
   const handleOptionChange = (option) => {
     const q = testQuestions[currentQuestionIndex];
@@ -278,7 +313,7 @@ const QuizContainer = ({
                   cy="60"
                   r={radius}
                   fill="none"
-                  stroke="#38bdf8"
+                  stroke="#4ade80"
                   strokeWidth="16"
                   strokeDasharray={`${correctStroke} ${incorrectStroke}`}
                   strokeDashoffset="0"
@@ -306,7 +341,7 @@ const QuizContainer = ({
               </svg>
               <div className="flex gap-4 mt-2 text-xs">
                 <span className="flex items-center">
-                  <span className="inline-block w-3 h-3 bg-sky-400 rounded-full mr-1"></span>
+                  <span className="inline-block w-3 h-3 bg-green-400 rounded-full mr-1"></span>
                   Correct: {correct}
                 </span>
                 <span className="flex items-center">
@@ -387,7 +422,7 @@ const QuizContainer = ({
               cy="60"
               r={radius}
               fill="none"
-              stroke="#38bdf8"
+              stroke="#4ade80"
               strokeWidth="16"
               strokeDasharray={`${correctStroke} ${incorrectStroke}`}
               strokeDashoffset="0"
@@ -417,7 +452,7 @@ const QuizContainer = ({
           </svg>
           <div className="flex gap-4 mt-2 text-xs">
             <span className="flex items-center">
-              <span className="inline-block w-3 h-3 bg-sky-400 rounded-full mr-1"></span>
+              <span className="inline-block w-3 h-3 bg-green-400 rounded-full mr-1"></span>
               Correct: {correct}
             </span>
             <span className="flex items-center">

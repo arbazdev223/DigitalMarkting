@@ -29,7 +29,7 @@ const QuizResult = ({ quizName, attempts = [], totalQuestions = 0 }) => {
             cy="60"
             r={radius}
             fill="none"
-            stroke="#38bdf8"
+            stroke="#4ade80"
             strokeWidth="16"
             strokeDasharray={`${correctStroke} ${incorrectStroke}`}
             strokeDashoffset="0"
@@ -37,7 +37,7 @@ const QuizResult = ({ quizName, attempts = [], totalQuestions = 0 }) => {
           />
           <text
             x="60"
-            y="65"
+            y="60"
             textAnchor="middle"
             fontSize="22"
             fontWeight="bold"
@@ -48,7 +48,7 @@ const QuizResult = ({ quizName, attempts = [], totalQuestions = 0 }) => {
           </text>
           <text
             x="60"
-            y="85"
+            y="75"
             textAnchor="middle"
             fontSize="14"
             fill="#666"

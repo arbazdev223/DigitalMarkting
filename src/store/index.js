@@ -43,7 +43,7 @@ const rootReducer = combineReducers({
   blog:blogReducer,
   courseStudent:courseStudentReducer,
   payment: paymentReducer,
-  quiz:quizReducer,
+  // quiz:quizReducer,
   coupon: couponReducer,
 });
 

@@ -6,7 +6,7 @@ import {
   FaWhatsapp,
 } from 'react-icons/fa';
 import { FiYoutube } from "react-icons/fi";
-import logo from '/assets/logo.png';
+import logo from '/assets/logo2.png';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitForm, clearFormError } from '../store/formSlice';

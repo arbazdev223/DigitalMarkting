@@ -13,7 +13,7 @@ const TopBar = () => {
           +91 9161276060
         </a>
         <a
-          href="mailto:contact@example.com"
+          href="mailto:info@banarasdigitalsolution.com"
           className="flex items-center gap-2 "
         >
           <FaEnvelope className="text-white" />

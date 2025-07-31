@@ -1,64 +1,52 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../config";
 
-// Async actions
 export const getTestData = createAsyncThunk(
   "test/getTestData",
-  async ({ userId, courseId }, { rejectWithValue }) => {
+  async ({ userId }, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get("/tests/get", {
-        params: { userId, courseId },
-      });
+      const res = await axiosInstance.get("/tests/get", { params: { userId } });
       return res.data;
     } catch (err) {
-      return rejectWithValue(
-        err.response?.data?.message || "Failed to fetch test data"
-      );
+      console.error("❌ Error fetching test data:", err);
+      return rejectWithValue(err.response?.data?.error || "Failed to fetch test data");
     }
   }
 );
 
 export const saveTestData = createAsyncThunk(
   "test/saveTestData",
-  async (
-    { userId, courseId, quizId, score, userAnswers, attempts, quizReport },
-    { rejectWithValue }
-  ) => {
+  async (payload, { rejectWithValue }) => {
     try {
-      if (!userId || !courseId || !quizId) {
-        return rejectWithValue("Missing required fields");
+      const {
+        userId,
+        quizId,
+        score,
+        userAnswers,
+        attemptCount,
+        quizReport, 
+      } = payload;
+
+      if (!userId || !quizId) {
+        return rejectWithValue("Missing required userId or quizId");
       }
 
-      const validatedReport = {
-        quizName: quizReport?.quizName || "Unnamed Quiz",
-        totalQuestions: quizReport?.totalQuestions || 0,
-        attempts: Array.isArray(quizReport?.attempts) ? quizReport.attempts : [],
-        maxScore: typeof quizReport?.maxScore === "number" ? quizReport.maxScore : 0,
-        lastScore: typeof quizReport?.lastScore === "number" ? quizReport.lastScore : 0,
-        lastUserAnswers: quizReport?.lastUserAnswers || {},
-      };
-
-      const payload = {
+      const res = await axiosInstance.post("/tests/save", {
         userId,
-        courseId,
         quizId,
-        score: typeof score === "number" ? score : 0,
-        userAnswers: userAnswers || {},
-        attempts: typeof attempts === "number" ? attempts : 1,
-        quizReport: validatedReport,
-      };
+        score,
+        userAnswers,
+        attemptCount,
+        report: quizReport, 
+      });
 
-      const response = await axiosInstance.post("/tests/save", payload);
-      return { quizId, data: response.data.data }; // Return quizId for reducer targeting
+      return res.data;
     } catch (err) {
-      return rejectWithValue(err?.response?.data?.error || "Failed to save test data");
+      console.error("❌ Error saving test data:", err);
+      return rejectWithValue(err.response?.data?.error || "Failed to save test data");
     }
   }
 );
-
-
-
-
 
 
 // Initial state
@@ -195,37 +183,58 @@ const testSlice = createSlice({
         state.error = null;
       })
       .addCase(getTestData.fulfilled, (state, action) => {
-        return { ...state, ...action.payload, loading: false };
+        Object.assign(state, {
+          userAnswers: action.payload.userAnswers || {},
+          score: action.payload.score || {},
+          attemptCount: action.payload.attemptCount || {},
+          quizReports: action.payload.quizReports || {},
+          certificates: action.payload.certificates || [],
+          completedContent: action.payload.completedContent || {},
+          activeModule: action.payload.activeModule || null,
+          selectedTopic: action.payload.selectedTopic || null,
+          progressPercentage: action.payload.progressPercentage || 0,
+          isCompleted: action.payload.isCompleted || false,
+          loading: false,
+          error: null,
+        });
       })
       .addCase(getTestData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       })
       .addCase(saveTestData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-   .addCase(saveTestData.fulfilled, (state, action) => {
-  state.loading = false;
+     .addCase(saveTestData.fulfilled, (state, action) => {
   const { quizId, data } = action.payload;
-
   const report = data.quizReports?.[quizId];
+
   if (report) {
     state.quizReports[quizId] = {
-      ...report,
+      quizName: report.quizName || "",
+      totalQuestions: report.totalQuestions || 0,
+      attempts: report.attempts || [],
+      maxScore: report.maxScore || 0,
+      lastScore: report.lastScore || 0,
+      lastUserAnswers: report.lastUserAnswers || {},
       correct: report.correct || 0,
       incorrect: report.incorrect || 0,
       percent: report.percent || 0,
     };
+
     state.score[quizId] = report.lastScore || 0;
     state.userAnswers[quizId] = report.lastUserAnswers || {};
     state.attemptCount[quizId] = report.attempts?.length || 1;
   }
+
+  state.loading = false;
 })
+
 
       .addCase(saveTestData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       });
   },
 });
@@ -250,22 +259,21 @@ export const {
 
 export default testSlice.reducer;
 
-export const selectAttempts = (state, quizId) =>
-  state.test.quizReports[quizId]?.attempts || [];
-
-export const selectMaxScore = (state, quizId) =>
-  state.test.quizReports[quizId]?.maxScore || 0;
-
-export const selectScore = (state, quizId) => state.test.score[quizId] || 0;
-
 export const selectUserAnswers = (state, quizId) =>
   state.test.userAnswers[quizId] || {};
+
+export const selectScore = (state, quizId) =>
+  state.test.score[quizId] || 0;
 
 export const selectAttemptCount = (state, quizId) =>
   state.test.attemptCount[quizId] || 0;
 
-export const selectProgressPercentage = (state) => state.test.progressPercentage;
-export const selectIsCompleted = (state) => state.test.isCompleted;
+export const selectMaxScore = (state, quizId) =>
+  state.test.quizReports[quizId]?.maxScore || 0;
+
+export const selectAttempts = (state, quizId) =>
+  state.test.quizReports[quizId]?.attempts || [];
+
 export const selectCorrect = (state, quizId) =>
   state.test.quizReports[quizId]?.correct || 0;
 
@@ -275,3 +283,8 @@ export const selectIncorrect = (state, quizId) =>
 export const selectPercent = (state, quizId) =>
   state.test.quizReports[quizId]?.percent || 0;
 
+export const selectProgressPercentage = (state) =>
+  state.test.progressPercentage;
+
+export const selectIsCompleted = (state) =>
+  state.test.isCompleted;

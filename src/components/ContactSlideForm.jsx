@@ -98,8 +98,8 @@ const ContactSlideForm = () => {
           </button>
         </form>
         <div className="mt-10 pt-6 border-t border-gray-700 text-sm text-gray-300 space-y-2">
-          <p><strong>Email:</strong> contact@example.com</p>
-          <p><strong>Phone:</strong> +1 (123) 456-7890</p>
+          <p><strong>Email:</strong> info@banarasdigitalsolution.com</p>
+          <p><strong>Phone:</strong> +91 9161276060</p>
           <p><strong>Address:</strong> 123 Digital Lane, Marketing City, NY 10001</p>
         </div>
       </div>

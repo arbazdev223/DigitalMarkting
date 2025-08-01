@@ -25,11 +25,14 @@ export const fetchCoupons = createAsyncThunk("coupon/fetchAll", async () => {
   return res.data;
 });
 
-// Delete coupon by ID
-export const deleteCoupon = createAsyncThunk("coupon/delete", async (id) => {
-  await axiosInstance.delete(`/coupons/${id}`);
-  return id; // return deleted coupon ID
+
+// Delete coupon by CODE
+export const deleteCoupon = createAsyncThunk("coupon/delete", async (code) => {
+  if (!code) throw new Error("Coupon code is required");
+  await axiosInstance.delete(`/coupons/delete/${code}`);
+  return code;
 });
+
 
 const couponSlice = createSlice({
   name: "coupon",
@@ -98,17 +101,17 @@ const couponSlice = createSlice({
 
       // Delete
       .addCase(deleteCoupon.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(deleteCoupon.fulfilled, (state, action) => {
-        state.loading = false;
-        state.allCoupons = state.allCoupons.filter(c => c._id !== action.payload);
-        state.error = null;
-      })
-      .addCase(deleteCoupon.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+  state.loading = true;
+})
+.addCase(deleteCoupon.fulfilled, (state, action) => {
+  state.loading = false;
+  state.allCoupons = state.allCoupons.filter(c => c.code !== action.payload);
+  state.error = null;
+})
+.addCase(deleteCoupon.rejected, (state, action) => {
+  state.loading = false;
+  state.error = action.error.message;
+});
   },
 });
 

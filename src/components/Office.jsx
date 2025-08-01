@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { courseOptions } from "../../data";
 import { submitForm } from "../store/formSlice";
 import { toast } from "react-toastify";
+import { handleSendOtp, handleVerifyOtp } from "../utils/otpUtils";
 
 const Office = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,10 @@ const Office = () => {
     message: "",
     formHeading: "Contact Form",
   });
-
+  const [otpSent, setOtpSent] = useState(false);
+const [otpVerified, setOtpVerified] = useState(false);
+const [otpLoading, setOtpLoading] = useState(false);
+const [otpCode, setOtpCode] = useState("");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -58,14 +62,46 @@ const Office = () => {
               placeholder="Name"
               className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 font-nunito focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+<div className="flex gap-2">
+  <input
+  type="tel"
+  name="phone"
+  placeholder="Phone number with country code"
+  pattern="^\+?[0-9]{10,15}$"
+  title="Enter a valid phone number with country code"
+  className="w-full px-4 py-2 border rounded-md focus:outline-none"
+  required
+  onChange={handleChange}
+/>
+    <button
+      type="button"
+      onClick={handleSendOtp}
+      className="bg-white text-primary px-4 py-2 text-xs border rounded-md"
+      disabled={otpLoading}
+    >
+      {otpLoading ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
+    </button>
+  </div>
+  {otpSent && (
+    <div className="flex gap-2">
+      <input
+        type="text"
+        name="otp"
+        placeholder="Enter OTP"
+        value={otpCode}
+        onChange={(e) => setOtpCode(e.target.value)}
+        className="w-full px-4 py-2 border rounded-md focus:outline-none"
+      />
+      <button
+        type="button"
+        onClick={handleVerifyOtp}
+        className="bg-green-600 text-white px-4 py-2 rounded-md"
+        disabled={otpVerified || otpLoading}
+      >
+        {otpVerified ? "Verified ✅" : "Verify OTP"}
+      </button>
+    </div>
+  )}
             <select
               name="course"
               value={formData.course}

@@ -13,35 +13,38 @@ const AuthTabs = () => {
   }, [dispatch]);
 
   const onSignup = async (e) => {
-    e.preventDefault();
-    const name = e.target.elements[0].value.trim();
-    const email = e.target.elements[1].value.trim();
-    const password = e.target.elements[2].value;
-    const confirmPassword = e.target.elements[3].value;
+  e.preventDefault();
+  
+  const name = e.target.elements[0].value.trim();
+  const email = e.target.elements[1].value.trim();
+  const phone = e.target.elements[2].value.trim(); 
+  const password = e.target.elements[3].value;
+  const confirmPassword = e.target.elements[4].value;
 
-    if (!name || !email || !password || !confirmPassword) {
-      toast.error("All fields are required");
-      return;
-    }
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      return;
-    }
+  if (!name || !email || !phone || !password || !confirmPassword) {
+    toast.error("All fields are required");
+    return;
+  }
 
-    try {
-      const resultAction = await dispatch(
-        signup({ name, email, password, confirmPassword })
-      );
-      if (signup.fulfilled.match(resultAction)) {
-        toast.success("Signup successful!");
-        setActiveTab("signin"); 
-      } else {
-        toast.error(resultAction.payload || "Signup failed");
-      }
-    } catch (error) {
-      toast.error("Signup failed");
+  if (password !== confirmPassword) {
+    toast.error("Passwords do not match");
+    return;
+  }
+
+  try {
+    const resultAction = await dispatch(
+      signup({ name, email, phone, password, confirmPassword })
+    );
+    if (signup.fulfilled.match(resultAction)) {
+      toast.success("Signup successful!");
+      setActiveTab("signin");
+    } else {
+      toast.error(resultAction.payload || "Signup failed");
     }
-  };
+  } catch (error) {
+    toast.error("Signup failed");
+  }
+};
 
   const onSignin = async (e) => {
     e.preventDefault();

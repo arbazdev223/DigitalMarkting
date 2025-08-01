@@ -52,16 +52,23 @@ export default function CouponManager() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this coupon?")) return;
+const handleDelete = async (code) => {
+  if (!code || typeof code !== "string") {
+    console.error("❌ Invalid code for deletion:", code);
+    return;
+  }
 
-    try {
-      await dispatch(deleteCoupon(id)).unwrap();
-      dispatch(fetchCoupons());
-    } catch (err) {
-      console.error("Delete failed:", err);
-    }
-  };
+  if (!window.confirm(`Delete coupon "${code}"?`)) return;
+
+  try {
+    await dispatch(deleteCoupon(code)).unwrap();  
+    dispatch(fetchCoupons());                   
+  } catch (err) {
+    console.error("Delete failed:", err);
+    alert("❌ Delete failed. Try again.");
+  }
+};
+
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
@@ -145,22 +152,23 @@ export default function CouponManager() {
                   </td>
                 </tr>
               ) : (
-                allCoupons.map((c, idx) => (
-                  <tr key={c._id || c.code} className="hover:bg-gray-50">
-                    <td className="px-4 py-2 border">{idx + 1}</td>
-                    <td className="px-4 py-2 border font-mono">{c.code}</td>
-                    <td className="px-4 py-2 border">{c.discount}%</td>
-                    <td className="px-4 py-2 border">{new Date(c.expiresAt).toLocaleString()}</td>
-                    <td className="px-4 py-2 border text-center">
-                      <button
-                        onClick={() => handleDelete(c._id)}
-                        className="text-red-600 hover:underline"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
+allCoupons.map((c, idx) => (
+  <tr key={c.code} className="hover:bg-gray-50">
+    <td className="px-4 py-2 border">{idx + 1}</td>
+    <td className="px-4 py-2 border font-mono">{c.code}</td>
+    <td className="px-4 py-2 border">{c.discount}%</td>
+    <td className="px-4 py-2 border">{new Date(c.expiresAt).toLocaleString()}</td>
+    <td className="px-4 py-2 border text-center">
+      <button
+        onClick={() => handleDelete(c.code)}
+        className="text-red-600 hover:underline"
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+))
+
               )}
             </tbody>
           </table>

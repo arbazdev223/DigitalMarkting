@@ -3,9 +3,12 @@ import { axiosInstance } from "../config";
 
 export const getTestData = createAsyncThunk(
   "test/getTestData",
-  async ({ userId }, { rejectWithValue }) => {
+  async ({ userId, quizId, courseId }, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get("/tests/get", { params: { userId } });
+      const res = await axiosInstance.get("/tests/test/get", {
+        params: { userId, quizId, courseId },
+      });
+      console.log("✅ getTestData response:", res.data); 
       return res.data;
     } catch (err) {
       console.error("❌ Error fetching test data:", err);
@@ -13,6 +16,7 @@ export const getTestData = createAsyncThunk(
     }
   }
 );
+
 
 export const saveTestData = createAsyncThunk(
   "test/saveTestData",
@@ -79,7 +83,7 @@ const testSlice = createSlice({
       const { quizId, score } = action.payload;
       state.score[quizId] = score;
     },
-   addAttempt: (state, action) => {
+addAttempt: (state, action) => {
   const { quizId, score, userAnswers, quizName, totalQuestions } = action.payload;
 
   if (!state.quizReports[quizId]) {
@@ -104,6 +108,10 @@ const testSlice = createSlice({
     : 0;
 
   report.attempts.push(score);
+  if (report.attempts.length > 3) {
+    report.attempts = report.attempts.slice(-3);
+  }
+
   report.maxScore = Math.max(report.maxScore, score);
   report.lastScore = score;
   report.lastUserAnswers = userAnswers || {};
@@ -111,16 +119,15 @@ const testSlice = createSlice({
   report.incorrect = incorrect;
   report.percent = percent;
 
-  state.attemptCount[quizId] = (state.attemptCount[quizId] || 0) + 1;
+  state.attemptCount[quizId] = report.attempts.length;
 },
-
-    decrementAttempts: (state, action) => {
+decrementAttempts: (state, action) => {
       const { quizId } = action.payload;
       if (state.attemptCount[quizId]) {
         state.attemptCount[quizId] = Math.max(0, state.attemptCount[quizId] - 1);
       }
     },
-    resetQuiz: (state, action) => {
+resetQuiz: (state, action) => {
       const { quizId } = action.payload;
       delete state.userAnswers[quizId];
       delete state.score[quizId];
@@ -129,13 +136,13 @@ const testSlice = createSlice({
       delete state.quizReports[quizId];
       delete state.attemptCount[quizId];
     },
-    addCertificate: (state, action) => {
+addCertificate: (state, action) => {
       state.certificates.push(action.payload);
     },
-    setCompletedContent: (state, action) => {
+setCompletedContent: (state, action) => {
       state.completedContent = action.payload;
     },
-    markContentComplete: (state, action) => {
+markContentComplete: (state, action) => {
       state.completedContent[action.payload] = true;
     },
     setActiveModule: (state, action) => {
@@ -182,39 +189,34 @@ const testSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getTestData.fulfilled, (state, action) => {
-        Object.assign(state, {
-          userAnswers: action.payload.userAnswers || {},
-          score: action.payload.score || {},
-          attemptCount: action.payload.attemptCount || {},
-          quizReports: action.payload.quizReports || {},
-          certificates: action.payload.certificates || [],
-          completedContent: action.payload.completedContent || {},
-          activeModule: action.payload.activeModule || null,
-          selectedTopic: action.payload.selectedTopic || null,
-          progressPercentage: action.payload.progressPercentage || 0,
-          isCompleted: action.payload.isCompleted || false,
-          loading: false,
-          error: null,
-        });
-      })
-      .addCase(getTestData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || action.error.message;
-      })
-      .addCase(saveTestData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-     .addCase(saveTestData.fulfilled, (state, action) => {
-  const { quizId, data } = action.payload;
-  const report = data.quizReports?.[quizId];
+  .addCase(getTestData.fulfilled, (state, action) => {
+  const {
+    userAnswers = {},
+    score = {},
+    attemptCount = {},
+    quizReports = {},
+    certificates = [],
+    completedContent = {},
+    activeModule = null,
+    selectedTopic = null,
+    progressPercentage = 0,
+    isCompleted = false,
+  } = action.payload;
 
-  if (report) {
+  state.userAnswers = userAnswers;
+  state.score = score;
+  state.attemptCount = attemptCount;
+  state.quizReports = {};
+  for (const quizId in quizReports) {
+    const report = quizReports[quizId];
+    const attempts = Array.isArray(report.attempts)
+      ? report.attempts.slice(0, 3) 
+      : [];
+
     state.quizReports[quizId] = {
       quizName: report.quizName || "",
       totalQuestions: report.totalQuestions || 0,
-      attempts: report.attempts || [],
+      attempts,
       maxScore: report.maxScore || 0,
       lastScore: report.lastScore || 0,
       lastUserAnswers: report.lastUserAnswers || {},
@@ -223,13 +225,56 @@ const testSlice = createSlice({
       percent: report.percent || 0,
     };
 
-    state.score[quizId] = report.lastScore || 0;
-    state.userAnswers[quizId] = report.lastUserAnswers || {};
-    state.attemptCount[quizId] = report.attempts?.length || 1;
+    state.attemptCount[quizId] = attempts.length;
   }
+
+  state.certificates = certificates;
+  state.completedContent = completedContent;
+  state.activeModule = activeModule;
+  state.selectedTopic = selectedTopic;
+  state.progressPercentage = progressPercentage;
+  state.isCompleted = isCompleted;
+  state.loading = false;
+  state.error = null;
+})
+
+      .addCase(getTestData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || action.error.message;
+      })
+      .addCase(saveTestData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+.addCase(saveTestData.fulfilled, (state, action) => {
+  const { quizId, data } = action.payload;
+  const report = data.quizReports?.[quizId];
+  if (!report) return;
+
+  const attempts = Array.isArray(report.attempts)
+    ? report.attempts.slice(-3)
+    : [];
+
+  state.quizReports[quizId] = {
+    quizName: report.quizName || "",
+    totalQuestions: report.totalQuestions || 0,
+    attempts,
+    maxScore: report.maxScore || 0,
+    lastScore: report.lastScore || 0,
+    lastUserAnswers: report.lastUserAnswers || {},
+    correct: report.correct || 0,
+    incorrect: report.incorrect || 0,
+    percent: report.percent || 0,
+  };
+
+  state.score[quizId] = report.lastScore || 0;
+  state.userAnswers[quizId] = report.lastUserAnswers || {};
+  state.attemptCount[quizId] = attempts.length;
 
   state.loading = false;
 })
+
+
 
 
       .addCase(saveTestData.rejected, (state, action) => {
@@ -288,3 +333,8 @@ export const selectProgressPercentage = (state) =>
 
 export const selectIsCompleted = (state) =>
   state.test.isCompleted;
+
+  export const selectCanAttemptQuiz = (state, quizId) => {
+  const attempts = state.test.quizReports[quizId]?.attempts || [];
+  return attempts.length < 3;
+};

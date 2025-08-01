@@ -16,6 +16,7 @@ import {
   selectPercent,
   getTestData,
 } from "../store/testSlice";
+import { selectStudentCourseById } from "../store/courseStudentSlice";
 
 const QuizContainer = ({
   quizId,
@@ -33,7 +34,7 @@ const QuizContainer = ({
   const userAnswers = useSelector((state) => selectUserAnswers(state, quizId));
   const attemptCount = useSelector((state) => selectAttemptCount(state, quizId));
   const quizReports = useSelector((state) => state.test.quizReports);
-
+  const course = useSelector((state) => selectStudentCourseById(state, courseId));
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [showReport, setShowReport] = useState(false);
@@ -46,8 +47,8 @@ const QuizContainer = ({
 
   
 useEffect(() => {
-  dispatch(getTestData({ userId, courseId }));
-}, [dispatch, userId, courseId]);
+  dispatch(getTestData({ userId }));
+}, [dispatch, userId,]);
   useEffect(() => {
     if (showResult) return;
     timerRef.current = setInterval(() => {
@@ -64,20 +65,14 @@ useEffect(() => {
   }, [showResult]);
 const handleSubmit = () => {
   clearInterval(timerRef.current);
-  // if (!userId || !courseId || !quizId) {
-  //   console.error("❌ Missing required identifiers", { userId, courseId, quizId });
-  //   return;
-  // }
 
   const currentUserAnswers = { ...(userAnswers || {}) };
   let newScore = 0;
 
-  // ✅ Calculate score
   testQuestions.forEach((q, idx) => {
     const correctAnswer = Array.isArray(q.answer)
       ? [...q.answer].sort().join(",")
       : (q.answer ?? "");
-
     const userAnswerRaw = currentUserAnswers[q.id || idx];
     const userAnswer = Array.isArray(userAnswerRaw)
       ? [...userAnswerRaw].sort().join(",")
@@ -98,22 +93,26 @@ const handleSubmit = () => {
 
   const previousReport = quizReports?.[quizId] ?? {};
   const previousAttempts = Array.isArray(previousReport.attempts)
-    ? previousReport.attempts
+    ? previousReport.attempts.slice(-3)
     : [];
 
-  const updatedAttemptCount = previousAttempts.length + 1;
+  if (previousAttempts.length >= 3) {
+    console.warn("⛔ Max attempts reached");
+    return;
+  }
+
+  const newAttempt = {
+    score: newScore,
+    timestamp: new Date().toISOString(),
+    userAnswers: currentUserAnswers,
+  };
+
+  const updatedAttempts = [...previousAttempts, newAttempt];
 
   const updatedReport = {
     quizName: quizName || "Untitled Quiz",
     totalQuestions: total,
-    attempts: [
-      ...previousAttempts,
-      {
-        score: newScore,
-        timestamp: new Date().toISOString(),
-        userAnswers: currentUserAnswers,
-      },
-    ],
+    attempts: updatedAttempts,
     maxScore: Math.max(previousReport.maxScore ?? 0, newScore),
     lastScore: newScore,
     lastUserAnswers: currentUserAnswers,
@@ -121,43 +120,28 @@ const handleSubmit = () => {
     incorrect,
     percent,
   };
+
   dispatch(setUserAnswers({ quizId, answers: currentUserAnswers }));
   dispatch(setScore({ quizId, score: newScore }));
   dispatch(addAttempt({
     quizId,
     score: newScore,
     userAnswers: currentUserAnswers,
-    quizName: quizName || "Untitled Quiz",
+    quizName,
     totalQuestions: total,
   }));
- dispatch(
-  saveTestData({
-    userId,
-    courseId,
-    quizId,
-    score: newScore,
-    userAnswers: currentUserAnswers,
-    attemptCount: updatedAttemptCount,
-    quizReport: {
-      quizName: quizName || "",
-      totalQuestions: total,
-      attempts: [
-        {
-          score: newScore,
-          timestamp: new Date().toISOString(),
-          userAnswers: currentUserAnswers,
-        },
-      ],
-      maxScore: Math.max(previousReport.maxScore ?? 0, newScore),
-      lastScore: newScore,
-      lastUserAnswers: currentUserAnswers,
-      correct,
-      incorrect,
-      percent,
-    },
-  })
-)
-.then((res) => {
+
+  dispatch(
+    saveTestData({
+      userId,
+      courseId,
+      quizId,
+      score: newScore,
+      userAnswers: currentUserAnswers,
+      attemptCount: updatedAttempts.length,
+      quizReport: updatedReport,
+    })
+  ).then((res) => {
     if (res.error) {
       console.error("❌ Failed to save test data:", res.error);
     } else {
@@ -167,8 +151,6 @@ const handleSubmit = () => {
 
   setShowResult(true);
 };
-
-
 
   const handleOptionChange = (option) => {
     const q = testQuestions[currentQuestionIndex];

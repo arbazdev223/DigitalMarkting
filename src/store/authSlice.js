@@ -18,11 +18,11 @@ export const getInitials = (name = "") => {
 
 export const signup = createAsyncThunk(
   "auth/signup",
-  async ({ name, email, password, confirmPassword }, { rejectWithValue }) => {
+  async ({ name, email, phone, password, confirmPassword }, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.post(
         "/user/register",
-        { name, email, password, confirmPassword },
+        { name, email, phone, password, confirmPassword },
         { withCredentials: true }
       );
       if (res.data.success && res.data.user && res.data.token) {
@@ -204,3 +204,6 @@ const authSlice = createSlice({
 
 export const { logout, clearError, setAuthStatusIdle } = authSlice.actions;
 export default authSlice.reducer;
+
+
+

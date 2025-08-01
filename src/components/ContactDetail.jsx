@@ -23,7 +23,7 @@ const ContactDetail = () => {
               Call us
             </h4>
             <p className="text-sm font-nunito font-light text-[#444444]">
-              +91-9990194550<br />
+              +91 9161276060<br />
               +91-8447726000<br />
               +91-8585959688
             </p>
@@ -34,7 +34,7 @@ const ContactDetail = () => {
               Email us
             </h4>
             <p className="text-sm font-nunito font-light text-[#444444] break-words">
-              dgroysalsofficial@gmail.com<br />
+              info@banarasdigitalsolution.com<br />
               hrdgroyals@gmail.com
             </p>
           </div>

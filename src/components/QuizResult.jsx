@@ -59,7 +59,7 @@ const QuizResult = ({ quizName, attempts = [], totalQuestions = 0 }) => {
         </svg>
         <div className="flex gap-4 mt-2 text-xs">
           <span className="flex items-center">
-            <span className="inline-block w-3 h-3 bg-sky-400 rounded-full mr-1"></span>
+            <span className="inline-block w-3 h-3 bg-green-400 rounded-full mr-1"></span>
             Correct: {correct}
           </span>
           <span className="flex items-center">

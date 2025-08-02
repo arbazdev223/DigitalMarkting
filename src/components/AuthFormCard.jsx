@@ -20,8 +20,9 @@ const AuthFormCard = ({
   const currentAction = useSelector((state) => state.auth.currentAction);
   const [otpSent, setOtpSent] = useState(false);
 const [otpVerified, setOtpVerified] = useState(false);
-const [otpLoading, setOtpLoading] = useState(false);
+ const [otpLoading, setOtpLoading] = useState(false);
 const [otpCode, setOtpCode] = useState("");
+const [phone, setPhone] = useState("");
   const [passwordVisibility, setPasswordVisibility] = useState({
     password: false,
     confirmPassword: false,
@@ -107,24 +108,35 @@ const [otpCode, setOtpCode] = useState("");
             onChange={handleInputChange}
           />
   <div className="flex gap-2">
-  <input
+<input
   type="tel"
   name="phone"
+  value={phone}
   placeholder="Phone number with country code"
   pattern="^\+?[0-9]{10,15}$"
   title="Enter a valid phone number with country code"
   className="w-full px-4 py-2 border rounded-md focus:outline-none"
   required
-  onChange={handleInputChange}
+  onChange={(e) => {
+    handleInputChange();
+    setPhone(e.target.value);
+  }}
 />
-    <button
-      type="button"
-      onClick={handleSendOtp}
-      className="bg-primary text-white px-4 py-2 text-xs rounded-md"
-      disabled={otpLoading}
-    >
-      {otpLoading ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
-    </button>
+
+   <button
+  type="button"
+  onClick={async () => {
+    setOtpLoading(true);
+    const success = await handleSendOtp(dispatch, phone);
+    setOtpLoading(false);
+    setOtpSent(success);
+  }}
+  className="bg-primary text-white px-4 py-2 text-xs rounded-md"
+  disabled={otpLoading}
+>
+  {otpLoading ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
+</button>
+
   </div>
   {otpSent && (
     <div className="flex gap-2">
@@ -136,14 +148,19 @@ const [otpCode, setOtpCode] = useState("");
         onChange={(e) => setOtpCode(e.target.value)}
         className="w-full px-4 py-2 border rounded-md focus:outline-none"
       />
-      <button
-        type="button"
-        onClick={handleVerifyOtp}
-        className="bg-green-600 text-white px-4 py-2 rounded-md"
-        disabled={otpVerified || otpLoading}
-      >
-        {otpVerified ? "Verified ✅" : "Verify OTP"}
-      </button>
+    <button
+  type="button"
+  onClick={async () => {
+    setOtpLoading(true);
+    const verified = await handleVerifyOtp(dispatch, phone, otpCode);
+    setOtpLoading(false);
+    setOtpVerified(verified);
+  }}
+  className="bg-green-600 text-white px-4 py-2 rounded-md"
+  disabled={otpVerified || otpLoading}
+>
+  {otpVerified ? "Verified ✅" : "Verify OTP"}
+</button>
     </div>
   )}
           <div className="relative">

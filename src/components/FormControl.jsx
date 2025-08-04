@@ -91,7 +91,7 @@ const [otpCode, setOtpCode] = useState("");
   placeholder="Phone number with country code"
   pattern="^\+?[0-9]{10,15}$"
   title="Enter a valid phone number with country code"
-  className="w-full px-4 py-2 border rounded-md focus:outline-none"
+  className="w-full text-black px-4 py-2 border rounded-md focus:outline-none"
   required
   onChange={handleChange}
 />

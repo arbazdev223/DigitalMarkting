@@ -1,4 +1,4 @@
-import { sendOtp, verifyOtp } from "../store/otpSlice.js";
+import { sendOtp, verifyOtp } from "../store/otpSlice";
 import { toast } from "react-toastify";
 
 export const handleSendOtp = async (dispatch, phone) => {
@@ -9,7 +9,6 @@ export const handleSendOtp = async (dispatch, phone) => {
 
   try {
     const result = await dispatch(sendOtp(phone));
-
     if (sendOtp.fulfilled.match(result)) {
       toast.success("OTP sent successfully");
       return true;
@@ -31,7 +30,6 @@ export const handleVerifyOtp = async (dispatch, phone, otpCode) => {
 
   try {
     const result = await dispatch(verifyOtp({ phone, otp: otpCode }));
-
     if (verifyOtp.fulfilled.match(result)) {
       toast.success("Phone verified!");
       return true;

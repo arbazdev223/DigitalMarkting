@@ -17,9 +17,9 @@ const Sidebar = ({
 const [otpVerified, setOtpVerified] = useState(false);
 const [otpLoading, setOtpLoading] = useState(false);
 const [otpCode, setOtpCode] = useState("");
-  // Replace this with your actual auth selector
-  const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn); // Adjust based on your state
-  const user = useSelector((state) => state.auth?.user); // Optional: access user data
+
+  const isLoggedIn = useSelector((state) => state.auth?.isLoggedIn); 
+  const user = useSelector((state) => state.auth?.user); 
 
   const [formData, setFormData] = useState({
     name: user?.name || "",

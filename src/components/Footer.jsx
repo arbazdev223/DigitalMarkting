@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaFacebookF,
   FaTwitter,
   FaInstagram,
   FaWhatsapp,
 } from 'react-icons/fa';
-import { FiYoutube } from "react-icons/fi";
+import { FiYoutube } from 'react-icons/fi';
 import logo from '/assets/logo2.png';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,12 +13,14 @@ import { submitForm, clearFormError } from '../store/formSlice';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   const dispatch = useDispatch();
   const formSubmitStatus = useSelector((state) => state.form.formSubmitStatus);
   const formSubmitError = useSelector((state) => state.form.formSubmitError);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
+    setSubmitted(true); 
     dispatch(clearFormError());
 
     try {
@@ -28,11 +30,21 @@ const Footer = () => {
           email,
         })
       ).unwrap();
-      setEmail(''); 
+      setEmail('');
     } catch (error) {
       console.error('Subscription failed:', error);
     }
   };
+
+  useEffect(() => {
+    if (formSubmitStatus === 'succeeded' && submitted) {
+      const timer = setTimeout(() => {
+        setSubmitted(false);
+        dispatch(clearFormError());
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [formSubmitStatus, submitted, dispatch]);
 
   return (
     <footer className="bg-gray-900 text-gray-300 pt-12 pb-8 px-6 sm:px-12 lg:px-20">
@@ -40,13 +52,13 @@ const Footer = () => {
         <div className="md:col-span-1 col-span-2">
           <img src={logo} alt="IFDA Logo" className="h-30 mb-4" />
           <p className="text-sm">
-            Ifda is your go-to platform for career-focused digital marketing & technology courses designed for today’s job market.
+            BanarasDigitalSolution is your go-to platform for career-focused digital marketing & technology courses designed for today’s job market.
           </p>
           <div className="flex gap-3 mt-4">
             <a href="https://www.facebook.com/share/1M9F3B3uDm/" className="hover:text-white"><FaFacebookF /></a>
             <a href="https://youtube.com/@banarasdigitalhub?si=Uvje_krqowilgqaE" className="hover:text-white"><FiYoutube /></a>
             <a href="https://www.instagram.com/banaras_digital_solution?igsh=MXBxazRmb3V1Nmdobg==" className="hover:text-white"><FaInstagram /></a>
-            <a href="https://whatsapp.com/channel/0029VbAdEW57z4kYIGQieJ2L" className="hover:text-white"><FaWhatsapp   /></a>
+            <a href="https://whatsapp.com/channel/0029VbAdEW57z4kYIGQieJ2L" className="hover:text-white"><FaWhatsapp /></a>
           </div>
         </div>
 
@@ -92,17 +104,17 @@ const Footer = () => {
               Subscribe
             </button>
           </form>
-          {formSubmitStatus === 'failed' && formSubmitError && (
+          {submitted && formSubmitStatus === 'failed' && formSubmitError && (
             <p className="text-red-400 text-xs mt-2">{formSubmitError}</p>
           )}
-          {formSubmitStatus === 'succeeded' && (
+          {submitted && formSubmitStatus === 'succeeded' && (
             <p className="text-green-400 text-xs mt-2">Subscribed successfully!</p>
           )}
         </div>
       </div>
 
       <div className="border-t border-gray-700 mt-10 pt-6 text-sm text-center text-gray-400">
-        © {new Date().getFullYear()} IFDA. All rights reserved.
+        © {new Date().getFullYear()} BANARASDIGITALSOLUTION. All rights reserved.
       </div>
     </footer>
   );

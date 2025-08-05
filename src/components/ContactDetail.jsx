@@ -12,9 +12,9 @@ const ContactDetail = () => {
               Visit Us
             </h4>
             <p className="text-sm font-nunito font-light text-[#444444] leading-relaxed">
-              92–94, 3rd Floor, Mall Road<br />
-              GTB Nagar Near Metro Gate No. 03,<br />
-              Delhi 110009.
+              3rd Floor Rana Nagar Colony <br />
+              Chhitupur Sigra Varanasi ,<br />
+              Uttar Pradesh 221010.
             </p>
           </div>
           <div className="flex flex-col items-center gap-2">

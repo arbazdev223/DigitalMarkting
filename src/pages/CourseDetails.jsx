@@ -49,14 +49,14 @@ const CourseDetails = () => {
     return <div className="text-center py-10">Loading...</div>;
   }
 
-  const relatedCourses = allCourses
-    .filter(
-      (c) =>
-        String(c._id || c.courseId) !== String(courseId) &&
-        (c.category === course.category || c.type === course.type)
-    )
-    .sort((a, b) => (b.index || 0) - (a.index || 0))
-    .slice(0, 3);
+const relatedCourses = allCourses
+  .filter(
+    (c) =>
+      String(c._id || c.courseId) !== String(courseId) &&
+      c.type === course.type
+  )
+  .sort((a, b) => (b.index || 0) - (a.index || 0))
+  .slice(0, 3);
 
   return (
     <div className="w-full bg-gray-50 min-h-screen pb-20">

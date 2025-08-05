@@ -74,7 +74,7 @@ export const updateCourseResume = createAsyncThunk(
 // ✅ Initial State
 const initialState = {
   enrolledCourses: [],
-  resumeData: {}, // courseId => resume
+  resumeData: {},
   status: "idle",
   error: null,
   message: null,

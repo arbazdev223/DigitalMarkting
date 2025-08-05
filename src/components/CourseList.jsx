@@ -77,16 +77,16 @@ const CourseCard = ({ courseId }) => {
           />
           <div>
             <h3 className="font-semibold text-lg">{course.title}</h3>
-            <p className="text-sm text-gray-600">
+            {/* <p className="text-sm text-gray-600">
               {course.duration || `${total}h`} • {course.level} •{" "}
               {course.tags?.join(", ")}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
+            </p> */}
+            {/* <p className="text-xs text-gray-500 mt-1">
               Watched: {watched.toFixed(1)}h / {total}h
-            </p>
+            </p> */}
           </div>
         </div>
-        <div className="flex flex-col items-center sm:items-end gap-2">
+        {/* <div className="flex flex-col items-center sm:items-end gap-2">
           <HalfCircleProgress percent={percent} />
           {percent > 0 ? (
             <span className="text-green-600 font-semibold text-sm">Resume Learning →</span>
@@ -95,7 +95,7 @@ const CourseCard = ({ courseId }) => {
               Get Started
             </span>
           )}
-        </div>
+        </div> */}
       </div>
     </Link>
   );

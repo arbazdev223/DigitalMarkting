@@ -54,6 +54,7 @@ const CourseResumePage = () => {
   const course = useSelector((state) =>
     selectStudentCourseById(state, courseId)
   );
+
   const resume = useSelector((state) => selectResumeData(state)[courseId]);
   const [resumeFetched, setResumeFetched] = useState(false);
   const [activeModule, setActiveModule] = useState(null);
@@ -212,7 +213,7 @@ const CourseResumePage = () => {
             </div>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-400 mb-1">Your Performance</p>
+            {/* <p className="text-sm text-gray-400 mb-1">Your Performance</p>
             <div
               className={`w-24 h-24 rounded-full border-[6px] flex items-center justify-center ${getProgressColor(
                 resume?.progressPercent ?? 0
@@ -222,7 +223,7 @@ const CourseResumePage = () => {
                 {resume?.progressPercent ?? 0}%
                 <p className="text-xs font-normal text-white">Completed</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -250,13 +251,13 @@ const CourseResumePage = () => {
                 >
                   <span>{mod.moduleTitle}</span>
                   <span className="text-xs text-gray-600 flex items-center gap-2">
-                    <span className="w-20 h-2 bg-gray-300 rounded overflow-hidden">
+                    {/* <span className="w-20 h-2 bg-gray-300 rounded overflow-hidden">
                       <span
                         className="block h-2 bg-blue-500"
                         style={{ width: `${getModuleProgress(mIdx)}%` }}
                       ></span>
-                    </span>
-                    {getModuleProgress(mIdx)}%
+                    </span> */}
+                    {/* {getModuleProgress(mIdx)}% */}
                     {activeModule === mIdx ? (
                       <HiChevronUp />
                     ) : (

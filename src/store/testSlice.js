@@ -2,10 +2,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../config";
 export const getTestData = createAsyncThunk(
   "test/getTestData",
-  async ({ userId, quizId, courseId }, { rejectWithValue }) => {
+  async ({ userId, quizId}, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("/tests/test/get", {
-        params: { userId, quizId, courseId },
+        params: { userId, quizId },
       });
       return res.data;
     } catch (err) {

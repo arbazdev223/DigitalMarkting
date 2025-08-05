@@ -33,7 +33,7 @@ const Profile = () => {
   const tabComponents = {
     Profile: <ProfileForm user={user} />,
     Course: <CourseList courses={courseData} />,
-    Test: <TestPage onCertificateEarned={() => setActiveTab("Certificate")} />,
+    // Test: <TestPage onCertificateEarned={() => setActiveTab("Certificate")} />,
     Payment: <PaymentForm />,
     Certificate: <CertificatePage />,
   };

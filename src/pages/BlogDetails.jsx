@@ -27,8 +27,6 @@ useEffect(() => {
         if (item.type === "image") {
           return `<img src="${item.value}" alt="blog image"/>`;
         }
-
-        // Default to wrapping content in original tag
         return `<${item.type}>${item.value}</${item.type}>`;
       })
       .join("<br/>");
@@ -113,9 +111,6 @@ useEffect(() => {
   className="text-gray-700 leading-relaxed space-y-4 mb-10 prose prose-lg max-w-none"
   dangerouslySetInnerHTML={{ __html: selectedBlogContent }}
 ></div>
-
-
-          {/* 💬 Comments */}
           <div className="border-t pt-6">
             <h3 className="text-xl font-semibold mb-4 text-primary">Comments</h3>
             {selectedBlog.comments?.length > 0 ? (
@@ -201,8 +196,6 @@ useEffect(() => {
             </form>
           </div>
         </div>
-
-        {/* ✅ Sidebar with always-updated blog list */}
         <div className="lg:col-span-1 h-fit">
           <div className="sticky top-20">
             <Sidebar latestPosts={blogs} maxNumber={5} />

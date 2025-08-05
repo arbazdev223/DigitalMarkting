@@ -20,7 +20,6 @@ import { selectStudentCourseById } from "../store/courseStudentSlice";
 
 const QuizContainer = ({
   quizId,
-  courseId,
   quizName,
   testQuestions,
   userId,
@@ -34,7 +33,6 @@ const QuizContainer = ({
   const userAnswers = useSelector((state) => selectUserAnswers(state, quizId));
   const attemptCount = useSelector((state) => selectAttemptCount(state, quizId));
   const quizReports = useSelector((state) => state.test.quizReports);
-  const course = useSelector((state) => selectStudentCourseById(state, courseId));
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [showReport, setShowReport] = useState(false);
@@ -91,36 +89,12 @@ const handleSubmit = () => {
   const incorrect = total - correct;
   const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-  const previousReport = quizReports?.[quizId] ?? {};
-  const previousAttempts = Array.isArray(previousReport.attempts)
-    ? previousReport.attempts.slice(-3)
-    : [];
+  const existingAttempts = quizReports?.[quizId]?.attempts || [];
 
-  if (previousAttempts.length >= 3) {
+  if (existingAttempts.length >= 3) {
     console.warn("⛔ Max attempts reached");
     return;
   }
-
-  const newAttempt = {
-    score: newScore,
-    timestamp: new Date().toISOString(),
-    userAnswers: currentUserAnswers,
-  };
-
-  const updatedAttempts = [...previousAttempts, newAttempt];
-
-  const updatedReport = {
-    quizName: quizName || "Untitled Quiz",
-    totalQuestions: total,
-    attempts: updatedAttempts,
-    maxScore: Math.max(previousReport.maxScore ?? 0, newScore),
-    lastScore: newScore,
-    lastUserAnswers: currentUserAnswers,
-    correct,
-    incorrect,
-    percent,
-  };
-
   dispatch(setUserAnswers({ quizId, answers: currentUserAnswers }));
   dispatch(setScore({ quizId, score: newScore }));
   dispatch(addAttempt({
@@ -130,18 +104,28 @@ const handleSubmit = () => {
     quizName,
     totalQuestions: total,
   }));
-
-  dispatch(
-    saveTestData({
-      userId,
-      courseId,
-      quizId,
-      score: newScore,
-      userAnswers: currentUserAnswers,
-      attemptCount: updatedAttempts.length,
-      quizReport: updatedReport,
-    })
-  ).then((res) => {
+  dispatch(saveTestData({
+    userId,
+    quizId,
+    score: newScore,
+    userAnswers: currentUserAnswers,
+    attemptCount: existingAttempts.length + 1,
+    quizReport: {
+      quizName: quizName || "Untitled Quiz",
+      totalQuestions: total,
+      maxScore: Math.max(quizReports?.[quizId]?.maxScore || 0, newScore),
+      lastScore: newScore,
+      lastUserAnswers: currentUserAnswers,
+      correct,
+      incorrect,
+      percent,
+      attempts: [...existingAttempts, {
+        score: newScore,
+        timestamp: new Date().toISOString(),
+        userAnswers: currentUserAnswers,
+      }].slice(-3),
+    },
+  })).then((res) => {
     if (res.error) {
       console.error("❌ Failed to save test data:", res.error);
     } else {
@@ -151,6 +135,7 @@ const handleSubmit = () => {
 
   setShowResult(true);
 };
+
 
   const handleOptionChange = (option) => {
     const q = testQuestions[currentQuestionIndex];

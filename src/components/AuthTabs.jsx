@@ -12,9 +12,9 @@ const AuthTabs = () => {
     dispatch(clearError());
   }, [dispatch]);
 
-  const onSignup = async (e) => {
+const onSignup = async (e) => {
   e.preventDefault();
-  
+
   const name = e.target.elements[0].value.trim();
   const email = e.target.elements[1].value.trim();
   const phone = e.target.elements[2].value.trim(); 
@@ -31,6 +31,10 @@ const AuthTabs = () => {
     return;
   }
 
+{otpSent && !otpVerified && (
+  <p className="text-red-500 text-sm">Please verify OTP before signing up.</p>
+)}
+
   try {
     const resultAction = await dispatch(
       signup({ name, email, phone, password, confirmPassword })
@@ -45,6 +49,7 @@ const AuthTabs = () => {
     toast.error("Signup failed");
   }
 };
+
 
   const onSignin = async (e) => {
     e.preventDefault();

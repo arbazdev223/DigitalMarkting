@@ -123,13 +123,20 @@ const [phone, setPhone] = useState("");
   }}
 />
 
-   <button
+<button
   type="button"
   onClick={async () => {
-    setOtpLoading(true);
-    const success = await handleSendOtp(dispatch, phone);
-    setOtpLoading(false);
-    setOtpSent(success);
+    try {
+      setOtpLoading(true);
+      const success = await handleSendOtp(dispatch, phone);
+      setOtpLoading(false);
+      setOtpSent(success);
+      if (success) toast.success("OTP sent successfully!");
+      else toast.error("Failed to send OTP.");
+    } catch (err) {
+      setOtpLoading(false);
+      toast.error("Error sending OTP");
+    }
   }}
   className="bg-primary text-white px-4 py-2 text-xs rounded-md"
   disabled={otpLoading}
@@ -148,13 +155,20 @@ const [phone, setPhone] = useState("");
         onChange={(e) => setOtpCode(e.target.value)}
         className="w-full px-4 py-2 border rounded-md focus:outline-none"
       />
-    <button
+<button
   type="button"
   onClick={async () => {
-    setOtpLoading(true);
-    const verified = await handleVerifyOtp(dispatch, phone, otpCode);
-    setOtpLoading(false);
-    setOtpVerified(verified);
+    try {
+      setOtpLoading(true);
+      const verified = await handleVerifyOtp(dispatch, phone, otpCode);
+      setOtpLoading(false);
+      setOtpVerified(verified);
+      if (verified) toast.success("OTP verified successfully!");
+      else toast.error("Invalid OTP");
+    } catch (err) {
+      setOtpLoading(false);
+      toast.error("OTP verification failed");
+    }
   }}
   className="bg-green-600 text-white px-4 py-2 rounded-md"
   disabled={otpVerified || otpLoading}
@@ -196,14 +210,14 @@ const [phone, setPhone] = useState("");
             </span>
           </div>
           <button
-            type="submit"
-            className="w-full bg-primary text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
-            disabled={status === "loading"}
-          >
-            {status === "loading" && currentAction === "signup"
-              ? "Signing up..."
-              : "Sign Up"}
-          </button>
+  type="submit"
+  className="w-full bg-primary text-white py-2 rounded-md font-semibold hover:bg-[#0d2f6c] transition"
+  disabled={status === "loading" || !otpVerified}
+>
+  {status === "loading" && currentAction === "signup"
+    ? "Signing up..."
+    : "Sign Up"}
+</button>
         </form>
       ) : (
         <form className="space-y-4 animate-fade-in" onSubmit={handleSignin}>

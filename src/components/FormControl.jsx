@@ -17,10 +17,12 @@ const FormControl = ({ courseTitle = "" }) => {
     policy: false,
     courseTitle: courseTitle,
   });
+
   const [otpSent, setOtpSent] = useState(false);
-const [otpVerified, setOtpVerified] = useState(false);
-const [otpLoading, setOtpLoading] = useState(false);
-const [otpCode, setOtpCode] = useState("");
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -29,16 +31,53 @@ const [otpCode, setOtpCode] = useState("");
     }));
   };
 
+  const onSendOtp = async (e) => {
+    e.preventDefault();
+    const phone = formData.phone;
+
+    if (!phone.match(/^\+?[0-9]{10,15}$/)) {
+      toast.error("Enter a valid phone number with country code.");
+      return;
+    }
+
+    setOtpLoading(true);
+    const result = await handleSendOtp(dispatch, phone);
+    setOtpLoading(false);
+
+    if (result) {
+      setOtpSent(true);
+      setOtpVerified(false);
+      setOtpCode("");
+    }
+  };
+
+  const onVerifyOtp = async (e) => {
+    e.preventDefault();
+    setOtpLoading(true);
+    const result = await handleVerifyOtp(dispatch, formData.phone, otpCode);
+    setOtpLoading(false);
+
+    if (result) {
+      setOtpVerified(true);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
       !formData.name ||
       !formData.email ||
+      !formData.phone ||
       !formData.message ||
       !formData.policy
     ) {
       toast.error("Please fill all required fields and agree to the policy.");
+      return;
+    }
+
+    if (!otpVerified) {
+      toast.error("Please verify your phone number via OTP before submitting.");
       return;
     }
 
@@ -55,6 +94,9 @@ const [otpCode, setOtpCode] = useState("");
           policy: false,
           courseTitle: courseTitle,
         });
+        setOtpSent(false);
+        setOtpVerified(false);
+        setOtpCode("");
       } else {
         toast.error(resultAction.payload || "Submission failed");
       }
@@ -75,6 +117,7 @@ const [otpCode, setOtpCode] = useState("");
           value={formData.name}
           onChange={handleChange}
         />
+
         <input
           type="email"
           name="email"
@@ -84,46 +127,50 @@ const [otpCode, setOtpCode] = useState("");
           value={formData.email}
           onChange={handleChange}
         />
+
         <div className="flex gap-2">
-  <input
-  type="tel"
-  name="phone"
-  placeholder="Phone number with country code"
-  pattern="^\+?[0-9]{10,15}$"
-  title="Enter a valid phone number with country code"
-  className="w-full text-black px-4 py-2 border rounded-md focus:outline-none"
-  required
-  onChange={handleChange}
-/>
-    <button
-      type="button"
-      onClick={handleSendOtp}
-      className="bg-white text-primary px-4 py-2 text-xs rounded-md"
-      disabled={otpLoading}
-    >
-      {otpLoading ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
-    </button>
-  </div>
-  {otpSent && (
-    <div className="flex gap-2">
-      <input
-        type="text"
-        name="otp"
-        placeholder="Enter OTP"
-        value={otpCode}
-        onChange={(e) => setOtpCode(e.target.value)}
-        className="w-full px-4 py-2 border rounded-md focus:outline-none"
-      />
-      <button
-        type="button"
-        onClick={handleVerifyOtp}
-        className="bg-green-600 text-white px-4 py-2 rounded-md"
-        disabled={otpVerified || otpLoading}
-      >
-        {otpVerified ? "Verified ✅" : "Verify OTP"}
-      </button>
-    </div>
-  )}
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone number with country code"
+            pattern="^\+?[0-9]{10,15}$"
+            title="Enter a valid phone number with country code"
+            className="w-full text-black px-4 py-2 border rounded-md focus:outline-none"
+            required
+            value={formData.phone}
+            onChange={handleChange}
+          />
+          <button
+            type="button"
+            onClick={onSendOtp}
+            className="bg-white text-primary px-4 py-2 text-xs rounded-md"
+            disabled={otpLoading}
+          >
+            {otpLoading ? "Sending..." : otpSent ? "Resend OTP" : "Send OTP"}
+          </button>
+        </div>
+
+        {otpSent && (
+          <div className="flex gap-2">
+            <input
+              type="text"
+              name="otp"
+              placeholder="Enter OTP"
+              value={otpCode}
+              onChange={(e) => setOtpCode(e.target.value)}
+              className="w-full px-4 py-2 text-black  border rounded-md focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={onVerifyOtp}
+              className="bg-green-600 text-white px-4 py-2 rounded-md"
+              disabled={otpVerified || otpLoading}
+            >
+              {otpVerified ? "Verified " : "Verify OTP"}
+            </button>
+          </div>
+        )}
+
         <input
           type="text"
           name="subject"
@@ -132,6 +179,7 @@ const [otpCode, setOtpCode] = useState("");
           value={formData.subject}
           onChange={handleChange}
         />
+
         <textarea
           name="message"
           placeholder="Message"

@@ -1287,7 +1287,18 @@ export const topCompanies = [
   { id: 8, name: "Airbnb", logo: AirBnb },
   { id: 9, name: "Adobe", logo: Google },
   { id: 10, name: "Mamaearth", logo: MamaEarth },
-  { id: 11, name: "Accenture", logo: Accenture },
+  { id: 12, name: "Accenture", logo: Accenture },
+  { id: 13, name: "Accenture", logo: Accenture },
+  { id: 14, name: "Accenture", logo: Accenture },
+  { id: 15, name: "Accenture", logo: Accenture },
+  { id: 16, name: "Accenture", logo: Accenture },
+  { id: 17, name: "Accenture", logo: Accenture },
+  { id: 18, name: "Accenture", logo: Accenture },
+  { id: 19, name: "Accenture", logo: Accenture },
+  { id: 20, name: "Accenture", logo: Accenture },
+  { id: 21, name: "Accenture", logo: Accenture },
+  { id: 22, name: "Accenture", logo: Accenture },
+  { id: 23, name: "Accenture", logo: Accenture },
 ];
 export const featureStats = [
   {

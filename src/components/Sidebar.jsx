@@ -70,7 +70,6 @@ const Sidebar = ({
     dispatch(submitForm(formData));
   };
 
-  // Reset form only on success
   useEffect(() => {
     if (formSubmitStatus === "succeeded") {
       setSuccessMessageShown(true);

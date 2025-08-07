@@ -12,14 +12,10 @@ const AuthTabs = () => {
     dispatch(clearError());
   }, [dispatch]);
 
-const onSignup = async (e) => {
+const onSignup = async (e, formData) => {
   e.preventDefault();
 
-  const name = e.target.elements[0].value.trim();
-  const email = e.target.elements[1].value.trim();
-  const phone = e.target.elements[2].value.trim(); 
-  const password = e.target.elements[3].value;
-  const confirmPassword = e.target.elements[4].value;
+  const { name, email, phone, password, confirmPassword, otpVerified } = formData;
 
   if (!name || !email || !phone || !password || !confirmPassword) {
     toast.error("All fields are required");
@@ -31,9 +27,10 @@ const onSignup = async (e) => {
     return;
   }
 
-{otpSent && !otpVerified && (
-  <p className="text-red-500 text-sm">Please verify OTP before signing up.</p>
-)}
+  if (!otpVerified) {
+    toast.error("Please verify OTP before signing up.");
+    return;
+  }
 
   try {
     const resultAction = await dispatch(
@@ -49,6 +46,7 @@ const onSignup = async (e) => {
     toast.error("Signup failed");
   }
 };
+
 
 
   const onSignin = async (e) => {

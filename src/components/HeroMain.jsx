@@ -13,7 +13,7 @@ const HeroMain = () => {
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mt-3 font-opens text-gray-900">
           AI Based{" "}
           <span className="text-primary">Digital Marketing Course</span> <br />
-          in Delhi <span className="text-primary">With Placements</span>
+          in Varanasi <span className="text-primary">With Placements</span>
         </h1>
 
         <p className="text-gray-600 mt-4 max-w-md text-base">

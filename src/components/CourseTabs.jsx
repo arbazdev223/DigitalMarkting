@@ -54,7 +54,6 @@ const CourseTabs = ({
   const filteredCourses = courses
     .filter((course) => course.type === userType)
     .sort((a, b) => (b.index || 0) - (a.index || 0));
-
   const visibleCourses = filteredCourses.slice(0, visibleCount);
 
   const handleLoadMore = () => {

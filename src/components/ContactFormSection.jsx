@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
-import Logo from "/assets/logo.png"
+import Logo from "/assets/logo2.png"
 import FormControl from "./FormControl";
 const contactPoints = [
   {
@@ -64,7 +64,7 @@ const ContactFormSection = () => {
               <img
                 src={Logo}
                 alt="Logo"
-                className="mx-auto h-10 mb-3"
+                className="mx-auto h-16 mb-3"
               />
               <h4 className="text-xl sm:text-2xl font-bold">Take a free session today!!</h4>
               <p className="text-sm text-red-100">

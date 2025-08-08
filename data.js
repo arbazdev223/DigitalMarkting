@@ -95,7 +95,7 @@ import BannerC3 from "/assets/adm.webp";
 // ImpactSection data
 export const testimonials = [
   {
-    image: Banner,
+    image: "/assets/testimonial-a.png",
     quoteTitle: "Lounge Lizard genuinely cares about their customers.",
     quoteText:
       "Lounge Lizard was able to take an abstract idea for an app and bring it to reality, while staying true to the original vision.",
@@ -104,7 +104,7 @@ export const testimonials = [
     rating: 5,
   },
   {
-    image: Banner1,
+    image: "/assets/testimonial-b.png",
     quoteTitle: "Exceptional creativity and development support.",
     quoteText:
       "The app’s design and usability were outstanding. The agency distinguished themselves with responsive communication.",
@@ -113,7 +113,7 @@ export const testimonials = [
     rating: 5,
   },
   {
-    image: Banner2,
+    image: "/assets/testimonial-c.png",
     quoteTitle: "Fantastic end-to-end experience with Lounge Lizard.",
     quoteText:
       "They delivered high-quality designs with strong attention to detail and customer satisfaction.",
@@ -1252,53 +1252,36 @@ export const steps = [
 export const certificates = [
   {
     id: 1,
-    name: "Certificate 1",
-    image: Cert1,
+    name: "Digital Marketing Certificate",
+    image: "/assets/digital-marketing.png",
   },
   {
     id: 2,
-    name: "Certificate 2",
-    image: Cert2,
+    name: "Internship Certificate",
+    image: "/assets/internship.png",
   },
   {
     id: 3,
-    name: "Certificate 3",
-    image: Cert3,
-  },
-  {
-    id: 4,
-    name: "Certificate 3",
-    image: Cert4,
-  },
-  {
-    id: 5,
-    name: "Certificate 3",
-    image: Cert5,
+    name: "NSDC Certificate",
+    image: "/assets/nsdc.png",
   },
 ];
 export const topCompanies = [
-  { id: 1, name: "Google", logo: Google },
-  { id: 2, name: "Meta", logo: Walmart },
-  { id: 3, name: "Expedia", logo: MamaEarth },
-  { id: 4, name: "Lenskart", logo: Accenture },
-  { id: 5, name: "OLA", logo: AirBnb },
-  { id: 6, name: "Walmart", logo: Walmart },
-  { id: 7, name: "Duolingo", logo: MamaEarth },
-  { id: 8, name: "Airbnb", logo: AirBnb },
-  { id: 9, name: "Adobe", logo: Google },
-  { id: 10, name: "Mamaearth", logo: MamaEarth },
-  { id: 12, name: "Accenture", logo: Accenture },
-  { id: 13, name: "Accenture", logo: Accenture },
-  { id: 14, name: "Accenture", logo: Accenture },
-  { id: 15, name: "Accenture", logo: Accenture },
-  { id: 16, name: "Accenture", logo: Accenture },
-  { id: 17, name: "Accenture", logo: Accenture },
-  { id: 18, name: "Accenture", logo: Accenture },
-  { id: 19, name: "Accenture", logo: Accenture },
-  { id: 20, name: "Accenture", logo: Accenture },
-  { id: 21, name: "Accenture", logo: Accenture },
-  { id: 22, name: "Accenture", logo: Accenture },
-  { id: 23, name: "Accenture", logo: Accenture },
+  { id: 1, name: "Company 1", logo: "/assets/company logos/first.png" },
+  { id: 2, name: "Company 2", logo: "/assets/company logos/second.png" },
+  { id: 3, name: "Company 3", logo: "/assets/company logos/third.png" },
+  { id: 4, name: "Company 4", logo: "/assets/company logos/fourth.png" },
+  { id: 5, name: "Company 5", logo: "/assets/company logos/fifth.png" },
+  { id: 6, name: "Company 6", logo: "/assets/company logos/six.png" },
+  { id: 7, name: "Company 7", logo: "/assets/company logos/seven.png" },
+  { id: 8, name: "Company 8", logo: "/assets/company logos/eight.png" },
+  { id: 9, name: "Company 9", logo: "/assets/company logos/nine.png" },
+  // { id: 10, name: "Company 10", logo: "/assets/company logos/ten.png" },
+  // { id: 11, name: "Company 11", logo: "/assets/company logos/eleven.png" },
+  // { id: 12, name: "Company 12", logo: "/assets/company logos/tweleve.png" },
+  // { id: 13, name: "Company 13", logo: "/assets/company logos/thirteen.png" },
+  // { id: 14, name: "Company 14", logo: "/assets/company logos/fourteen.png" },
+  // { id: 15, name: "Company 15", logo: "/assets/company logos/fifteen.png" },
 ];
 export const featureStats = [
   {

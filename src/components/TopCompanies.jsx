@@ -3,12 +3,13 @@ import { topCompanies } from "../../data";
 
 const TopCompanies = () => {
   return (
-    <section className="bg-primary py-6 overflow-hidden">
+    <section className="py-6 overflow-hidden">
       <div className="text-center text-white font-medium mb-6 text-sm md:text-xl">
         Our learners work at top companies
       </div>
 
       <div className="relative overflow-hidden w-full">
+      </div>
         <div className="marquee-track flex gap-10">
           {[...topCompanies, ...topCompanies].map((company, i) => (
             <img
@@ -19,7 +20,6 @@ const TopCompanies = () => {
             />
           ))}
         </div>
-      </div>
     </section>
   );
 };

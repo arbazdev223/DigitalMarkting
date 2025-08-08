@@ -51,10 +51,12 @@ const CourseTabs = ({
     setVisibleCount(initialCount);
   }, [dispatch, status]);
 
-  const filteredCourses = courses
-    .filter((course) => course.type === userType)
-    .sort((a, b) => (b.index || 0) - (a.index || 0));
-  const visibleCourses = filteredCourses.slice(0, visibleCount);
+const filteredCourses = (courses || [])
+  .filter((course) => course.type === userType)
+  .sort((a, b) => (b.index || 0) - (a.index || 0));
+
+const visibleCourses = filteredCourses.slice(0, visibleCount);
+
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 6);

@@ -27,10 +27,11 @@ const BlogSection = ({
     };
   }, [status, dispatch]);
 
-  const categories = ["All", ...new Set(blogs.map((b) => b.category))];
+  const categories = ["All", ...new Set((Array.isArray(blogs) ? blogs : []).map((b) => b.category))];
+
 
   const getFilteredBlogs = () => {
-    const sorted = blogs.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sorted = (Array.isArray(blogs) ? blogs : []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
     if (activeTab === "All") return sorted.slice(0, maxBlogs);
     return sorted.filter((b) => b.category === activeTab).slice(0, maxBlogs);
   };
